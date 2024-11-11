@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8347593235912800951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5471498224689826243}
+  - component: {fileID: 5791709250088668377}
+  m_Layer: 0
+  m_Name: RecipeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5471498224689826243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8347593235912800951}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.620328, y: -0.9246876, z: 0.064012535}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5791709250088668377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8347593235912800951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babef0bc88469be41a749380ec98f328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dreamData:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 11400000, guid: ee2a3c133637b514c966bd4f5668370d, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: 33b111f9edcc6344fb75a9af038ebcdf, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: 9403fe5dc1506ed4991df7c280ad412a, type: 2}
+    - Key: 3
+      Value: {fileID: 11400000, guid: ed804503379a78e4e8e8c2e4b22e4731, type: 2}
+  recipes:
+  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
+  randomRecipe: 0
+  randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
+  randomAmountRange: {x: 1, y: 3}
+  currentRecipe: {fileID: 0}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum IngredientTypes
@@ -46,12 +47,19 @@ public class IngredientSO : ScriptableObject
     public float BasePrice => basePrice;
     //[SerializeField, CurveRange(0, 0, 1, 1)] private AnimationCurve priceCurve;
 
-    public CookStates CookState { get; set; } = CookStates.Raw;
+    [SerializeField, ReadOnly] private CookStates cookState = CookStates.Raw;
+    public CookStates CookState { get => cookState; set => cookState = value; }
 
     public Sprite GetSprite(CookStates cookState)
     {
         if (!spriteData.ContainsKey(cookState)) return null;
         var sprite = spriteData[cookState];
         return sprite.Sprite;
+    }
+    
+    [Button("Reset Cook State")]
+    private void ResetCookState()
+    {
+        cookState = CookStates.Raw;
     }
 }

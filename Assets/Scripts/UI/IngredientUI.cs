@@ -1,22 +1,70 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
+using Redcode.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TransformExtensions = Redcode.Extensions.TransformExtensions;
 
-[RequireComponent(typeof(Image))]
+public interface IIngredientContainer : IBeginDragHandler, IDragHandler, IEndDragHandler
+{
+    public bool SetIngredient(IngredientSO ingredient);
+}
+
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class IngredientUI : MonoBehaviour
 {
-    private IngredientSO ingredient;
-    private Image image;
+    [SerializeField, NaughtyAttributes.ReadOnly, Expandable] private IngredientSO ingredient;
+    private SpriteRenderer image;
     private GameObject owner;
+    private Rigidbody2D rb;
+    //Mouse position in world space
+    private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition).WithZ(0);
+    private Vector3 originalScale;
 
-    public void SetIngredient(IngredientSO ingredient, GameObject owner)
+    private void Awake()
     {
-        image = GetComponent<Image>();
+        rb = GetComponent<Rigidbody2D>();
+        rb.simulated = false;
+        originalScale = transform.localScale;
+    }
+
+    public void Initialize(IngredientSO ingredient, GameObject owner)
+    {
+        image = GetComponent<SpriteRenderer>();
         this.ingredient = ingredient;
-        image.sprite = ingredient.GetSprite(ingredient.CookState);
+        var sprite = ingredient.GetSprite(ingredient.CookState);
+        if (sprite)
+            image.sprite = sprite;
         this.owner = owner;
+        transform.SetParent(transform.root);
+        transform.SetPositionZ(0);
+    }
+    
+    private Vector3 Divide(Vector3 a, Vector3 b)
+    {
+        return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+    }
+    
+    public void SetSizeAndPhysics(bool physics, bool resetSize = false, float size = 1f)
+    {
+        rb.simulated = physics;
+        rb.velocity = Vector2.zero;
+        if (resetSize)
+            transform.localScale = originalScale;
+        else
+        {
+            var targetScale = Vector3.one * size;
+            transform.localScale = Divide(targetScale, transform.lossyScale);
+        }
+    }
+
+    public void Drag()
+    {
+        transform.position = MousePosition;
     }
     
     public bool EndDragCheck(PointerEventData eventData)
@@ -24,25 +72,13 @@ public class IngredientUI : MonoBehaviour
         if (eventData.hovered.Count == 0) return false;
         var top = eventData.hovered[0];
         if (top == owner) return false;
-        if (top.TryGetComponent(out EquipmentUI equipmentUI))
+        if (top.TryGetComponent(out IIngredientContainer container))
         {
-            equipmentUI.SetIngredient(ingredient);
-            return true;
+            if (container is IngredientRackUI or IngredientSlotUI && ingredient.CookState is not CookStates.Raw)
+                return false;
+            return container.SetIngredient(ingredient);
         }
-        if (ingredient.CookState == CookStates.Raw)
-        {
-            if (top.TryGetComponent(out IngredientRackUI ingredientRackUI))
-            {
-                ingredientRackUI.SetIngredient(ingredient);
-                return true;
-            }
-            if (top.TryGetComponent(out IngredientSlotUI ingredientSlotUI))
-            {
-                ingredientSlotUI.SetIngredient(ingredient);
-                return true;
-            }
-        }
-        Debug.Log(eventData.hovered[^1]);
+        Debug.Log(eventData.hovered[0]);
         return false;
     }
     

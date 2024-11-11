@@ -24,6 +24,7 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
     {
         if (!ingredientData.ContainsKey(ingredient)) return;
         var data = ingredientData[ingredient];
+        if (amount < 0 && data.Amount == 0) return;
         data.Amount += amount;
         onIngredientAmountChanged?.Invoke(ingredient, data.Amount);
     }
