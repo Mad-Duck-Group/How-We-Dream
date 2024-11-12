@@ -33,9 +33,10 @@ public class RecipeSO : ScriptableObject
         {
             var loop = Random.Range(ingredientTypeRange.x, ingredientTypeRange.y);
             var length = System.Enum.GetValues(typeof(IngredientTypes)).Length;
-            foreach (var data in ingredientData)
+            var keys = new List<IngredientTypes>(ingredientData.Keys);
+            foreach (var key in keys)
             {
-                ingredientData[data.Key] = 0;
+                ingredientData[key] = 0;
             }
             for (int i = 0; i < loop; i++)
             {

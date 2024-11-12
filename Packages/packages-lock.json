@@ -353,6 +353,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "net.tnrd.serializableinterface": {
+      "version": "2.2.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "za.co.gamelogic.extensions": {
       "version": "file:za.co.gamelogic.extensions",
       "depth": 0,

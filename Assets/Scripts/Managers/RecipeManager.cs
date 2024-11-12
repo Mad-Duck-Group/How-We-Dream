@@ -38,17 +38,17 @@ public class RecipeManager : MonoSingleton<RecipeManager>
                 recipes.Add(recipe);
             }
         }
-        currentRecipe = recipes[0];
+        currentRecipe = recipes[Random.Range(0, recipes.Count)];
         SetOrderText();
     }
-
+    
     private void SetOrderText()
     {
         orderText.text = $"Dream Type: {currentRecipe.DreamType}\n" +
                          $"Ingredients: \n" +
                          $"{string.Join("\n", currentRecipe.IngredientData.Select(data => $"{data.Key} x{data.Value}"))}";
     }
-
+    
     public bool CheckRecipe(List<IngredientSO> ingredients)
     {
         var totalIngredients = ingredients.Count;

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using NaughtyAttributes;
+using TNRD;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +11,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
 {
     [SerializeField] private IngredientUI ingredientUIPrefab;
     [SerializeField] private CookStates equipmentType;
+    [SerializeField] private SerializableInterface<IMinigame> minigame;
     //[SerializeField, ReadOnly, Expandable] 
     private IngredientSO ingredient;
     private IngredientUI ingredientUI;
@@ -18,7 +21,34 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    private void OnEnable()
+    {
+        if (minigame.Value == null) return;
+        minigame.Value.OnMinigameEnd += OnMinigameEnd;
+    }
     
+    private void OnDisable()
+    {
+        if (minigame.Value == null) return;
+        minigame.Value.OnMinigameEnd -= OnMinigameEnd;
+    }
+
+    private void OnMinigameEnd(bool success)
+    {
+        if (success)
+        {
+            spriteRenderer.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
+            ingredient.CookState = equipmentType;
+        }
+        else
+        {
+            spriteRenderer.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
+            Destroy(ingredient);
+            ingredient = null;
+        }
+    }
+
     public bool SetIngredient(IngredientSO ingredient)
     {
         if (this.ingredient) return false;
@@ -55,7 +85,15 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (ingredient == null) return;
         if (ingredient.CookState == equipmentType) return;
-        ingredient.CookState = equipmentType;
-        transform.DOScale(1.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
+        if (minigame.Value != null)
+        {
+            minigame.Value.StartMinigame();
+        }
+        else
+        {
+            spriteRenderer.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
+            ingredient.CookState = equipmentType;
+        }
+        
     }
 }
