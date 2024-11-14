@@ -9,6 +9,7 @@ public enum DreamTypes
     Prophetic,
     Suppressed
 }
+
 [CreateAssetMenu(fileName = "Dream", menuName = "ScriptableObjects/Dream", order = 2)]
 public class DreamSO : ScriptableObject
 {

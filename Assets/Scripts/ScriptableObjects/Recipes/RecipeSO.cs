@@ -26,6 +26,7 @@ public class RecipeSO : ScriptableObject
     {
         if (randomDreamType)
         {
+            
             var length = System.Enum.GetValues(typeof(DreamTypes)).Length;
             dreamType = (DreamTypes) Random.Range(0, length);
         }
