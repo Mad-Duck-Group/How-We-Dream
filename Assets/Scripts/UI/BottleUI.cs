@@ -70,14 +70,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
 
     public void Submit()
     {
-        if (!RecipeManager.Instance.CheckRecipe(ingredients.Select(pair => pair.Key).ToList()))
-        {
-            Debug.Log("Recipe is incorrect");
-        }
-        else
-        {
-            Debug.Log("Recipe is correct");
-        }
+        RecipeManager.Instance.CheckRecipe(ingredients.Select(pair => pair.Key).ToList());
         foreach (var pair in ingredients)
         {
             Destroy(pair.Value.gameObject);

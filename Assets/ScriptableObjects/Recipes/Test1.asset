@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b265cf1297d984e91147ac4f469407, type: 3}
   m_Name: Test1
   m_EditorClassIdentifier: 
+  orderName: Test
+  orderDescription: Never Gonna Give You Up
   randomDreamType: 0
   dreamType: 0
   randomIngredient: 0
@@ -38,3 +40,5 @@ MonoBehaviour:
     - Key: 8
       Value: 0
   profitModifier: 0
+  hasTimeLimit: 1
+  timeLimit: 60

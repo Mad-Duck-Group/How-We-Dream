@@ -8,6 +8,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/Recipe", order = 1)]
 public class RecipeSO : ScriptableObject
 {
+    [SerializeField] private string orderName;
+    public string OrderName => orderName;
+    [SerializeField, TextArea] private string orderDescription;
+    public string OrderDescription => orderDescription;
     [SerializeField] private bool randomDreamType;
     [SerializeField, HideIf(nameof(randomDreamType))] private DreamTypes dreamType;
     public DreamTypes DreamType => dreamType;
@@ -21,6 +25,10 @@ public class RecipeSO : ScriptableObject
 
     [SerializeField] private float profitModifier;
     public float ProfitModifier => profitModifier;
+    [SerializeField] private bool hasTimeLimit;
+    public bool HasTimeLimit => hasTimeLimit;
+    [SerializeField, ShowIf(nameof(hasTimeLimit))] private float timeLimit;
+    public float TimeLimit => timeLimit;
 
     public void Initialize()
     {

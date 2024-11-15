@@ -54,9 +54,33 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 9403fe5dc1506ed4991df7c280ad412a, type: 2}
     - Key: 3
       Value: {fileID: 11400000, guid: ed804503379a78e4e8e8c2e4b22e4731, type: 2}
-  recipes:
+  ingredientData:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 11400000, guid: 129deb175b6234644a5c0272dbadaf00, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: 435d724ea28e8964c94b8e60deaea34b, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: 1ce9863f55c600f4e9dbd2cad450060e, type: 2}
+    - Key: 3
+      Value: {fileID: 11400000, guid: 77efae421126287419930cdb63d4ceb7, type: 2}
+    - Key: 4
+      Value: {fileID: 11400000, guid: 2bb958d00a0226643aff4059b1828ae7, type: 2}
+    - Key: 5
+      Value: {fileID: 11400000, guid: f72346d7f4ce82b4cb4679f6c11f4863, type: 2}
+    - Key: 6
+      Value: {fileID: 11400000, guid: 4663195269f202940abd70bec148e8f7, type: 2}
+    - Key: 7
+      Value: {fileID: 11400000, guid: b9278040b24bf034db5b74ef73152e30, type: 2}
+    - Key: 8
+      Value: {fileID: 11400000, guid: 8c918fbfb04d1ad4eb514c66139931a8, type: 2}
+  recipePool:
   - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
-  randomRecipe: 0
+  finiteRecipes:
+  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
+  endless: 1
+  randomRecipe: 1
+  toPool: 1
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   randomAmountRange: {x: 1, y: 3}
   currentRecipe: {fileID: 0}

@@ -52,6 +52,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     public bool SetIngredient(IngredientSO ingredient)
     {
         if (this.ingredient) return false;
+        if (ingredient.CookState != CookStates.Raw) return false;
         this.ingredient = ingredient;
         spriteRenderer.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
         return true;
