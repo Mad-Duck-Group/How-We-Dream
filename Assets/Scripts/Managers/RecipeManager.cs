@@ -11,22 +11,18 @@ using UnityEngine.UI;
 
 public class RecipeManager : MonoSingleton<RecipeManager>
 {
+    [Header("Dictionary Data")]
     [SerializedDictionary("Dream Type", "Dream SO")] 
     public SerializedDictionary<DreamTypes, DreamSO> dreamData;
     public SerializedDictionary<DreamTypes, DreamSO> DreamData => dreamData;
     [SerializedDictionary("Ingredient Type", "Ingredient SO")] 
     public SerializedDictionary<IngredientTypes, IngredientSO> ingredientData;
     public SerializedDictionary<IngredientTypes, IngredientSO> IngredientData => ingredientData;
-    [FormerlySerializedAs("recipes")] [SerializeField] private List<RecipeSO> recipePool;
-    public List<RecipeSO> RecipePool => recipePool;
-    [SerializeField] private List<RecipeSO> finiteRecipes;
-    public List<RecipeSO> FiniteRecipes => finiteRecipes;
-    [SerializeField] private bool endless;
-    [SerializeField] private bool randomRecipe;
-    [SerializeField, ShowIf(nameof(randomRecipe))] private bool toPool;
-    [SerializeField, ShowIf(nameof(randomRecipe))] RecipeSO randomPrototype;
-    [SerializeField, ShowIf(nameof(randomRecipe))] private Vector2 randomAmountRange;
 
+    [Header("Level Data")]
+    [SerializeField, Expandable] private LevelSO level;
+
+    [Header("Debug")]
     [SerializeField, ReadOnly] private RecipeSO currentRecipe;
     
     public delegate void RecipeChanged(RecipeSO current, bool active);
@@ -40,41 +36,56 @@ public class RecipeManager : MonoSingleton<RecipeManager>
     }
     private void Initialize()
     {
+        level = Instantiate(level);
         RandomRecipe();
+        InitializeRecipe();
     }
 
     private void RandomRecipe()
     {
-        if (!randomRecipe) return;
-        var loop = Random.Range(randomAmountRange.x, randomAmountRange.y);
+        if (!level.RandomRecipe) return;
+        if (level.Infinite) return;
+        var loop = Random.Range(level.RandomAmountRange.x, level.RandomAmountRange.y);
         for (int i = 0; i < loop; i++)
         {
-            var recipe = Instantiate(randomPrototype);
-            recipe.Initialize();
-            if (toPool)
-                recipePool.Add(recipe);
+            var recipe = Instantiate(level.RandomPrototype);
+            if (level.UsePool && level.RandomToPool)
+                level.RecipePool.Add(recipe);
             else 
-                finiteRecipes.Add(recipe);
+                level.FiniteRecipes.Add(recipe);
         }
+    }
+    private void InitializeRecipe()
+    {
+        level.RecipePool.ForEach(recipe => recipe.Initialize());
+        level.FiniteRecipes.ForEach(recipe => recipe.Initialize());
     }
     
     public RecipeSO GetRandomRecipe()
     {
-        if (endless) 
-            return Instantiate(recipePool[Random.Range(0, recipePool.Count)]);
-        if (finiteRecipes.Count == 0) return null;
-        var recipe = finiteRecipes[Random.Range(0, finiteRecipes.Count)];
-        finiteRecipes.Remove(recipe);
-        return recipe;
-
-    }
-
-    public Sprite GetIngredientSprite(IngredientTypes type, CookStates cookStates)
-    {
-        if (!ingredientData.ContainsKey(type)) return null;
-        return ingredientData[type].GetSprite(cookStates);
+        if (level.UsePool && !level.Infinite)
+        {
+            if (level.FiniteRecipes.Count > 0) return GetRandomFiniteRecipe();
+            if (level.RecipePool.Count == 0) return null;
+            return Instantiate(level.RecipePool[Random.Range(0, level.RecipePool.Count)]);
+        }
+        if (level.Infinite)
+        {
+            var newRandom = Instantiate(level.RandomPrototype);
+            newRandom.Initialize();
+            return newRandom;
+        }
+        return GetRandomFiniteRecipe();
     }
     
+    private RecipeSO GetRandomFiniteRecipe()
+    {
+        if (level.FiniteRecipes.Count == 0) return null;
+        var recipe = level.FiniteRecipes[Random.Range(0, level.FiniteRecipes.Count)];
+        level.FiniteRecipes.Remove(recipe);
+        return Instantiate(recipe);
+    }
+
     public void SetActiveRecipe(RecipeSO recipeSo)
     {
         currentRecipe = recipeSo;

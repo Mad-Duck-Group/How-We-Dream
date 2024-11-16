@@ -74,13 +74,5 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: b9278040b24bf034db5b74ef73152e30, type: 2}
     - Key: 8
       Value: {fileID: 11400000, guid: 8c918fbfb04d1ad4eb514c66139931a8, type: 2}
-  recipePool:
-  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
-  finiteRecipes:
-  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
-  endless: 1
-  randomRecipe: 1
-  toPool: 1
-  randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
-  randomAmountRange: {x: 1, y: 3}
+  level: {fileID: 11400000, guid: a295b665c5775354791808751feaac18, type: 2}
   currentRecipe: {fileID: 0}

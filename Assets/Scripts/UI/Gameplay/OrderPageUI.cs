@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public enum ConfirmationStates
@@ -19,7 +20,7 @@ public class OrderPageUI : MonoBehaviour
     [SerializeField] private Toggle acceptButton;
     [SerializeField] private Toggle rejectButton;
     [SerializeField] private Transform ingredientRack;
-    [SerializeField] private IngredientIconUI ingredientIconPrefab;
+    [FormerlySerializedAs("ingredientIconPrefab")] [SerializeField] private IngredientOrderIconUI ingredientOrderIconPrefab;
 
     public delegate void Confirmation(ConfirmationStates state);
     public event Confirmation OnConfirmation;
@@ -31,7 +32,7 @@ public class OrderPageUI : MonoBehaviour
         foreach (var ingredient in recipe.IngredientData)
         {
             if (ingredient.Value == 0) continue;
-            var ingredientIcon = Instantiate(ingredientIconPrefab, ingredientRack);
+            var ingredientIcon = Instantiate(ingredientOrderIconPrefab, ingredientRack);
             ingredientIcon.Initialize(ingredient.Key, ingredient.Value);
         }
         acceptButton.isOn = false;

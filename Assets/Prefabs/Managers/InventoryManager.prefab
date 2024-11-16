@@ -82,3 +82,4 @@ MonoBehaviour:
       Value:
         ingredient: {fileID: 11400000, guid: 8c918fbfb04d1ad4eb514c66139931a8, type: 2}
         amount: 5
+  currency: 1000

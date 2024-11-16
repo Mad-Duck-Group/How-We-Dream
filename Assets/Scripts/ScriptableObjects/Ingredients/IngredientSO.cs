@@ -43,8 +43,8 @@ public class IngredientSO : ScriptableObject
     public SerializedDictionary<CookStates, SpriteData> SpriteData => spriteData;
     [SerializeField] private IngredientTypes ingredientType;
     public IngredientTypes IngredientType => ingredientType;
-    [SerializeField] private float basePrice;
-    public float BasePrice => basePrice;
+    [SerializeField] private int basePrice;
+    public int BasePrice => basePrice;
     //[SerializeField, CurveRange(0, 0, 1, 1)] private AnimationCurve priceCurve;
 
     [SerializeField, ReadOnly] private CookStates cookState = CookStates.Raw;

@@ -31,4 +31,5 @@ MonoBehaviour:
       Value:
         sprite: {fileID: 0}
   ingredientType: 5
-  basePrice: 5
+  basePrice: 10
+  cookState: 0
