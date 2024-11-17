@@ -36,7 +36,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         if (!recipe.HasTimeLimit) return;
         timer = recipe.TimeLimit;
         timerCoroutine = Moroutine.Run(gameObject, Timer());
-        timerCoroutine.OnCompleted(_ => Reject());
+        timerCoroutine.OnCompleted(_ => Reject(true));
     }
     
     private IEnumerator Timer()
@@ -102,8 +102,9 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
     }
 
-    private void Reject()
+    private void Reject(bool outOfTime = false)
     {
+        if (outOfTime) InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
         DestroyOrder();
     }

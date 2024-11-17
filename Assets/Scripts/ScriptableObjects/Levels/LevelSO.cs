@@ -22,6 +22,15 @@ public class LevelSO : ScriptableObject
     [SerializeField, ShowIf(nameof(ShowToPool))] private bool randomToPool;
     public bool RandomToPool => randomToPool;
     [SerializeField, ShowIf(nameof(ShowRandomRange))] private Vector2 randomAmountRange;
+    
+    [SerializeField] private float timeLimit;
+    public float TimeLimit => timeLimit;
+    [SerializeField] private bool hasQuota;
+    public bool HasQuota => hasQuota;
+    [SerializeField, ShowIf(nameof(hasQuota))] private int quota;
+    public int Quota => quota;
+    [SerializeField] private bool endless;
+    public bool Endless => endless;
     public Vector2 RandomAmountRange => randomAmountRange;
     private bool ShowToPool => randomRecipe && usePool && !infinite;
     private bool ShowRandomRange => randomRecipe && !infinite;

@@ -44,8 +44,17 @@ public class IngredientSO : ScriptableObject
     [SerializeField] private IngredientTypes ingredientType;
     public IngredientTypes IngredientType => ingredientType;
     [SerializeField] private int basePrice;
-    public int BasePrice => basePrice;
-    //[SerializeField, CurveRange(0, 0, 1, 1)] private AnimationCurve priceCurve;
+    [SerializeField] private int maxPrice;
+    [SerializeField] private AnimationCurve priceCurve;
+    public int CurrentPrice
+    {
+        get
+        {
+            float progress = ProgressionManager.Instance.Progress;
+            float eval = priceCurve.Evaluate(progress);
+            return Mathf.RoundToInt(Mathf.Lerp(basePrice, maxPrice, eval));
+        }
+    }
 
     [SerializeField, ReadOnly] private CookStates cookState = CookStates.Raw;
     public CookStates CookState { get => cookState; set => cookState = value; }

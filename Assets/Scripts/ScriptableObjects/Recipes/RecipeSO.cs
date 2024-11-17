@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NaughtyAttributes;
 using UnityEngine;
@@ -22,14 +23,22 @@ public class RecipeSO : ScriptableObject
     [SerializedDictionary("Ingredient Type", "Require Amount"), HideIf(nameof(randomIngredient))] 
     public SerializedDictionary<IngredientTypes, int> ingredientData;
     public SerializedDictionary<IngredientTypes, int> IngredientData => ingredientData;
-
-    [SerializeField] private float profitModifier;
-    public float ProfitModifier => profitModifier;
     [SerializeField] private bool hasTimeLimit;
     public bool HasTimeLimit => hasTimeLimit;
     [SerializeField, ShowIf(nameof(hasTimeLimit))] private float timeLimit;
     public float TimeLimit => timeLimit;
-
+    [SerializeField] private float baseProfit;
+    [SerializeField] private float maxProfit;
+    [SerializeField] private AnimationCurve profitCurve;
+    public float CurrentProfit
+    {
+        get
+        {
+            float progress = ProgressionManager.Instance.Progress;
+            float eval = profitCurve.Evaluate(progress);
+            return Mathf.Lerp(baseProfit, maxProfit, eval);
+        }
+    }
     public void Initialize()
     {
         if (randomDreamType)

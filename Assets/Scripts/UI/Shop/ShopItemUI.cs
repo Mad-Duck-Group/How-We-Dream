@@ -25,7 +25,7 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
         this.ingredientSO = ingredientSO;
         icon.sprite = ingredientSO.GetSprite(CookStates.Raw);
         nameText.text = ingredient.ToString();
-        priceText.text = ingredientSO.BasePrice.ToString(CultureInfo.InvariantCulture);
+        priceText.text = ingredientSO.CurrentPrice.ToString(CultureInfo.InvariantCulture);
         gameObject.SetActive(true);
         UpdateAvailability(InventoryManager.Instance.Currency);
     }
@@ -33,7 +33,7 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
     private void UpdateAvailability(int currentCurrency)
     { 
         if (!gameObject.activeSelf) return;
-        canBuy = currentCurrency >= ingredientSO.BasePrice;
+        canBuy = currentCurrency >= ingredientSO.CurrentPrice;
         priceText.color = canBuy ? Color.black : Color.red;
     }
 

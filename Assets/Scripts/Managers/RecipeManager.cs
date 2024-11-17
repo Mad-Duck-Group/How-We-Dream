@@ -18,10 +18,7 @@ public class RecipeManager : MonoSingleton<RecipeManager>
     [SerializedDictionary("Ingredient Type", "Ingredient SO")] 
     public SerializedDictionary<IngredientTypes, IngredientSO> ingredientData;
     public SerializedDictionary<IngredientTypes, IngredientSO> IngredientData => ingredientData;
-
-    [Header("Level Data")]
-    [SerializeField, Expandable] private LevelSO level;
-
+    
     [Header("Debug")]
     [SerializeField, ReadOnly] private RecipeSO currentRecipe;
     
@@ -30,13 +27,15 @@ public class RecipeManager : MonoSingleton<RecipeManager>
     public delegate void RecipeComplete(RecipeSO current, bool success);
     public static event RecipeComplete OnRecipeComplete;
 
+    private LevelSO level;
+
     private void Start()
     {
         Initialize();
     }
     private void Initialize()
     {
-        level = Instantiate(level);
+        level = LevelManager.Instance.Level;
         RandomRecipe();
         InitializeRecipe();
     }
@@ -101,52 +100,51 @@ public class RecipeManager : MonoSingleton<RecipeManager>
     
     public void CheckRecipe(List<IngredientSO> ingredients)
     {
+        if (!currentRecipe) return;
+        bool allCorrect = true;
         var totalIngredients = ingredients.Count;
         var totalRecipeIngredients = currentRecipe.IngredientData.Sum(data => data.Value);
         //Check total ingredients
         if (totalIngredients != totalRecipeIngredients)
         {
-            Fail();
-            return;
+            allCorrect = false;
         }
-        var countDict = new Dictionary<IngredientTypes, int>();
+        var correctDict = new Dictionary<IngredientTypes, int>();
+        var clone = new Dictionary<IngredientTypes, int>(currentRecipe.IngredientData);
         foreach (var ingredient in ingredients)
         {
-            if (!countDict.ContainsKey(ingredient.IngredientType))
+            correctDict.TryAdd(ingredient.IngredientType, 0);
+            bool hasType = currentRecipe.IngredientData[ingredient.IngredientType] > 0;
+            bool sameCookState = dreamData[currentRecipe.DreamType].IngredientData[ingredient.IngredientType] == ingredient.CookState;
+            bool stillRemain = clone[ingredient.IngredientType] > 0;
+            if (hasType && sameCookState && stillRemain)
             {
-                countDict.Add(ingredient.IngredientType, 1);
+                correctDict[ingredient.IngredientType]++;
+                clone[ingredient.IngredientType]--;
+                continue;
             }
-            else
-            {
-                countDict[ingredient.IngredientType]++;
-            }
+            allCorrect = false;
         }
-        //Check ingredient count
-        foreach (var data in 
-                 currentRecipe.IngredientData.Where(data 
-                     => countDict.ContainsKey(data.Key)))
+        if (clone.Any(x => x.Value > 0))
         {
-            if (countDict[data.Key] == data.Value) continue;
-            Fail();
-            return;
+            allCorrect = false;
         }
-        //Check ingredient cook state
-        bool cookStateCheck = ingredients.All(so => so.CookState == dreamData[currentRecipe.DreamType].IngredientData[so.IngredientType]);
-        if (!cookStateCheck)
+        int finalPrice = CalculatePrice(correctDict, allCorrect);
+        InventoryManager.Instance.ChangeCurrency(finalPrice);
+        OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
+    }
+    
+    private int CalculatePrice(Dictionary<IngredientTypes, int> correctDict, bool allCorrect)
+    {
+        int basePrice = 0;
+        foreach (var pair in correctDict)
         {
-            Fail();
-            return;
+            basePrice += ingredientData[pair.Key].CurrentPrice * pair.Value;
         }
-        Succeed();
-    }
-
-    private void Fail()
-    {
-        OnRecipeComplete?.Invoke(currentRecipe, false);
-    }
-
-    private void Succeed()
-    {
-        OnRecipeComplete?.Invoke(currentRecipe, true);
+        if (!allCorrect) return basePrice;
+        float profitPercent = currentRecipe.CurrentProfit;
+        int profit = (int) (basePrice * profitPercent);
+        int finalPrice = basePrice + profit;
+        return finalPrice;
     }
 }

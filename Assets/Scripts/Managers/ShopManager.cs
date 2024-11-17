@@ -33,7 +33,7 @@ public class ShopManager : PersistentMonoSingleton<ShopManager>
     public void BuyIngredient(IngredientTypes ingredient)
     {
         var ingredientSO = InventoryManager.Instance.GetIngredientData(ingredient).Ingredient;
-        var price = ingredientSO.BasePrice;
+        var price = ingredientSO.CurrentPrice;
         if (InventoryManager.Instance.Currency < price) return;
         InventoryManager.Instance.ChangeCurrency(-price);
         InventoryManager.Instance.ChangeIngredientAmount(ingredient, 1);

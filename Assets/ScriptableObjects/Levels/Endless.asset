@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Endless
   m_EditorClassIdentifier: 
   recipePool: []
-  finiteRecipes: []
-  randomRecipe: 1
+  finiteRecipes:
+  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
+  randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   infinite: 0
   usePool: 0
   randomToPool: 1
   randomAmountRange: {x: 3, y: 6}
+  timeLimit: 30
+  hasQuota: 1
+  quota: 5
+  endless: 1
