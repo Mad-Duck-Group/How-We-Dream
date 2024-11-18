@@ -19,7 +19,7 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
 
     public void Initialize(IngredientTypes ingredient)
     {
-        InventoryManager.onCurrencyChanged += (_, current) => UpdateAvailability(current);
+        InventoryManager.OnCurrencyChanged += (_, current) => UpdateAvailability(current);
         var ingredientSO = InventoryManager.Instance.GetIngredientData(ingredient).Ingredient;
         ingredientType = ingredient;
         this.ingredientSO = ingredientSO;

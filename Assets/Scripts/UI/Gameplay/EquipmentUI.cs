@@ -25,15 +25,22 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     private void OnEnable()
     {
         if (minigame.Value == null) return;
+        LevelManager.OnLevelComplete += OnLevelComplete;
         minigame.Value.OnMinigameEnd += OnMinigameEnd;
     }
     
     private void OnDisable()
     {
         if (minigame.Value == null) return;
+        LevelManager.OnLevelComplete -= OnLevelComplete;
         minigame.Value.OnMinigameEnd -= OnMinigameEnd;
     }
-
+    
+    private void OnLevelComplete()
+    {
+        minigame.Value.Halt();
+    }
+    
     private void OnMinigameEnd(bool success)
     {
         if (success)

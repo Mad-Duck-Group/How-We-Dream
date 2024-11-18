@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
 {
     [SerializeField] private List<LevelSO> levels;
     [SerializeField] private int currentLevelIndex;
+    [SerializeField] private List<SkillNodeSO> skillNodes;
     public LevelSO CurrentLevel => levels[currentLevelIndex];
     public float Progress
     {
@@ -28,5 +30,11 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     public void ReplayLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    [Button("Reset Skill")]
+    private void ResetSkill()
+    {
+        skillNodes.ForEach(node => node.Reset());
     }
 }

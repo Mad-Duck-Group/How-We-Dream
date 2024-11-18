@@ -22,10 +22,10 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
     public SerializedDictionary<IngredientTypes, IngredientData> IngredientData => ingredientData;
     [SerializeField] private int currency;
     public int Currency => currency;
-    public delegate void OnIngredientAmountChanged(IngredientTypes ingredient, int amount);
-    public static event OnIngredientAmountChanged onIngredientAmountChanged;
-    public delegate void OnCurrencyChanged(int change, int current);
-    public static event OnCurrencyChanged onCurrencyChanged;
+    public delegate void IngredientAmountChanged(IngredientTypes ingredient, int amount);
+    public static event IngredientAmountChanged OnIngredientAmountChanged;
+    public delegate void CurrencyChanged(int change, int current);
+    public static event CurrencyChanged OnCurrencyChanged;
     
     public IngredientData GetIngredientData(IngredientTypes ingredient)
     {
@@ -40,13 +40,13 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
         if (amount < 0 && data.Amount == 0) return;
         data.Amount += amount;
         data.Amount = Mathf.Clamp(data.Amount, 0, data.MaxAmount);
-        onIngredientAmountChanged?.Invoke(ingredient, data.Amount);
+        OnIngredientAmountChanged?.Invoke(ingredient, data.Amount);
     }
     
     public void ChangeCurrency(int amount)
     {
         currency += amount;
         currency = Mathf.Clamp(currency, 0, int.MaxValue);
-        onCurrencyChanged?.Invoke(amount, currency);
+        OnCurrencyChanged?.Invoke(amount, currency);
     }
 }

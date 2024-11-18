@@ -17,6 +17,7 @@ public interface IMinigame
     public event MinigameEnd OnMinigameEnd;
     
     public void StartMinigame();
+    public void Halt();
 }
 public class FantasyOven : MonoBehaviour, IMinigame
 {
@@ -55,6 +56,13 @@ public class FantasyOven : MonoBehaviour, IMinigame
     private void Start()
     {
         minigameCanvasGroup.gameObject.SetActive(false);
+    }
+    
+    public void Halt()
+    {
+        minigameCoroutine?.Stop();
+        minigameCanvasGroup.gameObject.SetActive(false);
+        minigameCoroutine?.Destroy();
     }
     
     public void StartMinigame()

@@ -51,6 +51,13 @@ public class JoyBlender : MonoBehaviour, IMinigame
         slider.value += sliderBumpAmount;
     }
     
+    public void Halt()
+    {
+        minigameCoroutine?.Stop();
+        minigameCanvasGroup.gameObject.SetActive(false);
+        minigameCoroutine?.Destroy();
+    }
+    
     public void StartMinigame()
     {
         OnMinigameStart?.Invoke();

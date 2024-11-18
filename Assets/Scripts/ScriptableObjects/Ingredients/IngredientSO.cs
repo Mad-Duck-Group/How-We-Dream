@@ -56,19 +56,31 @@ public class IngredientSO : ScriptableObject
         }
     }
 
+    private bool used;
+    public delegate void UseIngredient(IngredientTypes ingredientType);
+    public static event UseIngredient OnIngredientUsed;
     [SerializeField, ReadOnly] private CookStates cookState = CookStates.Raw;
-    public CookStates CookState { get => cookState; set => cookState = value; }
+    public CookStates CookState
+    {
+        get => cookState;
+        set
+        {
+            if (value is not CookStates.Raw) Use();
+            cookState = value;
+        }
+    }
+
+    public void Use()
+    {
+        if (used) return;
+        OnIngredientUsed?.Invoke(ingredientType);
+        used = true;
+    }
 
     public Sprite GetSprite(CookStates cookState)
     {
         if (!spriteData.ContainsKey(cookState)) return null;
         var sprite = spriteData[cookState];
         return sprite.Sprite;
-    }
-    
-    [Button("Reset Cook State")]
-    private void ResetCookState()
-    {
-        cookState = CookStates.Raw;
     }
 }

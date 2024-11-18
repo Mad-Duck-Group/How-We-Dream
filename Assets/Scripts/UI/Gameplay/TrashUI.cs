@@ -22,6 +22,7 @@ public class TrashUI : MonoBehaviour, IIngredientContainer
 
     public bool SetIngredient(IngredientSO ingredient)
     {
+        ingredient.Use();
         return true;
     }
 }

@@ -7,16 +7,19 @@ public class OrderRackUI : MonoBehaviour
 {
     [SerializeField] private OrderUI orderUIPrefab;
     [SerializeField] private int maxOrders = 3;
-    
     private int orderCount;
+    
+    public delegate void OutOfRecipe();
+    public static event OutOfRecipe OnOutOfRecipe;
+
     private void OnEnable()
     {
-        OrderUI.OnOrderDestroyed += OnOrderDestroy;
+        OrderUI.OnOrderReject += OnOrderDestroy;
     }
     
     private void OnDisable()
     {
-        OrderUI.OnOrderDestroyed -= OnOrderDestroy;
+        OrderUI.OnOrderReject -= OnOrderDestroy;
     }
     private void Start()
     {
@@ -33,6 +36,10 @@ public class OrderRackUI : MonoBehaviour
             var order = Instantiate(orderUIPrefab, transform);
             order.Initialize(randomOrder);
             orderCount++;
+        }
+        if (orderCount == 0)
+        {
+            OnOutOfRecipe?.Invoke();
         }
     }
 

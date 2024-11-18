@@ -24,7 +24,7 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
     private void Awake()
     {
         image = GetComponent<Image>();
-        InventoryManager.onIngredientAmountChanged += (type, _) => UpdateAmountText(type);
+        InventoryManager.OnIngredientAmountChanged += (type, _) => UpdateAmountText(type);
     }
 
     public void Initialize(IngredientSO ingredient)

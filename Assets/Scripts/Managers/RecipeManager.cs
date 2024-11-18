@@ -26,7 +26,6 @@ public class RecipeManager : MonoSingleton<RecipeManager>
     public static event RecipeChanged OnRecipeChanged;
     public delegate void RecipeComplete(RecipeSO current, bool success);
     public static event RecipeComplete OnRecipeComplete;
-
     private LevelSO level;
 
     private void Start()
@@ -65,21 +64,22 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         if (level.UsePool && !level.Infinite)
         {
             if (level.FiniteRecipes.Count > 0) return GetRandomFiniteRecipe();
-            if (level.RecipePool.Count == 0) return null;
-            return Instantiate(level.RecipePool[Random.Range(0, level.RecipePool.Count)]);
+            if (level.RecipePool.Count != 0)
+                return Instantiate(level.RecipePool[Random.Range(0, level.RecipePool.Count)]);
+            return null;
         }
-        if (level.Infinite)
-        {
-            var newRandom = Instantiate(level.RandomPrototype);
-            newRandom.Initialize();
-            return newRandom;
-        }
-        return GetRandomFiniteRecipe();
+        if (!level.Infinite) return GetRandomFiniteRecipe();
+        var newRandom = Instantiate(level.RandomPrototype);
+        newRandom.Initialize();
+        return newRandom;
     }
     
     private RecipeSO GetRandomFiniteRecipe()
     {
-        if (level.FiniteRecipes.Count == 0) return null;
+        if (level.FiniteRecipes.Count == 0)
+        {
+            return null;
+        }
         var recipe = level.FiniteRecipes[Random.Range(0, level.FiniteRecipes.Count)];
         level.FiniteRecipes.Remove(recipe);
         return Instantiate(recipe);
@@ -129,9 +129,9 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         {
             allCorrect = false;
         }
+        OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
         int finalPrice = CalculatePrice(correctDict, allCorrect);
         InventoryManager.Instance.ChangeCurrency(finalPrice);
-        OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
     }
     
     private int CalculatePrice(Dictionary<IngredientTypes, int> correctDict, bool allCorrect)

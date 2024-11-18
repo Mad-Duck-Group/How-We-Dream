@@ -91,6 +91,15 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         flipCanvasGroup.gameObject.SetActive(false);
     }
     
+    public void Halt()
+    {
+        rotateMinigameCoroutine?.Stop();
+        flipMinigameCoroutine?.Stop();
+        minigameCanvasGroup.gameObject.SetActive(false);
+        rotateMinigameCoroutine?.Destroy();
+        flipMinigameCoroutine?.Destroy();
+    }
+    
     public void StartMinigame()
     {
         OnMinigameStart?.Invoke();

@@ -18,14 +18,17 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     private float timer;
     private Moroutine timerCoroutine;
     private OrderPageUI orderPageUI;
-    public delegate void OnDestroyOrder();
-    public static event OnDestroyOrder OnOrderDestroyed;
+    public delegate void OrderReject();
+    public static event OrderReject OnOrderReject;
+    public delegate void OrderComplete(bool success);
+    public static event OrderComplete OnOrderComplete;
 
     public void Initialize(RecipeSO recipeSo)
     {
         recipe = recipeSo;
         orderText.text = recipe.OrderName;
         clock.enabled = recipe.HasTimeLimit;
+        LevelManager.OnLevelComplete += OnLevelComplete;
         RecipeManager.OnRecipeChanged += OnRecipeChange;
         RecipeManager.OnRecipeComplete += OnRecipeComplete;
         flag.color = Color.gray;
@@ -38,7 +41,12 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         timerCoroutine = Moroutine.Run(gameObject, Timer());
         timerCoroutine.OnCompleted(_ => Reject(true));
     }
-    
+
+    private void OnLevelComplete()
+    {
+        timerCoroutine?.Stop();
+    }
+
     private IEnumerator Timer()
     {
         while (timer > 0)
@@ -85,6 +93,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     private void OnRecipeComplete(RecipeSO recipeSo, bool success)
     {
         if (recipe != recipeSo) return;
+        OnOrderComplete?.Invoke(success);
         if (success)
         {
             RecipeManager.Instance.UnsetActiveRecipe(recipe);
@@ -104,7 +113,12 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
 
     private void Reject(bool outOfTime = false)
     {
-        if (outOfTime) InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
+        OnOrderReject?.Invoke();
+        if (outOfTime)
+        {
+            InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
+            OnOrderComplete?.Invoke(false);
+        }
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
         DestroyOrder();
     }
@@ -113,7 +127,6 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     {
         RecipeManager.OnRecipeChanged -= OnRecipeChange;
         RecipeManager.OnRecipeComplete -= OnRecipeComplete;
-        OnOrderDestroyed?.Invoke();
         Destroy(orderPageUI.gameObject);
         Destroy(gameObject);
     }

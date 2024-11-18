@@ -79,6 +79,15 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         fireSlidersCanvasGroup.gameObject.SetActive(false);
     }
     
+    public void Halt()
+    {
+        potWaterCoroutine?.Stop();
+        fireSliderCoroutine?.Stop();
+        minigameCanvasGroup.gameObject.SetActive(false);
+        potWaterCoroutine?.Destroy();
+        fireSliderCoroutine?.Destroy();
+    }
+    
     public void StartMinigame()
     {
         OnMinigameStart?.Invoke();

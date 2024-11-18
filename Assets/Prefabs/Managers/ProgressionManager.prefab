@@ -47,3 +47,8 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: a295b665c5775354791808751feaac18, type: 2}
   currentLevelIndex: 0
+  skillNodes:
+  - {fileID: 11400000, guid: 31eb84ac56a94fc4facc16b86c53566e, type: 2}
+  - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
+  - {fileID: 11400000, guid: 25bd4c0884fbaa54887ecdd7e24055cf, type: 2}
+  - {fileID: 11400000, guid: 0340187add22ee1418d0270bf2f7b82c, type: 2}

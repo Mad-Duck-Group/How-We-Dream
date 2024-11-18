@@ -73,6 +73,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
         RecipeManager.Instance.CheckRecipe(ingredients.Select(pair => pair.Key).ToList());
         foreach (var pair in ingredients)
         {
+            pair.Key.Use();
             Destroy(pair.Value.gameObject);
         }
         ingredients.Clear();

@@ -19,7 +19,7 @@ public class ShopCapacityUI : MonoBehaviour
 
     public void Initialize(IngredientTypes ingredient)
     {
-        InventoryManager.onIngredientAmountChanged += (type, _) => OnIngredientAmountChanged(type);
+        InventoryManager.OnIngredientAmountChanged += (type, _) => OnIngredientAmountChanged(type);
         var data = InventoryManager.Instance.GetIngredientData(ingredient);
         ingredientData = data;
         //icon.sprite = ingredientData.Ingredient.GetSprite(CookStates.Raw);
