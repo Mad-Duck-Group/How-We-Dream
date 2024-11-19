@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Manual : MonoBehaviour
@@ -22,8 +23,13 @@ public class Manual : MonoBehaviour
     [SerializeField] private TMP_Text descriptionText;
     
     private DreamTypes currentDream;
-    private int dreamManualIndex = System.Enum.GetValues(typeof(DreamTypes)).Length;
     private DreamTypes[] dreams = (DreamTypes[])System.Enum.GetValues(typeof(DreamTypes)); 
+    private int dreamManualIndex = System.Enum.GetValues(typeof(DreamTypes)).Length;
+    [SerializeField] private DreamSO[] dreamSO;
+    [SerializeField] private CookStates requiredCookState;
+    
+    [SerializeField] private TMP_Text[] ingredientTexts;
+
 
     private void OnEnable()
     {
@@ -87,7 +93,7 @@ public class Manual : MonoBehaviour
     {
         currentDream = dreams[manualIndex];
         nameTypeText.text = currentDream.ToString();
-        //descriptionText.text = currentDream.GetDescription();
+        descriptionText.text = requiredCookState.ToString();
         //manualImage.sprite = currentDream.GetSprite();
     }
     
