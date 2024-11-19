@@ -81,7 +81,9 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!skillNode.Unlocked) return;
+        if (!ProgressionManager.Instance.CanUpgradeSkill) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
         skillNode.Acquire();
+        ProgressionManager.Instance.CanUpgradeSkill = false;
     }
 }

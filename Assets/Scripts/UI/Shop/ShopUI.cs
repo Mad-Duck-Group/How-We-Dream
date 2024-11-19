@@ -5,7 +5,7 @@ using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopManager : PersistentMonoSingleton<ShopManager>
+public class ShopUI : MonoBehaviour, IUIPage
 {
     [SerializeField] private CanvasGroup shopCanvasGroup;
     [SerializeField] private ScrollRect shopScrollRect;
@@ -13,19 +13,20 @@ public class ShopManager : PersistentMonoSingleton<ShopManager>
     [SerializeField] private Transform shopCapacityParent;
     [SerializeField] private ShopCapacityUI shopCapacityUIPrefab;
 
-    private void Start()
+    public void Initialize()
     {
-        Initialize();
+        shopCanvasGroup.gameObject.SetActive(true);
+        InitializeShop();
         shopCanvasGroup.gameObject.SetActive(false);
     }
 
-    private void Initialize()
+    private void InitializeShop()
     {
         var allIngredientTypes = Enum.GetValues(typeof(IngredientTypes));
         foreach (IngredientTypes ingredient in allIngredientTypes)
         {
             var shopItem = Instantiate(shopItemPrefab, shopScrollRect.content);
-            shopItem.Initialize(ingredient);
+            shopItem.Initialize(ingredient, this);
             var shopCapacity = Instantiate(shopCapacityUIPrefab, shopCapacityParent);
             shopCapacity.Initialize(ingredient);
         }
@@ -38,16 +39,15 @@ public class ShopManager : PersistentMonoSingleton<ShopManager>
         InventoryManager.Instance.ChangeCurrency(-price);
         InventoryManager.Instance.ChangeIngredientAmount(ingredient, 1);
     }
-    
-    [NaughtyAttributes.Button("Open Shop")]
-    public void OpenShop()
+    public bool Open()
     {
         shopCanvasGroup.gameObject.SetActive(true);
+        return true;
     }
     
-    [NaughtyAttributes.Button("Close Shop")]
-    public void CloseShop()
+    public bool Close()
     {
         shopCanvasGroup.gameObject.SetActive(false);
+        return true;
     }
 }

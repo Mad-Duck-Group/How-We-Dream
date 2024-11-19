@@ -15,9 +15,10 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
 
     private IngredientTypes ingredientType;
     private IngredientSO ingredientSO;
+    private ShopUI shopUI;
     private bool canBuy;
 
-    public void Initialize(IngredientTypes ingredient)
+    public void Initialize(IngredientTypes ingredient, ShopUI shopUI)
     {
         InventoryManager.OnCurrencyChanged += (_, current) => UpdateAvailability(current);
         var ingredientSO = InventoryManager.Instance.GetIngredientData(ingredient).Ingredient;
@@ -26,6 +27,7 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
         icon.sprite = ingredientSO.GetSprite(CookStates.Raw);
         nameText.text = ingredient.ToString();
         priceText.text = ingredientSO.CurrentPrice.ToString(CultureInfo.InvariantCulture);
+        this.shopUI = shopUI;
         gameObject.SetActive(true);
         UpdateAvailability(InventoryManager.Instance.Currency);
     }
@@ -41,6 +43,6 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
     {
         if (!canBuy) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
-        ShopManager.Instance.BuyIngredient(ingredientType);
+        shopUI.BuyIngredient(ingredientType);
     }
 }

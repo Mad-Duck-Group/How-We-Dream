@@ -129,9 +129,9 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         {
             allCorrect = false;
         }
-        OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
         int finalPrice = CalculatePrice(correctDict, allCorrect);
         InventoryManager.Instance.ChangeCurrency(finalPrice);
+        OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
     }
     
     private int CalculatePrice(Dictionary<IngredientTypes, int> correctDict, bool allCorrect)

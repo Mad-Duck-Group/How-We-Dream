@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class OrderRackUI : MonoBehaviour
@@ -14,12 +15,12 @@ public class OrderRackUI : MonoBehaviour
 
     private void OnEnable()
     {
-        OrderUI.OnOrderReject += OnOrderDestroy;
+        OrderUI.OnOrderDestroy += OnOrderDestroy;
     }
     
     private void OnDisable()
     {
-        OrderUI.OnOrderReject -= OnOrderDestroy;
+        OrderUI.OnOrderDestroy -= OnOrderDestroy;
     }
     private void Start()
     {
@@ -37,6 +38,7 @@ public class OrderRackUI : MonoBehaviour
             order.Initialize(randomOrder);
             orderCount++;
         }
+        Debug.Log("Order Count: " + orderCount);
         if (orderCount == 0)
         {
             OnOutOfRecipe?.Invoke();

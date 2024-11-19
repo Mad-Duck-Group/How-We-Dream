@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BottleUI : MonoBehaviour, IIngredientContainer
 {
@@ -11,11 +14,23 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
     [SerializeField] private float beadSize = 0.5f;
     [SerializeField] private Transform dropPoint;
     [SerializeField] private Vector2 randomOffset;
+    [SerializeField] private Button submitButton;
     
     [SerializeField, ReadOnly, Expandable] private IngredientSO ingredient;
     
     private Stack<KeyValuePair<IngredientSO, IngredientUI>> ingredients = new();
     private IngredientUI ingredientUI;
+
+    private void OnEnable()
+    {
+        RecipeManager.OnRecipeChanged += (current, active) => submitButton.interactable = active;
+    }
+
+    private void Start()
+    {
+        submitButton.onClick.AddListener(Submit);
+        submitButton.interactable = false;
+    }
 
     public bool SetIngredient(IngredientSO ingredient)
     {

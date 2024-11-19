@@ -9,42 +9,57 @@ using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[Serializable]
+public class SummaryData
+{ 
+    [SerializeField, ReadOnly] private int accumulatedCurrency;
+    public int AccumulatedCurrency { get => accumulatedCurrency; set => accumulatedCurrency = value; }
+    [SerializeField, ReadOnly] private int totalCompletedOrder;
+    public int TotalCompletedOrder { get => totalCompletedOrder; set => totalCompletedOrder = value; }
+    [SerializeField, ReadOnly] private int totalRejectedOrder;
+    public int TotalRejectedOrder { get => totalRejectedOrder; set => totalRejectedOrder = value; }
+    [SerializeField, ReadOnly] private int totalFailedOrder;
+    public int TotalFailedOrder { get => totalFailedOrder; set => totalFailedOrder = value; }
+
+    [SerializedDictionary("Ingredient Type", "Amount"), ReadOnly]
+    public SerializedDictionary<IngredientTypes, int> ingredientData = new();
+    public SerializedDictionary<IngredientTypes, int> IngredientData => ingredientData;
+    
+    public void Reset()
+    {
+        accumulatedCurrency = 0;
+        totalCompletedOrder = 0;
+        totalRejectedOrder = 0;
+        totalFailedOrder = 0;
+        ingredientData.Clear();
+    }
+}
 public class LevelManager : MonoSingleton<LevelManager>
 {
     [SerializeField, Expandable, ReadOnly] private LevelSO level;
-    
-    [SerializeField] private CanvasGroup summaryCanvasGroup;
-    [SerializeField] private TMP_Text summaryText;
-    [SerializeField] private TMP_Text totalText;
-    [SerializeField] private Slider sandManSlider;
-    [SerializeField] private Slider boogeyManSlider;
-    [SerializeField] private float sliderMaxModifier = 3;
-    [SerializeField] private Button nextButton;
     public LevelSO Level => level;
     [SerializeField] private Image clock;
-    
+
     [Header("Debug")]
-    [SerializeField, ReadOnly] private int accumulatedCurrency;
-    [SerializeField, ReadOnly] private int totalCompletedOrder;
-    [SerializeField, ReadOnly] private int totalRejectedOrder;
-    [SerializeField, ReadOnly] private int totalFailedOrder;
-    [SerializedDictionary("Ingredient Type", "Amount"), ReadOnly]
-    public SerializedDictionary<IngredientTypes, int> ingredientData;
+    [SerializeField, ReadOnly] private SummaryData summaryData;
+    public SummaryData SummaryData => summaryData;
     
     public delegate void LevelComplete();
     public static event LevelComplete OnLevelComplete;
     private Moroutine gameTimer;
     private bool passQuota;
+    public bool PassQuota => passQuota;
 
     private void OnEnable()
     {
         InventoryManager.OnCurrencyChanged += OnCurrencyChange;
         OrderRackUI.OnOutOfRecipe += ShowSummary;
-        OrderUI.OnOrderReject += () => totalRejectedOrder++;
+        OrderUI.OnOrderReject += () => summaryData.TotalRejectedOrder++;
         OrderUI.OnOrderComplete += success =>
         {
-            if (success) totalCompletedOrder++;
-            else totalFailedOrder++;
+            if (success) summaryData.TotalCompletedOrder++;
+            else summaryData.TotalFailedOrder++;
         };
         IngredientSO.OnIngredientUsed += OnIngredientUsed;
     }
@@ -58,37 +73,37 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void OnCurrencyChange(int change, int currency)
     {
-        accumulatedCurrency += change;
+        summaryData.AccumulatedCurrency += change;
         CheckQuota();
     }
     
     private void OnIngredientUsed(IngredientTypes ingredientType)
     {
-        if (ingredientData.ContainsKey(ingredientType))
+        if (summaryData.IngredientData.ContainsKey(ingredientType))
         {
-            ingredientData[ingredientType]++;
+            summaryData.IngredientData[ingredientType]++;
         }
         else
         {
-            ingredientData.Add(ingredientType, 1);
+            summaryData.IngredientData.Add(ingredientType, 1);
         }
     }
     
     private void CheckQuota()
     {
         if (!level.HasQuota) return;
-        if (accumulatedCurrency < level.Quota) return;
+        if (summaryData.AccumulatedCurrency < level.Quota) return;
         passQuota = true;
+        ProgressionManager.Instance.CanUpgradeSkill = true;
         ShowSummary();
     }
 
     private void Start()
     {
         level = Instantiate(ProgressionManager.Instance.CurrentLevel);
+        summaryData = new SummaryData();
         gameTimer = Moroutine.Run(gameObject, GameTimer());
         gameTimer.OnCompleted(_ => ShowSummary());
-        summaryCanvasGroup.gameObject.SetActive(false);
-        nextButton.onClick.AddListener(Next);
     }
 
     private IEnumerator GameTimer()
@@ -106,40 +121,6 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         gameTimer.Stop();
         OnLevelComplete?.Invoke();
-        summaryCanvasGroup.gameObject.SetActive(true);
-        summaryText.text = Summary();
-        totalText.text = $"Total: {accumulatedCurrency}";
-        float max = accumulatedCurrency > level.Quota ? accumulatedCurrency : level.Quota;
-        sandManSlider.maxValue = max * sliderMaxModifier;
-        boogeyManSlider.maxValue = max * sliderMaxModifier;
-        sandManSlider.value = accumulatedCurrency;
-        boogeyManSlider.value = level.Quota;
-    }
-
-    private string Summary()
-    {
-        string summary = $"Order:\n\n";
-        summary += $"Total Order: {totalCompletedOrder + totalRejectedOrder + totalFailedOrder}\n";
-        summary += $"Completed: {totalCompletedOrder}\n";
-        summary += $"Rejected: {totalRejectedOrder}\n";
-        summary += $"Failed: {totalFailedOrder}\n";
-        summary += "\nIngredient Used:\n\n";
-        foreach (var ingredient in ingredientData)
-        {
-            summary += $"{ingredient.Key}: {ingredient.Value}\n";
-        }
-        return summary;
-    }
-
-    private void Next()
-    {
-        if (passQuota)
-        {
-            // To Business Plan
-        }
-        else
-        {
-            // To Shop
-        }
+        UIPageManager.Instance.ChangePage(PageTypes.Summary);
     }
 }

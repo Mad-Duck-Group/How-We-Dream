@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e17908c1d7b08b3498925bbcaf1bc56e, type: 3}
-  m_Name: Endless
+  m_Name: Test1
   m_EditorClassIdentifier: 
   recipePool: []
-  finiteRecipes: []
-  randomRecipe: 1
+  finiteRecipes:
+  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
+  randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
-  infinite: 1
+  infinite: 0
   usePool: 0
   randomToPool: 1
   randomAmountRange: {x: 3, y: 6}
   timeLimit: 600
-  hasQuota: 0
-  quota: 500
-  endless: 1
+  hasQuota: 1
+  quota: 1
+  endless: 0

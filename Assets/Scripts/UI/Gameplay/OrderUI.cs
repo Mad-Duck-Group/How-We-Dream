@@ -22,6 +22,8 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     public static event OrderReject OnOrderReject;
     public delegate void OrderComplete(bool success);
     public static event OrderComplete OnOrderComplete;
+    public delegate void OrderDestroy();
+    public static event OrderDestroy OnOrderDestroy;
 
     public void Initialize(RecipeSO recipeSo)
     {
@@ -94,11 +96,8 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     {
         if (recipe != recipeSo) return;
         OnOrderComplete?.Invoke(success);
-        if (success)
-        {
-            RecipeManager.Instance.UnsetActiveRecipe(recipe);
-            DestroyOrder();
-        }
+        RecipeManager.Instance.UnsetActiveRecipe(recipe);
+        DestroyOrder();
     }
 
     private void Accept()
@@ -127,6 +126,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     {
         RecipeManager.OnRecipeChanged -= OnRecipeChange;
         RecipeManager.OnRecipeComplete -= OnRecipeComplete;
+        OnOrderDestroy?.Invoke();
         Destroy(orderPageUI.gameObject);
         Destroy(gameObject);
     }

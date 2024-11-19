@@ -10,7 +10,9 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     [SerializeField] private List<LevelSO> levels;
     [SerializeField] private int currentLevelIndex;
     [SerializeField] private List<SkillNodeSO> skillNodes;
+    [SerializeField] private bool canUpgradeSkill;
     public LevelSO CurrentLevel => levels[currentLevelIndex];
+    public bool CanUpgradeSkill {get => canUpgradeSkill; set => canUpgradeSkill = value;}
     public float Progress
     {
         get
@@ -25,6 +27,7 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
         currentLevelIndex++;
         currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
         if (currentLevelIndex >= levels.Count) currentLevelIndex = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
     public void ReplayLevel()
