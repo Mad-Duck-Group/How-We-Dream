@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Redcode.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +8,11 @@ using UnityEngine.UI;
 public class SummaryUI : MonoBehaviour, IUIPage
 {
     [SerializeField] private CanvasGroup summaryCanvasGroup;
+    [SerializeField] private Image quotaStamp;
     [SerializeField] private TMP_Text summaryText;
     [SerializeField] private TMP_Text totalText;
     [SerializeField] private Slider sandManSlider;
+    [SerializeField] private Image quotaLine;
     [SerializeField] private Slider boogeyManSlider;
     [SerializeField] private float sliderMaxModifier = 3;
 
@@ -26,12 +29,17 @@ public class SummaryUI : MonoBehaviour, IUIPage
     {
         summaryCanvasGroup.gameObject.SetActive(true);
         summaryText.text = Summary();
-        totalText.text = $"Total: {SummaryData.AccumulatedCurrency}";
-        float max = SummaryData.AccumulatedCurrency > Level.Quota ? SummaryData.AccumulatedCurrency : Level.Quota;
-        sandManSlider.maxValue = max * sliderMaxModifier;
-        boogeyManSlider.maxValue = max * sliderMaxModifier;
+        totalText.text = $"{SummaryData.AccumulatedCurrency}";
+        float sandManMax = (SummaryData.AccumulatedCurrency > Level.Quota ? SummaryData.AccumulatedCurrency : Level.Quota) * sliderMaxModifier;
+        sandManSlider.maxValue = sandManMax;
+        //float boogeyManMax = Level.BoogeyManQuota;
+        boogeyManSlider.maxValue = sandManMax;
         sandManSlider.value = SummaryData.AccumulatedCurrency;
-        boogeyManSlider.value = Level.Quota;
+        float sliderWidth = ((RectTransform)sandManSlider.transform).rect.width;
+        float percentage = Level.Quota / sandManMax;
+        quotaLine.rectTransform.SetAnchoredPositionX(sliderWidth * percentage);
+        boogeyManSlider.value = Level.BoogeyManQuota;
+        quotaStamp.gameObject.SetActive(LevelManager.Instance.PassQuota);
     }
     
      private string Summary()

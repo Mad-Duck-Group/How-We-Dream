@@ -24,4 +24,5 @@ MonoBehaviour:
   timeLimit: 600
   hasQuota: 1
   quota: 500
+  boogeyManQuota: 666
   endless: 0

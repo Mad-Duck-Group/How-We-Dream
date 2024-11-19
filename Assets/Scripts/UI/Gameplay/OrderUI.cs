@@ -9,15 +9,20 @@ using UnityEngine.UI;
 
 public class OrderUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Image flag;
-    [SerializeField] private TMP_Text orderText;
+    [SerializeField] private Sprite[] scrollSprites;
+    [SerializeField] private Image scroll;
     [SerializeField] private Image clock;
+    //[SerializeField] private Image flag;
+    //[SerializeField] private TMP_Text orderText;
     [SerializeField] private OrderPageUI orderPageUIPrefab;
 
     private RecipeSO recipe;
     private float timer;
     private Moroutine timerCoroutine;
     private OrderPageUI orderPageUI;
+    private bool empty = true;
+    public bool Empty => empty;
+    
     public delegate void OrderReject();
     public static event OrderReject OnOrderReject;
     public delegate void OrderComplete(bool success);
@@ -27,13 +32,16 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
 
     public void Initialize(RecipeSO recipeSo)
     {
+        gameObject.SetActive(true);
+        empty = false;
         recipe = recipeSo;
-        orderText.text = recipe.OrderName;
+        //orderText.text = recipe.OrderName;
         clock.enabled = recipe.HasTimeLimit;
         LevelManager.OnLevelComplete += OnLevelComplete;
         RecipeManager.OnRecipeChanged += OnRecipeChange;
         RecipeManager.OnRecipeComplete += OnRecipeComplete;
-        flag.color = Color.gray;
+        //flag.color = Color.gray;
+        scroll.sprite = scrollSprites[0];
         orderPageUI = Instantiate(orderPageUIPrefab, transform.root);
         orderPageUI.Initialize(recipe);
         orderPageUI.OnConfirmation += OnOrderConfirmation;
@@ -42,6 +50,12 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         timer = recipe.TimeLimit;
         timerCoroutine = Moroutine.Run(gameObject, Timer());
         timerCoroutine.OnCompleted(_ => Reject(true));
+    }
+
+    public void SetEmpty()
+    {
+        empty = true;
+        gameObject.SetActive(false);
     }
 
     private void OnLevelComplete()
@@ -64,14 +78,17 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         switch (active)
         {
             case true when recipe == recipeSo :
-                flag.color = Color.yellow;
+                //flag.color = Color.yellow;
+                scroll.sprite = scrollSprites[1];
                 break;
             case true when recipe != recipeSo:
-                flag.color = Color.gray;
+                //flag.color = Color.gray;
+                scroll.sprite = scrollSprites[0];
                 orderPageUI.ResetToggle();
                 break;
             case false when recipe == recipeSo:
-                flag.color = Color.gray;
+                //flag.color = Color.gray;
+                scroll.sprite = scrollSprites[0];
                 break;
         }
     }
@@ -115,7 +132,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         OnOrderReject?.Invoke();
         if (outOfTime)
         {
-            InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
+            //InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
             OnOrderComplete?.Invoke(false);
         }
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
@@ -126,9 +143,9 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     {
         RecipeManager.OnRecipeChanged -= OnRecipeChange;
         RecipeManager.OnRecipeComplete -= OnRecipeComplete;
-        OnOrderDestroy?.Invoke();
+        SetEmpty();
         Destroy(orderPageUI.gameObject);
-        Destroy(gameObject);
+        OnOrderDestroy?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData eventData)

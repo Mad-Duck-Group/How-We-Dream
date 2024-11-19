@@ -40,6 +40,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField, Expandable, ReadOnly] private LevelSO level;
     public LevelSO Level => level;
     [SerializeField] private Image clock;
+    [SerializeField] private Transform clockHandRotator;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private SummaryData summaryData;
@@ -113,6 +114,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             timer -= Time.deltaTime;
             clock.fillAmount = timer / level.TimeLimit;
+            clockHandRotator.localEulerAngles = new Vector3(0, 0, timer / level.TimeLimit * 360);
             yield return null;
         }
     }

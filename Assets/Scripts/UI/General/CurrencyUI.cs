@@ -20,6 +20,6 @@ public class CurrencyUI : MonoBehaviour
 
     private void UpdateCurrency(int current)
     {
-        currencyText.text = $"Souls: {current}";
+        currencyText.text = $"{current}";
     }
 }

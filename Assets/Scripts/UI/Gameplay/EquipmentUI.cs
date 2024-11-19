@@ -47,12 +47,12 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     {
         if (success)
         {
-            transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
+            transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
         }
         else
         {
-            transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
+            transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             Destroy(ingredient);
             UnsetIngredient();
         }
@@ -63,7 +63,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (this.ingredient) return false;
         if (ingredient.CookState != CookStates.Raw) return false;
         this.ingredient = ingredient;
-        transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
+        transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
         spriteRenderer.sprite = equipmentSprites[1];
         return true;
     }
@@ -108,7 +108,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         }
         else
         {
-            transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
+            transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
         }
         

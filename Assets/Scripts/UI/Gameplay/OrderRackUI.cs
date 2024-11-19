@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OrderRackUI : MonoBehaviour
 {
-    [SerializeField] private OrderUI orderUIPrefab;
-    [SerializeField] private int maxOrders = 3;
+    [SerializeField] private OrderUI[] orderUI;
     private int orderCount;
     
     public delegate void OutOfRecipe();
@@ -29,12 +30,14 @@ public class OrderRackUI : MonoBehaviour
 
     private void PopulateRack()
     {
-        int freeSlots = maxOrders - orderCount;
-        for (int i = 0; i < freeSlots; i++)
+        foreach (var order in orderUI.Where(x => x.Empty))
         {
             var randomOrder = RecipeManager.Instance.GetRandomRecipe();
-            if (!randomOrder) continue;
-            var order = Instantiate(orderUIPrefab, transform);
+            if (!randomOrder)
+            {
+                order.SetEmpty();
+                continue;
+            }
             order.Initialize(randomOrder);
             orderCount++;
         }

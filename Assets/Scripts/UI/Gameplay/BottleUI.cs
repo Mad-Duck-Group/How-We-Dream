@@ -23,7 +23,17 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
 
     private void OnEnable()
     {
-        RecipeManager.OnRecipeChanged += (current, active) => submitButton.interactable = active;
+        RecipeManager.OnRecipeChanged += OnRecipeChange;
+    }
+    
+    private void OnDisable()
+    {
+        RecipeManager.OnRecipeChanged -= OnRecipeChange;
+    }
+
+    private void OnRecipeChange(RecipeSO current, bool active)
+    {
+        submitButton.interactable = active;
     }
 
     private void Start()

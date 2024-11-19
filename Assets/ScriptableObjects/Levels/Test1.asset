@@ -23,5 +23,6 @@ MonoBehaviour:
   randomAmountRange: {x: 3, y: 6}
   timeLimit: 600
   hasQuota: 1
-  quota: 1
+  quota: 10
+  boogeyManQuota: 15
   endless: 0

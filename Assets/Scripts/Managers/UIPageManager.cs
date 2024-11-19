@@ -41,6 +41,8 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
         }
         nextButton.onClick.AddListener(Next);
         backButton.onClick.AddListener(Back);
+        nextButton.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(false);
     }
 
     private void Next()

@@ -16,6 +16,7 @@ public class OrderPageUI : MonoBehaviour
     [SerializeField] private TMP_Text orderNameText;
     [SerializeField] private TMP_Text orderDescriptionText;
     [SerializeField] private TMP_Text orderDreamTypeText;
+    [SerializeField] private Image timeLimitIcon;
     [SerializeField] private Button closeButton;
     [SerializeField] private Toggle acceptButton;
     [SerializeField] private Toggle rejectButton;
@@ -26,9 +27,10 @@ public class OrderPageUI : MonoBehaviour
     public event Confirmation OnConfirmation;
     public void Initialize(RecipeSO recipe)
     {
-        orderNameText.text = $"To: {recipe.OrderName}";
+        orderNameText.text = $"{recipe.OrderName}";
         orderDescriptionText.text = recipe.OrderDescription;
-        orderDreamTypeText.text = $"Dream Type: {recipe.DreamType}";
+        orderDreamTypeText.text = $"{recipe.DreamType}";
+        timeLimitIcon.enabled = recipe.HasTimeLimit;
         foreach (var ingredient in recipe.IngredientData)
         {
             if (ingredient.Value == 0) continue;

@@ -29,6 +29,8 @@ public class LevelSO : ScriptableObject
     public bool HasQuota => hasQuota;
     [SerializeField, ShowIf(nameof(hasQuota))] private int quota;
     public int Quota => quota;
+    [SerializeField] private float boogeyManQuota;
+    public float BoogeyManQuota => boogeyManQuota;
     [SerializeField] private bool endless;
     public bool Endless => endless;
     public Vector2 RandomAmountRange => randomAmountRange;
