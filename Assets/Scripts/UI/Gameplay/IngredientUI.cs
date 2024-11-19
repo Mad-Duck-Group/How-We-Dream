@@ -65,20 +65,25 @@ public class IngredientUI : MonoBehaviour
     public void Drag()
     {
         transform.position = MousePosition;
+        image.sortingOrder = 3;
     }
     
     public bool EndDragCheck(PointerEventData eventData)
     {
         if (eventData.hovered.Count == 0) return false;
-        var top = eventData.hovered[0];
-        if (top == owner) return false;
-        if (top.TryGetComponent(out IIngredientContainer container))
+        eventData.hovered.ForEach(x => Debug.Log(x.name));
+        //var top = eventData.hovered[^1];
+        foreach (var hover in eventData.hovered)
         {
-            if (container is IngredientRackUI or IngredientSlotUI && ingredient.CookState is not CookStates.Raw)
-                return false;
-            return container.SetIngredient(ingredient);
+            if (hover == owner) continue;
+            if (hover.TryGetComponent(out IIngredientContainer container))
+            {
+                if (container is IngredientRackUI or IngredientSlotUI && ingredient.CookState is not CookStates.Raw)
+                    return false;
+                return container.SetIngredient(ingredient);
+            }
         }
-        Debug.Log(eventData.hovered[0]);
+        //Debug.Log(eventData.hovered[0]);
         return false;
     }
     

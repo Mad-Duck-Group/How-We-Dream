@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 
 public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHandler
 {
+    [SerializeField] private Sprite[] equipmentSprites;
     [SerializeField] private IngredientUI ingredientUIPrefab;
     [SerializeField] private CookStates equipmentType;
     [SerializeField] private SerializableInterface<IMinigame> minigame;
@@ -20,6 +21,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = equipmentSprites[0];
     }
 
     private void OnEnable()
@@ -45,14 +47,14 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     {
         if (success)
         {
-            spriteRenderer.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
+            transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
         }
         else
         {
-            spriteRenderer.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo);
+            transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
             Destroy(ingredient);
-            ingredient = null;
+            UnsetIngredient();
         }
     }
 
@@ -61,7 +63,8 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (this.ingredient) return false;
         if (ingredient.CookState != CookStates.Raw) return false;
         this.ingredient = ingredient;
-        spriteRenderer.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
+        transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
+        spriteRenderer.sprite = equipmentSprites[1];
         return true;
     }
 
@@ -85,7 +88,13 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (ingredientUI == null) return;
         bool success = ingredientUI.EndDragCheck(eventData);
         Destroy(ingredientUI.gameObject);
-        if (success) ingredient = null;
+        if (success) UnsetIngredient();
+    }
+    
+    private void UnsetIngredient()
+    {
+        spriteRenderer.sprite = equipmentSprites[0];
+        ingredient = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -99,7 +108,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         }
         else
         {
-            spriteRenderer.DOColor(Color.green, 0.2f).SetLoops(2, LoopType.Yoyo);
+            transform.DOScale(1.05f, 0.2f).SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
         }
         
