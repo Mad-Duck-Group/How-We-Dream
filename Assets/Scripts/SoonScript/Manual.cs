@@ -15,7 +15,6 @@ public class Manual : MonoBehaviour
     
     [SerializeField] private Image manualImage;
     
-     
     private int manualIndex;
     
     [Header("Texts")]
@@ -95,6 +94,13 @@ public class Manual : MonoBehaviour
         nameTypeText.text = currentDream.ToString();
         descriptionText.text = requiredCookState.ToString();
         //manualImage.sprite = currentDream.GetSprite();
+    }
+
+    private void MafiaMethod()
+    {
+        DreamSO test = RecipeManager.Instance.dreamData[DreamTypes.Lucid]; //ส่ง type เข้าไป
+        CookStates test2 = test.IngredientData[IngredientTypes.Truth]; //ส่ง type เข้าไป
+        
     }
     
 }
