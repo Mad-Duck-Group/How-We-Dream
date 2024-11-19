@@ -35,6 +35,7 @@ public class IngredientUI : MonoBehaviour
     public void Initialize(IngredientSO ingredient, GameObject owner)
     {
         image = GetComponent<SpriteRenderer>();
+        image.sortingOrder = 2;
         this.ingredient = ingredient;
         var sprite = ingredient.GetSprite(ingredient.CookState);
         if (sprite)
