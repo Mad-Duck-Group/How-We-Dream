@@ -18,7 +18,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     [Header("Rotate")] 
     [SerializeField] private CanvasGroup rotateCanvasGroup;
     [SerializeField] private Transform center;
-    [FormerlySerializedAs("rotateArea")] [SerializeField] private Clickable rotate;
+    [FormerlySerializedAs("rotateArea")] [SerializeField] private ClickableArea rotate;
     [SerializeField] private Slider rotateSlider;
     [SerializeField] private float sliderGainRate;
     [SerializeField] private float changeDirectionThreshold;
