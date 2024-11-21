@@ -24,7 +24,22 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
     private void Awake()
     {
         image = GetComponent<Image>();
-        InventoryManager.OnIngredientAmountChanged += (type, _) => UpdateAmountText(type);
+        
+    }
+
+    private void OnEnable()
+    {
+        InventoryManager.OnIngredientAmountChanged += OnIngredientAmountChanged;
+    }
+    
+    private void OnDisable()
+    {
+        InventoryManager.OnIngredientAmountChanged -= OnIngredientAmountChanged;
+    }
+    
+    private void OnIngredientAmountChanged(IngredientTypes type, int amount)
+    {
+        UpdateAmountText(type);
     }
 
     public void Initialize(IngredientSO ingredient)
@@ -49,10 +64,10 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
         if (!InventoryManager.Instance.IngredientData.ContainsKey(ingredientType)) return;
         data = InventoryManager.Instance.IngredientData[ingredientType];
         amountText.text = data.Amount.ToString();
-        if (data.Amount == 0)
-        {
-            Destroy(gameObject);
-        }
+        // if (data.Amount == 0)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 
     public void OnBeginDrag(PointerEventData eventData)

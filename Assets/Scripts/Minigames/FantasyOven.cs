@@ -26,7 +26,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
     [SerializeField] private Slider slider;
     [SerializeField] private Image sliderHandle;
     [SerializeField] private RectTransform hitZone;
-    [SerializeField] private ClickableArea knob;
+    [SerializeField] private Clickable knob;
     [SerializeField] private bool randomHitZoneSize;
     [SerializeField, HideIf(nameof(randomHitZoneSize))] private float hitZoneSize;
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;

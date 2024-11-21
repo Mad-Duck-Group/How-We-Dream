@@ -15,6 +15,7 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
     private Image image;
     private UILineConnector lineConnector;
     private PositionConstraint positionConstraint;
+    private Tooltip tooltip;
    
     private void OnEnable()
     {
@@ -52,6 +53,8 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
         image = GetComponentInChildren<Image>();
         lineConnector = GetComponentInChildren<UILineConnector>();
         positionConstraint = GetComponentInChildren<PositionConstraint>();
+        tooltip = GetComponent<Tooltip>();
+        tooltip.TooltipObject = skillNode.Skill;
         skillNode.ParentUI = this;
     }
 
@@ -81,9 +84,9 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!skillNode.Unlocked) return;
-        if (!ProgressionManager.Instance.CanUpgradeSkill) return;
+        if (ProgressionManager.Instance.SkillPoints < skillNode.Skill.SkillCost) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
         skillNode.Acquire();
-        ProgressionManager.Instance.CanUpgradeSkill = false;
+        ProgressionManager.Instance.SkillPoints -= skillNode.Skill.SkillCost;
     }
 }

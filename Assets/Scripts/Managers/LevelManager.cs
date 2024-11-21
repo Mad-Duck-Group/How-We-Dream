@@ -48,6 +48,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     
     public delegate void LevelComplete();
     public static event LevelComplete OnLevelComplete;
+    private bool gameEnd;
     private Moroutine gameTimer;
     private bool passQuota;
     public bool PassQuota => passQuota;
@@ -55,7 +56,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void OnEnable()
     {
         InventoryManager.OnCurrencyChanged += OnCurrencyChange;
-        OrderRackUI.OnOutOfRecipe += ShowSummary;
+        OrderRackUI.OnOutOfRecipe += GameEnd;
         OrderUI.OnOrderReject += () => summaryData.TotalRejectedOrder++;
         OrderUI.OnOrderComplete += success =>
         {
@@ -68,7 +69,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void OnDisable()
     {
         InventoryManager.OnCurrencyChanged -= OnCurrencyChange;
-        OrderRackUI.OnOutOfRecipe -= ShowSummary;
+        OrderRackUI.OnOutOfRecipe -= GameEnd;
         IngredientSO.OnIngredientUsed -= OnIngredientUsed;
     }
 
@@ -92,11 +93,12 @@ public class LevelManager : MonoSingleton<LevelManager>
     
     private void CheckQuota()
     {
+        if (gameEnd) return;
         if (!level.HasQuota) return;
         if (summaryData.AccumulatedCurrency < level.Quota) return;
         passQuota = true;
-        ProgressionManager.Instance.CanUpgradeSkill = true;
-        ShowSummary();
+        ProgressionManager.Instance.SkillPoints++;
+        GameEnd();
     }
 
     private void Start()
@@ -104,7 +106,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         level = Instantiate(ProgressionManager.Instance.CurrentLevel);
         summaryData = new SummaryData();
         gameTimer = Moroutine.Run(gameObject, GameTimer());
-        gameTimer.OnCompleted(_ => ShowSummary());
+        gameTimer.OnCompleted(_ => GameEnd());
     }
 
     private IEnumerator GameTimer()
@@ -119,8 +121,9 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
-    private void ShowSummary()
+    private void GameEnd()
     {
+        gameEnd = true;
         gameTimer.Stop();
         OnLevelComplete?.Invoke();
         UIPageManager.Instance.ChangePage(PageTypes.Summary);

@@ -13,7 +13,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
     [SerializeField] private CanvasGroup minigameCanvasGroup;
     [SerializeField] private Slider slider;
     [SerializeField] private RectTransform hitZone;
-    [SerializeField] private ClickableArea blenderButton;
+    [SerializeField] private Clickable blenderButton;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private bool randomHitZoneSize;
     [SerializeField, HideIf(nameof(randomHitZoneSize))] private float hitZoneSize;

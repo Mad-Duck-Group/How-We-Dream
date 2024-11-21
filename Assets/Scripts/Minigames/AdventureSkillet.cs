@@ -7,6 +7,7 @@ using Redcode.Extensions;
 using Redcode.Moroutines;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -17,7 +18,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     [Header("Rotate")] 
     [SerializeField] private CanvasGroup rotateCanvasGroup;
     [SerializeField] private Transform center;
-    [SerializeField] private ClickableArea rotateArea;
+    [FormerlySerializedAs("rotateArea")] [SerializeField] private Clickable rotate;
     [SerializeField] private Slider rotateSlider;
     [SerializeField] private float sliderGainRate;
     [SerializeField] private float changeDirectionThreshold;
@@ -62,23 +63,23 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
 
     private void OnEnable()
     {
-        rotateArea.OnDownEvent += OnRotateAreaDown;
-        rotateArea.OnUpEvent += OnRotateAreaUp;
+        rotate.OnDownEvent += OnRotateDown;
+        rotate.OnUpEvent += OnRotateUp;
     }
 
     private void OnDisable()
     {
-        rotateArea.OnDownEvent -= OnRotateAreaDown;
-        rotateArea.OnUpEvent -= OnRotateAreaUp;
+        rotate.OnDownEvent -= OnRotateDown;
+        rotate.OnUpEvent -= OnRotateUp;
     }
 
-    private void OnRotateAreaDown()
+    private void OnRotateDown()
     {
         if (!isRotatePhase) return;
         mouseDown = true;
     }
 
-    private void OnRotateAreaUp()
+    private void OnRotateUp()
     {
         if (!isRotatePhase) return;
         mouseDown = false;

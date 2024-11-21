@@ -79,7 +79,7 @@ public class IngredientUI : MonoBehaviour
             if (hover == owner) continue;
             if (hover.TryGetComponent(out IIngredientContainer container))
             {
-                if (container is IngredientRackUI or IngredientSlotUI && ingredient.CookState is not CookStates.Raw)
+                if (container is IngredientRacksUI or IngredientSlotUI && ingredient.CookState is not CookStates.Raw)
                     return false;
                 return container.SetIngredient(ingredient);
             }

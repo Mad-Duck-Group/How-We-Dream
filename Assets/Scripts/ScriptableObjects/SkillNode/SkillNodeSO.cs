@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using SerializeReferenceEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SkillNode", menuName = "ScriptableObjects/SkillNode")]
@@ -11,6 +12,9 @@ public class SkillNodeSO : ScriptableObject
     [SerializeField] private List<SkillNodeSO> nextNodes;
     public List<SkillNodeSO> NextNodes => nextNodes;
     [SerializeField] private bool unlocked;
+    
+    [SerializeReference, SR] private Skill skill;
+    public Skill Skill => skill;
     public bool Unlocked {get => unlocked; set => unlocked = value;}
     [SerializeField, ShowIf(nameof(unlocked))] private bool unlockByDefault;
     [SerializeField] private bool acquired;
@@ -40,6 +44,7 @@ public class SkillNodeSO : ScriptableObject
     {
         if (acquired) return;
         acquired = true;
+        skill.ApplySkill();
         nextNodes.ForEach(node => node.Unlock());
         OnSkillAcquired?.Invoke(this);
     }

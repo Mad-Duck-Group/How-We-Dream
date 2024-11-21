@@ -17,7 +17,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     [SerializeField] private CanvasGroup potWaterCanvasGroup;
     [SerializeField] private Slider potWaterSlider;
     [SerializeField] private RectTransform hitZone;
-    [SerializeField] private ClickableArea pourButton;
+    [SerializeField] private Clickable pourButton;
     [SerializeField] private bool randomHitZoneSize;
     [SerializeField, HideIf(nameof(randomHitZoneSize))] private float hitZoneSize;
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;

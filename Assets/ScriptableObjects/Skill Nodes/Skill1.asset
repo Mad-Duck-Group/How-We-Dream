@@ -16,5 +16,18 @@ MonoBehaviour:
   nextNodes:
   - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
   unlocked: 1
+  skill:
+    rid: 692313475518038020
   unlockByDefault: 1
   acquired: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 692313475518038020
+      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
+      data:
+        skillName: Money
+        description: MOOOOONEY
+        skillType: 0
+        skillCost: 1
+        currencyValue: 100

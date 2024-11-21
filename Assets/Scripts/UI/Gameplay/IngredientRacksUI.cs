@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class IngredientRackUI : MonoBehaviour, IIngredientContainer
+public class IngredientRacksUI : MonoBehaviour, IIngredientContainer
 {
     [SerializeField] private IngredientSlotUI ingredientSlotPrefab;
     private Dictionary<IngredientTypes, IngredientSlotUI> ingredientSlots = new();

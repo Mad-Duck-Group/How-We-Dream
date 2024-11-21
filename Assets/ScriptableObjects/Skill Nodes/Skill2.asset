@@ -17,6 +17,24 @@ MonoBehaviour:
   nextNodes:
   - {fileID: 11400000, guid: 25bd4c0884fbaa54887ecdd7e24055cf, type: 2}
   - {fileID: 11400000, guid: 0340187add22ee1418d0270bf2f7b82c, type: 2}
-  unlocked: 0
+  unlocked: 1
+  skill:
+    rid: 692313475709140992
   unlockByDefault: 0
   acquired: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 692313475709140992
+      type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
+      data:
+        skillName: Ingredient
+        description: Ingredient
+        skillType: 1
+        skillCost: 1
+        ingredientData:
+          _serializedList:
+          - Key: 0
+            Value: 5
+          - Key: 1
+            Value: 3

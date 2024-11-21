@@ -10,9 +10,10 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     [SerializeField] private List<LevelSO> levels;
     [SerializeField] private int currentLevelIndex;
     [SerializeField] private List<SkillNodeSO> skillNodes;
-    [SerializeField] private bool canUpgradeSkill;
+    [SerializeField] private int skillPoints;
     public LevelSO CurrentLevel => levels[currentLevelIndex];
-    public bool CanUpgradeSkill {get => canUpgradeSkill; set => canUpgradeSkill = value;}
+    public int SkillPoints { get => skillPoints; set => skillPoints = value; }
+
     public float Progress
     {
         get
