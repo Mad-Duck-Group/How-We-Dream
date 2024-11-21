@@ -19,16 +19,19 @@ public class Manual : MonoBehaviour
     private int manualIndex;
     
     [Header("Texts")]
-    [SerializeField] private TMP_Text nameTypeText;
+    [SerializeField] private TMP_Text nameTypeTextPage1;
+    [SerializeField] private TMP_Text nameTypeTextPage2;
     [SerializeField] private TMP_Text descriptionText;
     
-    private DreamTypes currentDream;
+    private DreamTypes currentDream1;
+    private DreamTypes currentDream2;
     private DreamTypes[] dreams = (DreamTypes[])System.Enum.GetValues(typeof(DreamTypes)); 
     private int dreamManualIndex = System.Enum.GetValues(typeof(DreamTypes)).Length;
     [SerializeField] private DreamSO[] dreamSO;
     [SerializeField] private CookStates requiredCookState;
     
-    [SerializeField] private TMP_Text[] ingredientTexts;
+    [SerializeField] private TMP_Text[] ingredientTextsPage1;
+    [SerializeField] private TMP_Text[] ingredientTextsPage2;
 
 
     private void OnEnable()
@@ -65,7 +68,7 @@ public class Manual : MonoBehaviour
     
     private void OnNextPageButtonClick()
     {
-        manualIndex++;
+        manualIndex += 2;
         if (manualIndex >= dreamManualIndex)
         {
             manualIndex = 0;
@@ -78,7 +81,7 @@ public class Manual : MonoBehaviour
     
     private void OnPreviousPageButtonClick()
     {
-        manualIndex--;
+        manualIndex -= 2;
         if (manualIndex < 0)
         {
             manualIndex = dreamManualIndex - 1;
@@ -91,10 +94,11 @@ public class Manual : MonoBehaviour
     
     private void UpdateManualPage()
     {
-        currentDream = dreams[manualIndex];
-        nameTypeText.text = currentDream.ToString();
+        currentDream1 = dreams[manualIndex];
+        currentDream2 = dreams[manualIndex + 1];
+        nameTypeTextPage1.text = currentDream1.ToString();
+        nameTypeTextPage2.text = currentDream2.ToString();
         descriptionText.text = requiredCookState.ToString();
         //manualImage.sprite = currentDream.GetSprite();
-    }
-    
+    }    
 }
