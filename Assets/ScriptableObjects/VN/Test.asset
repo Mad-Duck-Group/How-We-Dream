@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textAsset: {fileID: 4900000, guid: 7f218ba3cfb249b49a1441f5e9e1808f, type: 3}
   background: {fileID: 0}
+  repeatable: 0
+  played: 0

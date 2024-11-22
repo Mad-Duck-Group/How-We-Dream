@@ -266,7 +266,13 @@ public class VNManager : PersistentMonoSingleton<VNManager>
 
     public void ShowVN(VNPathSO vnPathSO)
     {
-        if (panelFadeTween.IsActive()) return;
+        if (vnPathSO.Played && !vnPathSO.Repeatable)
+        {
+            currentVNPath = vnPathSO;
+            CloseVN();
+            return;
+        }
+        if (panelFadeTween.IsActive()) panelFadeTween.Kill(true); 
         OnFailToLoadDialogueFile += () => Debug.LogError("Failed to load dialogue file");
         OnSuccessToLoadDialogueFile += OnSuccess;
         StartCoroutine(LoadDialogueFile(vnPathSO));
@@ -360,6 +366,7 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         background.sprite = null;
         background.color = originalBackgroundColor;
         graphicRaycasters.Clear();
+        currentVNPath.Played = true;
         OnVNFinished?.Invoke(currentVNPath);
     }
 }

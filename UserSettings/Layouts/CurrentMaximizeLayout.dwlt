@@ -93,7 +93,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -796,7 +796,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 11283
+  controlID: 14189
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -816,8 +816,8 @@ MonoBehaviour:
     y: 0
     width: 598
     height: 459
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -859,10 +859,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 111}
-      m_SelectedIDs: 8eb6ffff
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 2e7c0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 16b9ffff22b9ffff90edfffff4eeffff90f2ffff1afbfffff4ffffff828f0000d28f000052910000
+      m_ExpandedIDs: 16b9ffff90edfffff4eeffff90f2ffff1afbfffff4ffffff828f0000d28f0000529100007e910000c8910000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -896,7 +896,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -905,14 +905,14 @@ MonoBehaviour:
     y: 459
     width: 598
     height: 480
-  m_MinSize: {x: 232, y: 271}
-  m_MaxSize: {x: 10002, y: 10021}
-  m_ActualView: {fileID: 12}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 12}
   - {fileID: 13}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -958,7 +958,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ScriptableObjects/VN
+    - Assets/ScriptableObjects/Levels
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -966,15 +966,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/ScriptableObjects/VN
+  - Assets/ScriptableObjects/Levels
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\thesi\OneDrive\Desktop\How We Dream
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 321}
-    m_SelectedIDs: 8cb50000
-    m_LastClickedID: 46476
+    scrollPos: {x: 0, y: 225}
+    m_SelectedIDs: 1c870000
+    m_LastClickedID: 34588
     m_ExpandedIDs: 00000000be860000c0860000c2860000c4860000c6860000c8860000ca860000cc860000ce86000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1028,9 +1028,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 8eb6ffff
-    m_LastClickedInstanceID: -18802
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 2e7c0000
+    m_LastClickedInstanceID: 31790
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 3e7f00006e780300c2210200ac780300cc7a030012df0300dcff030000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

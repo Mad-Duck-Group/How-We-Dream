@@ -46,8 +46,13 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField, ReadOnly] private SummaryData summaryData;
     public SummaryData SummaryData => summaryData;
     
+    
+    public delegate void LevelStart();
+    public static event LevelStart OnLevelStart;
     public delegate void LevelComplete();
     public static event LevelComplete OnLevelComplete;
+    private IEnumerator<VNPathSO> currentVN;
+    private bool gameStart;
     private bool gameEnd;
     private Moroutine gameTimer;
     private bool passQuota;
@@ -64,6 +69,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             else summaryData.TotalFailedOrder++;
         };
         IngredientSO.OnIngredientUsed += OnIngredientUsed;
+        VNManager.OnVNFinished += OnVNFinished;
     }
 
     private void OnDisable()
@@ -71,6 +77,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         InventoryManager.OnCurrencyChanged -= OnCurrencyChange;
         OrderRackUI.OnOutOfRecipe -= GameEnd;
         IngredientSO.OnIngredientUsed -= OnIngredientUsed;
+        VNManager.OnVNFinished -= OnVNFinished;
     }
 
     private void OnCurrencyChange(int change, int currency)
@@ -91,6 +98,38 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
     
+    private void OnVNFinished(VNPathSO vnPath)
+    {
+        if (currentVN.Current != vnPath) return;
+        bool canMoveNext = currentVN.MoveNext();
+        switch (gameStart)
+        {
+            case false when !canMoveNext:
+                StartTimer();
+                break;
+            case false:
+                VNManager.Instance.ShowVN(currentVN.Current);
+                break;
+        }
+        switch (gameEnd)
+        {
+            case true when !canMoveNext:
+                ShowEndPanel();
+                break;
+            case true:
+                VNManager.Instance.ShowVN(currentVN.Current);
+                break;
+        }
+    }
+
+    private void StartTimer()
+    {
+        gameTimer = Moroutine.Run(gameObject, GameTimer());
+        gameTimer.OnCompleted(_ => GameEnd());
+        gameStart = true;
+        OnLevelStart?.Invoke();
+    }
+    
     private void CheckQuota()
     {
         if (gameEnd) return;
@@ -105,8 +144,16 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         level = Instantiate(ProgressionManager.Instance.CurrentLevel);
         summaryData = new SummaryData();
-        gameTimer = Moroutine.Run(gameObject, GameTimer());
-        gameTimer.OnCompleted(_ => GameEnd());
+        if (level.ShowVNAtStart)
+        {
+            currentVN = level.BeforeStartVN.GetEnumerator();
+            currentVN.MoveNext();
+            VNManager.Instance.ShowVN(currentVN.Current);
+        }
+        else
+        {
+            StartTimer();
+        }
     }
 
     private IEnumerator GameTimer()
@@ -126,6 +173,20 @@ public class LevelManager : MonoSingleton<LevelManager>
         gameEnd = true;
         gameTimer.Stop();
         OnLevelComplete?.Invoke();
+        if (level.ShowVNWhenFail || level.ShowVNWhenSuccess)
+        {
+            currentVN = passQuota ? level.SuccessVN.GetEnumerator() : level.FailVN.GetEnumerator();
+            currentVN.MoveNext();
+            VNManager.Instance.ShowVN(currentVN.Current);
+        }
+        else
+        {
+            ShowEndPanel();
+        }
+    }
+
+    private void ShowEndPanel()
+    {
         UIPageManager.Instance.ChangePage(PageTypes.Summary);
     }
 }

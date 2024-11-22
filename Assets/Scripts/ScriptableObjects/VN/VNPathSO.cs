@@ -11,9 +11,13 @@ public class VNPathSO : ScriptableObject
 {
 	[SerializeField] private TextAsset textAsset;
 	[SerializeField][ShowAssetPreview] private Sprite background;
-		
+	[SerializeField] private bool repeatable;
+	[SerializeField, HideIf(nameof(repeatable))] private bool played;
+
 	public string TextAsset => textAsset.text;
 	public Sprite Background => background;
+	public bool Repeatable => repeatable;
+	public bool Played {get => played; set => played = value;}
 
 	[Button("Test Show")]
 	private void TestShow()

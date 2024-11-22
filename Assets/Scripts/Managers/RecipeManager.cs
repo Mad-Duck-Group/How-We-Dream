@@ -28,9 +28,13 @@ public class RecipeManager : MonoSingleton<RecipeManager>
     public static event RecipeComplete OnRecipeComplete;
     private LevelSO level;
 
-    private void Start()
+    private void OnEnable()
     {
-        Initialize();
+        LevelManager.OnLevelStart += Initialize;
+    }
+    private void OnDisable()
+    {
+        LevelManager.OnLevelStart -= Initialize;
     }
     private void Initialize()
     {

@@ -26,3 +26,11 @@ MonoBehaviour:
   quota: 10
   boogeyManQuota: 15
   endless: 0
+  showVNAtStart: 0
+  beforeStartVN:
+  - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}
+  showVNWhenSuccess: 0
+  successVN: []
+  showVNWhenFail: 1
+  failVN:
+  - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}

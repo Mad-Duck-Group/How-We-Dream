@@ -17,13 +17,15 @@ public class OrderRackUI : MonoBehaviour
     private void OnEnable()
     {
         OrderUI.OnOrderDestroy += OnOrderDestroy;
+        LevelManager.OnLevelStart += OnLevelStart;
     }
     
     private void OnDisable()
     {
         OrderUI.OnOrderDestroy -= OnOrderDestroy;
+        LevelManager.OnLevelStart -= OnLevelStart;
     }
-    private void Start()
+    private void OnLevelStart()
     {
         PopulateRack();
     }
