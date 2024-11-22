@@ -11,6 +11,7 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     [SerializeField] private int currentLevelIndex;
     [SerializeField] private List<SkillNodeSO> skillNodes;
     [SerializeField] private int skillPoints;
+    [SerializeField] private List<VNPathSO> vnPaths;
     public LevelSO CurrentLevel => levels[currentLevelIndex];
     public int SkillPoints { get => skillPoints; set => skillPoints = value; }
 
@@ -40,5 +41,11 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     private void ResetSkill()
     {
         skillNodes.ForEach(node => node.Reset());
+    }
+    
+    [Button("Reset VN")]
+    private void ResetVN()
+    {
+        vnPaths.ForEach(path => path.Reset());
     }
 }

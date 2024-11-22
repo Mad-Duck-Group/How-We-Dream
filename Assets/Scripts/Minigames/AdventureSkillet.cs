@@ -46,18 +46,10 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     private Moroutine rotateMinigameCoroutine;
     private Moroutine flipMinigameCoroutine;
 
-    private class FlipData
+    private record FlipData(Vector2 HitZoneRange, bool IsLeft)
     {
-        private Vector2 hitZoneRange;
-        public Vector2 HitZoneRange => hitZoneRange;
-        private bool isLeft;
-        public bool IsLeft => isLeft;
-        
-        public FlipData(Vector2 hitZoneRange, bool isLeft)
-        {
-            this.hitZoneRange = hitZoneRange;
-            this.isLeft = isLeft;
-        }
+        public Vector2 HitZoneRange { get; } = HitZoneRange;
+        public bool IsLeft { get; } = IsLeft;
     }
     private Dictionary<Image, FlipData> flipPositionDict = new();
 

@@ -25,4 +25,9 @@ public class VNPathSO : ScriptableObject
 		if (!Application.isPlaying) return;
 		VNManager.Instance.ShowVN(this);
 	}
+
+	public void Reset()
+	{
+		played = false;
+	}
 }

@@ -53,4 +53,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
   - {fileID: 11400000, guid: 25bd4c0884fbaa54887ecdd7e24055cf, type: 2}
   - {fileID: 11400000, guid: 0340187add22ee1418d0270bf2f7b82c, type: 2}
-  canUpgradeSkill: 0
+  skillPoints: 0
+  vnPaths:
+  - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}
