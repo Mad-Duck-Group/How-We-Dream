@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ImagePageSet : MonoBehaviour
 {
     [SerializeField] private Sprite[] images;
+    public Sprite[] Images { get => images; set => images = value; }
     [SerializeField] private Image imagePage1;
     [SerializeField] private Image imagePage2;
     private Sprite currentImage1;
@@ -13,6 +14,7 @@ public class ImagePageSet : MonoBehaviour
     
     private int imageIndex;
     public int ImageIndex { get => imageIndex; set => imageIndex = value; }
+    public int ImageManualIndex => images.Length;
     
     public void UpdateImageManualPage()
     {

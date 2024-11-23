@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,6 +30,16 @@ public class Manual : MonoBehaviour
     private int topicIndex;
     
     [SerializeField] private ImagePageSet imagePage;
+    [SerializeField] private ImagePageSet imagePage2;
+    private int imageManualIndex;
+    private int imageManualIndex2;
+
+    private void Awake() 
+    {
+        imageManualIndex = imagePage.ImageManualIndex;
+        imageManualIndex2 = imagePage2.ImageManualIndex;
+    }
+    
     
     
     [Header("Texts")]
@@ -46,6 +57,14 @@ public class Manual : MonoBehaviour
     [SerializeField] private TMP_Text[] ingredientTextsPage1;
     [SerializeField] private TMP_Text[] ingredientTextsPage2;
 
+    private void Update()
+    {
+        imagePage.UpdateImageManualPage();
+        imagePage2.UpdateImageManualPage();
+        
+        Debug.Log("ImageIndex2 " + imagePage2.ImageIndex);
+        Debug.Log("ImageIndex " + imagePage.ImageIndex);
+    }
 
     private void OnEnable()
     {
@@ -79,6 +98,7 @@ public class Manual : MonoBehaviour
         //Update
         UpdateManualPage();
         imagePage.UpdateImageManualPage();
+        imagePage2.UpdateImageManualPage();
     }
     
     private void OnCloseManualButtonClick()
@@ -89,8 +109,22 @@ public class Manual : MonoBehaviour
     
     private void OnNextPageButtonClick()
     {
+        if (!manualTopicSet1.activeSelf)
+            return;
         imagePage.ImageIndex += 2;
-        Debug.Log("ImageIndex" + imagePage.ImageIndex);
+        if (imagePage.ImageIndex >= imageManualIndex)
+        {
+            imagePage.ImageIndex = 0;
+        }
+        
+        if (!manualTopicSet2.activeSelf)
+            return;
+        imagePage2.ImageIndex += 2;
+        if (imagePage2.ImageIndex >= imageManualIndex2)
+        {
+            imagePage2.ImageIndex = 0;
+        }
+        
         
         if (!manualTopicSet3.activeSelf)
             return;
@@ -103,16 +137,32 @@ public class Manual : MonoBehaviour
         //Update
         UpdateManualPage();
         imagePage.UpdateImageManualPage();
+        imagePage2.UpdateImageManualPage();
         
         //Debug
         Debug.Log(dreams[manualIndex]);
         Debug.Log(manualIndex);
+        Debug.Log("ImageIndex2 " + imagePage2.ImageIndex);
+        Debug.Log("ImageIndex " + imagePage.ImageIndex);
     }
     
     private void OnPreviousPageButtonClick()
     {
+        if (!manualTopicSet1.activeSelf)
+            return;
         imagePage.ImageIndex -= 2;
-        Debug.Log("ImageIndex" + imagePage.ImageIndex);
+        if (imagePage.ImageIndex < 0)
+        {
+            imagePage.ImageIndex = imageManualIndex - 1;
+        }
+        
+        if (!manualTopicSet2.activeSelf)
+            return;
+        imagePage2.ImageIndex -= 2;
+        if (imagePage2.ImageIndex < 0)
+        {
+            imagePage2.ImageIndex = imageManualIndex2 - 1;
+        }
         
         if (!manualTopicSet3.activeSelf)
             return;
@@ -125,6 +175,7 @@ public class Manual : MonoBehaviour
         //Update
         UpdateManualPage();
         imagePage.UpdateImageManualPage();
+        imagePage2.UpdateImageManualPage();
         
         //Debug
         Debug.Log(dreams[manualIndex]);
