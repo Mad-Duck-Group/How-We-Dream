@@ -12,16 +12,33 @@ public class ImagePageSet : MonoBehaviour
     private Sprite currentImage1;
     private Sprite currentImage2;
     
-    private int imageIndex;
-    public int ImageIndex { get => imageIndex; set => imageIndex = value; }
-    public int ImageManualIndex => images.Length;
+    private int _imageIndex;
+    public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
     
     public void UpdateImageManualPage()
     {
-        currentImage1 = images[imageIndex];
-        currentImage2 = images[imageIndex + 1];
+        currentImage1 = images[_imageIndex];
+        currentImage2 = images[_imageIndex + 1];
         
         imagePage1.sprite = currentImage1;
         imagePage2.sprite = currentImage2;
+    }
+    
+    public void NextImage()
+    {
+        if (_imageIndex < images.Length - 2)
+        {
+            _imageIndex += 2;
+            UpdateImageManualPage();
+        }
+    }
+    
+    public void PreviousImage()
+    {
+        if (_imageIndex > 0)
+        {
+            _imageIndex -= 2;
+            UpdateImageManualPage();
+        }
     }
 }

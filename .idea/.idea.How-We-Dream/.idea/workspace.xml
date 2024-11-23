@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.How-We-Dream/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.How-We-Dream/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SoonScript/ImagePageSet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SoonScript/ImagePageSet.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SoonScript/Manual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SoonScript/Manual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +94,7 @@
       <workItem from="1731994329659" duration="14916000" />
       <workItem from="1732178580738" duration="1382000" />
       <workItem from="1732255719100" duration="7522000" />
-      <workItem from="1732340004852" duration="6497000" />
+      <workItem from="1732340004852" duration="14699000" />
     </task>
     <servers />
   </component>

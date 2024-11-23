@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Manual : MonoBehaviour
 {
-    [Header("Buttons")]
+    [Header("ClickableArea Buttons")]
     [SerializeField] private ClickableArea manualButton;
     [SerializeField] private ClickableArea closeManualButton;
     [SerializeField] private ClickableArea nextPageButton;
@@ -17,53 +17,48 @@ public class Manual : MonoBehaviour
     [SerializeField] private ClickableArea topic2Button;
     [SerializeField] private ClickableArea topic3Button;
     
-    [FormerlySerializedAs("manualImage")] [SerializeField] private Image manualPanel;
-    private int manualIndex;
+    [SerializeField] private Image manualPanel;
+    
+    // GameObjects for manual topic sets
+    [Header("Manual Topic Sets")]
     [SerializeField] private GameObject manualTopicSet1;
     [SerializeField] private GameObject manualTopicSet2;
     [SerializeField] private GameObject manualTopicSet3;
     
-    [Header("Images")]
+    [Header("Next and Previous Buttons Images")]
+    [SerializeField] private Image nextPageImage;
+    [SerializeField] private Image previousPageImage;
+    
+    // Images for topics
+    [Header("Topic Images")]
     [SerializeField] private Image topicImage1;
     [SerializeField] private Image topicImage2;
     [SerializeField] private Image topicImage3;
     private int topicIndex;
     
+    // Images on manual
+    [Header("Images Manual")]
     [SerializeField] private ImagePageSet imagePage;
     [SerializeField] private ImagePageSet imagePage2;
-    private int imageManualIndex;
-    private int imageManualIndex2;
+    private int _imageIndex;
+    private int _imageIndex2;
+    
+    // Texts on manual
+    [Header("Texts Manual")]
+    [SerializeField] private TextPageSet textPage;
+    private int _textIndex;
+    
+    [Header("Colors")]
+    [SerializeField] private Color topicShaderColor;
 
-    private void Awake() 
+    private void Awake()
     {
-        imageManualIndex = imagePage.ImageManualIndex;
-        imageManualIndex2 = imagePage2.ImageManualIndex;
-    }
-    
-    
-    
-    [Header("Texts")]
-    [SerializeField] private TMP_Text nameTypeTextPage1;
-    [SerializeField] private TMP_Text nameTypeTextPage2;
-    [SerializeField] private TMP_Text descriptionText;
-    
-    private DreamTypes currentDream1;
-    private DreamTypes currentDream2;
-    private DreamTypes[] dreams = (DreamTypes[])System.Enum.GetValues(typeof(DreamTypes)); 
-    private int dreamManualIndex = System.Enum.GetValues(typeof(DreamTypes)).Length;
-    [SerializeField] private DreamSO[] dreamSO;
-    [SerializeField] private CookStates requiredCookState;
-    
-    [SerializeField] private TMP_Text[] ingredientTextsPage1;
-    [SerializeField] private TMP_Text[] ingredientTextsPage2;
-
-    private void Update()
-    {
-        imagePage.UpdateImageManualPage();
-        imagePage2.UpdateImageManualPage();
+        // Image index
+        _imageIndex = imagePage.ImageIndex;
+        _imageIndex2 = imagePage2.ImageIndex;
         
-        Debug.Log("ImageIndex2 " + imagePage2.ImageIndex);
-        Debug.Log("ImageIndex " + imagePage.ImageIndex);
+        // Text index
+        _textIndex = textPage.TextIndex;
     }
 
     private void OnEnable()
@@ -92,11 +87,9 @@ public class Manual : MonoBehaviour
     {
         Debug.Log("Manual button clicked!");
         manualPanel.gameObject.SetActive(true);
-        manualIndex = 0;
-        
         
         //Update
-        UpdateManualPage();
+        textPage.UpdateManualPage();
         imagePage.UpdateImageManualPage();
         imagePage2.UpdateImageManualPage();
     }
@@ -109,77 +102,46 @@ public class Manual : MonoBehaviour
     
     private void OnNextPageButtonClick()
     {
-        if (!manualTopicSet1.activeSelf)
-            return;
-        imagePage.ImageIndex += 2;
-        if (imagePage.ImageIndex >= imageManualIndex)
+        if (manualTopicSet1.activeSelf)
         {
-            imagePage.ImageIndex = 0;
+            imagePage.NextImage();
+            imagePage.UpdateImageManualPage();
         }
-        
-        if (!manualTopicSet2.activeSelf)
-            return;
-        imagePage2.ImageIndex += 2;
-        if (imagePage2.ImageIndex >= imageManualIndex2)
+
+        if (manualTopicSet2.activeSelf)
         {
-            imagePage2.ImageIndex = 0;
+            imagePage2.NextImage();
+            imagePage2.UpdateImageManualPage();
         }
-        
-        
+
         if (!manualTopicSet3.activeSelf)
             return;
-        manualIndex += 2;
-        if (manualIndex >= dreamManualIndex)
-        {
-            manualIndex = 0;
-        }
+        textPage.NextPage();
+        textPage.UpdateManualPage();
         
-        //Update
-        UpdateManualPage();
-        imagePage.UpdateImageManualPage();
-        imagePage2.UpdateImageManualPage();
         
-        //Debug
-        Debug.Log(dreams[manualIndex]);
-        Debug.Log(manualIndex);
-        Debug.Log("ImageIndex2 " + imagePage2.ImageIndex);
-        Debug.Log("ImageIndex " + imagePage.ImageIndex);
     }
     
     private void OnPreviousPageButtonClick()
     {
-        if (!manualTopicSet1.activeSelf)
-            return;
-        imagePage.ImageIndex -= 2;
-        if (imagePage.ImageIndex < 0)
+        if (manualTopicSet1.activeSelf)
         {
-            imagePage.ImageIndex = imageManualIndex - 1;
+            imagePage.PreviousImage();
+            imagePage.UpdateImageManualPage();
         }
         
-        if (!manualTopicSet2.activeSelf)
-            return;
-        imagePage2.ImageIndex -= 2;
-        if (imagePage2.ImageIndex < 0)
+        if (manualTopicSet2.activeSelf)
         {
-            imagePage2.ImageIndex = imageManualIndex2 - 1;
+            imagePage2.PreviousImage();
+            imagePage2.UpdateImageManualPage();
         }
         
         if (!manualTopicSet3.activeSelf)
             return;
-        manualIndex -= 2;
-        if (manualIndex < 0)
-        {
-            manualIndex = dreamManualIndex - 1;
-        }
+        textPage.PreviousPage();
+        textPage.UpdateManualPage();
         
-        //Update
-        UpdateManualPage();
-        imagePage.UpdateImageManualPage();
-        imagePage2.UpdateImageManualPage();
         
-        //Debug
-        Debug.Log(dreams[manualIndex]);
-        Debug.Log(manualIndex);
     }
     
     private void Topic1()
@@ -200,43 +162,43 @@ public class Manual : MonoBehaviour
         UpdateTopicPage();
     }
     
-    // Set Topic image color here!!!
+    // Color Topic have problem, It should be white when it's active
     private void UpdateTopicPage()
     {
         switch (topicIndex)
         {
             case 1 :
+                topicImage1.color = Color.white;
                 manualTopicSet1.SetActive(true);
+                
+                topicImage2.color = topicShaderColor;
                 manualTopicSet2.SetActive(false);
+                
+                topicImage3.color = topicShaderColor;
                 manualTopicSet3.SetActive(false);
                 break;
+            
             case 2 :
+                topicImage1.color = topicShaderColor;
                 manualTopicSet1.SetActive(false);
+                
+                topicImage2.color = Color.white;
                 manualTopicSet2.SetActive(true);
+                
+                topicImage3.color = topicShaderColor;
                 manualTopicSet3.SetActive(false);
                 break;
+            
             case 3 :
+                topicImage1.color = topicShaderColor;
                 manualTopicSet1.SetActive(false);
+                
+                topicImage2.color = topicShaderColor;
                 manualTopicSet2.SetActive(false);
+                
+                topicImage3.color = Color.white;
                 manualTopicSet3.SetActive(true);
                 break;
         }
-    }
-    
-    private void UpdateManualPage()
-    {
-        currentDream1 = dreams[manualIndex];
-        currentDream2 = dreams[manualIndex + 1];
-        nameTypeTextPage1.text = currentDream1.ToString();
-        nameTypeTextPage2.text = currentDream2.ToString();
-        descriptionText.text = requiredCookState.ToString();
-        //manualImage.sprite = currentDream.GetSprite();
-    }
-    
-    private void MafiaMethod()
-    {
-        DreamSO test = RecipeManager.Instance.dreamData[DreamTypes.Lucid]; //ส่ง type เข้าไป
-        CookStates test2 = test.IngredientData[IngredientTypes.Truth]; //ส่ง type เข้าไป
-        
     }
 }
