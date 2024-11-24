@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class Manual : MonoBehaviour
 {
+    public static Manual Instance;
+    
     [Header("ClickableArea Buttons")]
     [SerializeField] private ClickableArea manualButton;
     [SerializeField] private ClickableArea closeManualButton;
@@ -28,6 +30,8 @@ public class Manual : MonoBehaviour
     [Header("Next and Previous Buttons Images")]
     [SerializeField] private Image nextPageImage;
     [SerializeField] private Image previousPageImage;
+    public Image NextPageImage => nextPageImage;
+    public Image PreviousPageImage => previousPageImage;
     
     // Images for topics
     [Header("Topic Images")]
@@ -42,23 +46,27 @@ public class Manual : MonoBehaviour
     [SerializeField] private ImagePageSet imagePage2;
     private int _imageIndex;
     private int _imageIndex2;
+    private int maxImageIndex;
+    private int maxImageIndex2;
     
     // Texts on manual
     [Header("Texts Manual")]
     [SerializeField] private TextPageSet textPage;
     private int _textIndex;
+    private int maxTextIndex;
     
     [Header("Colors")]
     [SerializeField] private Color topicShaderColor;
+    public Color TopicShaderColor => topicShaderColor;
 
     private void Awake()
     {
-        // Image index
-        _imageIndex = imagePage.ImageIndex;
-        _imageIndex2 = imagePage2.ImageIndex;
+        Instance = this;
         
-        // Text index
-        _textIndex = textPage.TextIndex;
+        maxImageIndex = imagePage.Images.Length;
+        maxImageIndex2 = imagePage2.Images.Length;
+        
+        maxTextIndex = textPage.Dreams.Length;
     }
 
     private void OnEnable()
@@ -89,9 +97,10 @@ public class Manual : MonoBehaviour
         manualPanel.gameObject.SetActive(true);
         
         //Update
-        textPage.UpdateManualPage();
+        UpdateTopicPage();
         imagePage.UpdateImageManualPage();
         imagePage2.UpdateImageManualPage();
+        textPage.UpdateManualPage();
     }
     
     private void OnCloseManualButtonClick()
@@ -100,48 +109,55 @@ public class Manual : MonoBehaviour
         manualPanel.gameObject.SetActive(false);
     }
     
+    // Set the next page button
     private void OnNextPageButtonClick()
     {
         if (manualTopicSet1.activeSelf)
         {
             imagePage.NextImage();
             imagePage.UpdateImageManualPage();
+            _imageIndex = imagePage.ImageIndex;
         }
 
         if (manualTopicSet2.activeSelf)
         {
             imagePage2.NextImage();
             imagePage2.UpdateImageManualPage();
+            _imageIndex2 = imagePage2.ImageIndex;
         }
 
-        if (!manualTopicSet3.activeSelf)
-            return;
-        textPage.NextPage();
-        textPage.UpdateManualPage();
-        
-        
+        if (manualTopicSet3.activeSelf)
+        {
+            textPage.NextPage();
+            textPage.UpdateManualPage();
+            _textIndex = textPage.TextIndex;
+        }
     }
     
+    // Set the previous page button
     private void OnPreviousPageButtonClick()
     {
         if (manualTopicSet1.activeSelf)
         {
             imagePage.PreviousImage();
             imagePage.UpdateImageManualPage();
+            _imageIndex = imagePage.ImageIndex;
         }
-        
+
         if (manualTopicSet2.activeSelf)
         {
             imagePage2.PreviousImage();
             imagePage2.UpdateImageManualPage();
+            _imageIndex2 = imagePage2.ImageIndex;
         }
-        
-        if (!manualTopicSet3.activeSelf)
-            return;
-        textPage.PreviousPage();
-        textPage.UpdateManualPage();
-        
-        
+
+        if (manualTopicSet3.activeSelf)
+        {
+            textPage.PreviousPage();
+            textPage.UpdateManualPage();
+            _textIndex = textPage.TextIndex;
+        }
+
     }
     
     private void Topic1()
@@ -162,7 +178,6 @@ public class Manual : MonoBehaviour
         UpdateTopicPage();
     }
     
-    // Color Topic have problem, It should be white when it's active
     private void UpdateTopicPage()
     {
         switch (topicIndex)
@@ -200,5 +215,15 @@ public class Manual : MonoBehaviour
                 manualTopicSet3.SetActive(true);
                 break;
         }
+        imagePage.UpdateImageManualPage();
+        imagePage2.UpdateImageManualPage();
+        textPage.UpdateManualPage();
+    }
+    
+    void Update()
+    {
+        Debug.Log("Image Index: " + _imageIndex);
+        Debug.Log("Image Index 2: " + _imageIndex2);
+        Debug.Log("Text Index: " + _textIndex);
     }
 }

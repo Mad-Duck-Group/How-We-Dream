@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,18 @@ public class ImagePageSet : MonoBehaviour
     private int _imageIndex;
     public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
     
+    private Image nextPageImage;
+    private Image previousPageImage;
+    
+    private Color topicShaderColor;
+
+    private void Awake()
+    {
+        nextPageImage = Manual.Instance.NextPageImage;
+        previousPageImage = Manual.Instance.PreviousPageImage;
+        topicShaderColor = Manual.Instance.TopicShaderColor;
+    }
+
     public void UpdateImageManualPage()
     {
         currentImage1 = images[_imageIndex];
@@ -22,6 +35,17 @@ public class ImagePageSet : MonoBehaviour
         
         imagePage1.sprite = currentImage1;
         imagePage2.sprite = currentImage2;
+        
+        if (_imageIndex >= images.Length - 2)
+        {
+            nextPageImage.color = topicShaderColor;
+            previousPageImage.color = Color.white;
+        }
+        else if (_imageIndex <= 0)
+        {
+            nextPageImage.color = Color.white;
+            previousPageImage.color = topicShaderColor;
+        }
     }
     
     public void NextImage()

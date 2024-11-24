@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TextPageSet : MonoBehaviour
 {
@@ -16,13 +18,29 @@ public class TextPageSet : MonoBehaviour
     private DreamTypes currentDream1;
     private DreamTypes currentDream2;
     private DreamTypes[] dreams = (DreamTypes[])System.Enum.GetValues(typeof(DreamTypes)); 
+    public DreamTypes[] Dreams => dreams;
+    
     private int dreamManualIndex = System.Enum.GetValues(typeof(DreamTypes)).Length;
+    public int DreamManualIndex => dreamManualIndex;
+    
     private DreamSO[] dreamSO;
     [SerializeField] private CookStates requiredCookState;
     
     [Header("Ingredients")] 
     [SerializeField] private TMP_Text[] ingredientTextsPage1;
     [SerializeField] private TMP_Text[] ingredientTextsPage2;
+
+    private Image nextPageImage;
+    private Image previousPageImage;
+    
+    private Color topicShaderColor;
+    
+    void Awake()
+    {
+        nextPageImage = Manual.Instance.NextPageImage;
+        previousPageImage = Manual.Instance.PreviousPageImage;
+        topicShaderColor = Manual.Instance.TopicShaderColor;
+    }
     
     public void UpdateManualPage()
     {
@@ -32,6 +50,17 @@ public class TextPageSet : MonoBehaviour
         nameTypeTextPage2.text = currentDream2.ToString();
         descriptionText.text = requiredCookState.ToString();
         //manualImage.sprite = currentDream.GetSprite();
+        
+        if (_textIndex >= dreamManualIndex - 2)
+        {
+            nextPageImage.color = topicShaderColor;
+            previousPageImage.color = Color.white;
+        }
+        else if (_textIndex <= 0)
+        {
+            nextPageImage.color = Color.white;
+            previousPageImage.color = topicShaderColor;
+        }
     }
     
     public void NextPage()
