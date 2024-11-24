@@ -13,6 +13,7 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     [SerializeField] private int skillPoints;
     [SerializeField] private List<VNPathSO> vnPaths;
     public LevelSO CurrentLevel => levels[currentLevelIndex];
+    public int CurrentLevelIndex => currentLevelIndex;
     public int SkillPoints { get => skillPoints; set => skillPoints = value; }
 
     public float Progress
@@ -29,12 +30,12 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
         currentLevelIndex++;
         currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
         if (currentLevelIndex >= levels.Count) currentLevelIndex = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Single, false);
     }
     
     public void ReplayLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Single, false);
     }
 
     [Button("Reset Skill")]

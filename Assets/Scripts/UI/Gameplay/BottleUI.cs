@@ -48,6 +48,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
         ingredientUI.Initialize(ingredient, gameObject);
         ingredientUI.SetSizeAndPhysics(true, false, beadSize);
         ingredients.Push(new KeyValuePair<IngredientSO, IngredientUI>(ingredient, ingredientUI));
+        GlobalSoundManager.Instance.PlayUISFX("Jar");
         return true;
     }
     
@@ -70,6 +71,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
         ingredient = ingredients.Peek().Key;
         ingredientUI = ingredients.Peek().Value;
         ingredientUI.SetSizeAndPhysics(false, true);
+        ingredientUI.BeingDrag();
     }
 
     public void OnDrag(PointerEventData eventData)

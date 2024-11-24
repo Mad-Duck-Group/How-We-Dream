@@ -23,14 +23,22 @@ public enum CharacterNames
 {
     Sandman,
     Boogeyman,
-    Trainer
+    Ether
 }
 
-public record Dialogue(CharacterNames Name, string Msg, CharacterPosition CharacterPosition)
+public enum BGMTypes
+{
+    None,
+    SandmanBGM,
+    BoogeymanBGM
+}
+
+public record Dialogue(CharacterNames Name, string Msg, CharacterPosition CharacterPosition, BGMTypes BGMType)
 {
     public CharacterNames Name { get; } = Name;
     public string Msg { get; } = Msg;
     public CharacterPosition CharacterPosition { get; } = CharacterPosition;
+    public BGMTypes BGMType { get; } = BGMType;
 }
 
 [Serializable]
@@ -99,6 +107,7 @@ public class VNManager : PersistentMonoSingleton<VNManager>
     private Tween chatBubbleTween;
     private Tween delayTween;
     private Sequence characterPortraitSequence;
+    private BGMTypes lastBGMType = BGMTypes.None;
     private float originalAlpha;
     private bool showingHistory;
     private bool sceneLoaded;
@@ -172,7 +181,10 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         chatBubbleTween = chatBubble.transform.DOScale(Vector3.one, 0.2f);
         HandleCharacterPortrait(dialogue);
         currentDialogueIndex++;
-        //GlobalSoundManager.Instance.PlayBubbleSFX();
+        if (dialogue.BGMType != BGMTypes.None)
+        {
+            GlobalSoundManager.Instance.PlayBGM(dialogue.BGMType.ToString(), duration: 0.5f);
+        }
         FadeBubble();
         yield return null;
     }
@@ -264,18 +276,19 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         }
     }
 
-    public void ShowVN(VNPathSO vnPathSO)
+    public bool ShowVN(VNPathSO vnPathSO)
     {
         if (vnPathSO.Played && !vnPathSO.Repeatable)
         {
             currentVNPath = vnPathSO;
             CloseVN();
-            return;
+            return false;
         }
         if (panelFadeTween.IsActive()) panelFadeTween.Kill(true); 
         OnFailToLoadDialogueFile += () => Debug.LogError("Failed to load dialogue file");
         OnSuccessToLoadDialogueFile += OnSuccess;
         StartCoroutine(LoadDialogueFile(vnPathSO));
+        return true;
     }
 
     private void OnSuccess()
@@ -334,8 +347,14 @@ public class VNManager : PersistentMonoSingleton<VNManager>
             var values = Regex.Split(line, pattern);
             values = values.Select(x => x.Trim('"')).ToArray();
             if (!Enum.TryParse(values[0], out CharacterNames characterName)) continue;
+            if (string.IsNullOrEmpty(values[1])) continue;
             if (!Enum.TryParse(values[2], out CharacterPosition characterPosition)) continue;
-            var dialogue = new Dialogue(characterName, values[1], characterPosition);
+            if (!Enum.TryParse(values[3], out BGMTypes bgmType))
+            {
+                bgmType = lastBGMType;
+                lastBGMType = bgmType;
+            }
+            var dialogue = new Dialogue(characterName, values[1], characterPosition, bgmType);
             dialogues.Add(dialogue);
             yield return null;
         }
@@ -359,7 +378,11 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         currentDialogueIndex = 0;
         firstChatAdded = false;
         Playing = false;
-        panelFadeTween = vnPanel.DOFade(0f, 0.2f).OnComplete(() => vnPanel.gameObject.SetActive(false));
+        panelFadeTween = vnPanel.DOFade(0f, 0.2f).OnComplete(() =>
+        {
+            vnPanel.gameObject.SetActive(false);
+            OnVNFinished?.Invoke(currentVNPath);
+        });
         foreach (var graphicRaycaster in graphicRaycasters)
             if (graphicRaycaster)
                 graphicRaycaster.enabled = true;
@@ -367,6 +390,5 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         background.color = originalBackgroundColor;
         graphicRaycasters.Clear();
         currentVNPath.Played = true;
-        OnVNFinished?.Invoke(currentVNPath);
     }
 }

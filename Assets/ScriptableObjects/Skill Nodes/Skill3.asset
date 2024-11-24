@@ -15,6 +15,19 @@ MonoBehaviour:
   prerequisites:
   - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
   nextNodes: []
-  unlocked: 0
+  unlocked: 1
+  skill:
+    rid: 692313544237514776
   unlockByDefault: 0
-  acquired: 0
+  acquired: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 692313544237514776
+      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
+      data:
+        skillName: Money
+        description: Money
+        skillType: 0
+        skillCost: 1
+        currencyValue: 10

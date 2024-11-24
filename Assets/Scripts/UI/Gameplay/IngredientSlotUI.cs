@@ -77,6 +77,7 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
         ingredientUI = Instantiate(ingredientUIPrefab);
         var ingredientInstance = Instantiate(ingredient);
         ingredientUI.Initialize(ingredientInstance, gameObject);
+        ingredientUI.BeingDrag();
     }
 
     public void OnDrag(PointerEventData eventData)

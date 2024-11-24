@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878b996d984b19146bcae57341ee69ed, type: 3}
+  m_Name: Audio
+  m_EditorClassIdentifier: 
+  audioData:
+    _serializedList:
+    - Key: BoogeymanBGM
+      Value: {fileID: 8300000, guid: 539e8b93a440d2a4db664251dc052450, type: 3}
+    - Key: SandmanBGM
+      Value: {fileID: 8300000, guid: 976c36efedb77c64b89e554ebc7609cc, type: 3}
+    - Key: SummaryBGM
+      Value: {fileID: 8300000, guid: be25e0f0da2a7a049b1361641b496a47, type: 3}
+    - Key: GameplayBGM
+      Value: {fileID: 8300000, guid: 07db30e9f3d302649abb951a0317707c, type: 3}
+    - Key: MainMenuBGM
+      Value: {fileID: 8300000, guid: 94a28fedc4ce35549a14a7dcff6dcd37, type: 3}
+    - Key: MousePoint
+      Value: {fileID: 8300000, guid: a49e6b37e191ff642aea9c1b7f621c54, type: 3}
+    - Key: MouseClick
+      Value: {fileID: 8300000, guid: 7704152615585a94fbd972c57d5e3f42, type: 3}
+    - Key: StartGame
+      Value: {fileID: 8300000, guid: 6bd52e87c7e74c948bc202f7852be2fc, type: 3}
+    - Key: StartWork
+      Value: {fileID: 8300000, guid: f528a1141456152408ef34e04f43911e, type: 3}
+    - Key: NewOrder
+      Value: {fileID: 8300000, guid: 11952e58621fcbf4ea4d670917fde09e, type: 3}
+    - Key: OpenOrder
+      Value: {fileID: 8300000, guid: 2912d21b4d3dcb94dbb97b9b483f6049, type: 3}
+    - Key: AcceptOrder
+      Value: {fileID: 8300000, guid: 033dd21023b44584ab0f1006b3971df7, type: 3}
+    - Key: DeclineOrder
+      Value: {fileID: 8300000, guid: 642c1d73ee99a0146bd4ecafdc88566a, type: 3}
+    - Key: Jar
+      Value: {fileID: 8300000, guid: 9051c604b5593bd41984290cb7dffe40, type: 3}
+    - Key: SubmitFail
+      Value: {fileID: 8300000, guid: e6dcfa6ce1478d94dbe637c33413f32a, type: 3}
+    - Key: SubmitPartial
+      Value: {fileID: 8300000, guid: 5da8d4fc8bb844c46b9396e7b687ecea, type: 3}
+    - Key: SubmitSuccess
+      Value: {fileID: 8300000, guid: cb891b64b5682b44c85ac207e0b9238a, type: 3}
+    - Key: Drag
+      Value: {fileID: 8300000, guid: d65516529e2d7f44dbd249cfa01f9368, type: 3}
+    - Key: EndWork
+      Value: {fileID: 8300000, guid: ccbaae4bb910a2f43b927cffdd5c1ce4, type: 3}
+    - Key: AddToOven
+      Value: {fileID: 8300000, guid: f6c2e6468c2ab4e478c4e2ec1cbfe230, type: 3}
+    - Key: AddToPan
+      Value: {fileID: 8300000, guid: 5edf8ed1af29f084a8c9f796ed870b11, type: 3}
+    - Key: AddToBoiler
+      Value: {fileID: 8300000, guid: baf2f9869fe7b6a41ae44562942b7bc5, type: 3}
+    - Key: AddToBlender
+      Value: {fileID: 8300000, guid: cfadd8a4de1f20f4e878cfd2645e07a6, type: 3}
+    - Key: CookSuccess
+      Value: {fileID: 8300000, guid: b3488d8c787fd304c95b32eab551eb9c, type: 3}
+    - Key: CookFail
+      Value: {fileID: 8300000, guid: 437e6e4f59cef1a499bb187213d2e3f8, type: 3}
+    - Key: MinigameButton
+      Value: {fileID: 8300000, guid: ef6960df6e03f84429d253f3644c79e7, type: 3}
+    - Key: Blend
+      Value: {fileID: 8300000, guid: 105ff3afd48415b4387e277ba6d735dd, type: 3}
+    - Key: Pour
+      Value: {fileID: 8300000, guid: 4933d9c590f9c8040aa4a9082ba2d2e3, type: 3}
+    - Key: Stove
+      Value: {fileID: 8300000, guid: b2c5434da4308854092f617fd015b0ff, type: 3}
+    - Key: Fry
+      Value: {fileID: 8300000, guid: b23373695ab38744e8396a4dbc8e3bf8, type: 3}
+    - Key: LeftSpatula
+      Value: {fileID: 8300000, guid: 2a5e07a855ce4104496879d3d2f7af70, type: 3}
+    - Key: RightSpatula
+      Value: {fileID: 8300000, guid: a9bd15a4136e51845831a51f08f98b25, type: 3}
+    - Key: Soul
+      Value: {fileID: 8300000, guid: 4d14d8943014ac54da03866c1a034656, type: 3}
+    - Key: QuotaStamp
+      Value: {fileID: 8300000, guid: 9a8f8a4e20d198c4081e040dd88413ef, type: 3}
+    - Key: MilestoneReach
+      Value: {fileID: 8300000, guid: 49b5d66421bfff044952376cc5138a8b, type: 3}
+    - Key: SkillUnlocked
+      Value: {fileID: 8300000, guid: 2965564c52181164a85cab75bb98a898, type: 3}
+    - Key: Purchase
+      Value: {fileID: 8300000, guid: 4a7ae00bacd29a742b50a774a9cd9904, type: 3}
+    - Key: Locked
+      Value: {fileID: 8300000, guid: 77da15b41f1c4a641ac2807dc813ae15, type: 3}

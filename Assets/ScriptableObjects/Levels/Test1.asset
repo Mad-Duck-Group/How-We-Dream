@@ -15,6 +15,7 @@ MonoBehaviour:
   recipePool: []
   finiteRecipes:
   - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
+  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
   randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   infinite: 0
@@ -26,11 +27,10 @@ MonoBehaviour:
   quota: 10
   boogeyManQuota: 15
   endless: 0
-  showVNAtStart: 0
+  showVNAtStart: 1
   beforeStartVN:
   - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}
   showVNWhenSuccess: 0
   successVN: []
-  showVNWhenFail: 1
-  failVN:
-  - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}
+  showVNWhenFail: 0
+  failVN: []

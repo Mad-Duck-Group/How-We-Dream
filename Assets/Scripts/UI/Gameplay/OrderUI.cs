@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Redcode.Moroutines;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,6 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Sprite[] scrollSprites;
     [SerializeField] private Image scroll;
-    [SerializeField] private Image clock;
     //[SerializeField] private Image flag;
     //[SerializeField] private TMP_Text orderText;
     [SerializeField] private OrderPageUI orderPageUIPrefab;
@@ -20,27 +20,45 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     private float timer;
     private Moroutine timerCoroutine;
     private OrderPageUI orderPageUI;
+    private Image clock;
+    private CanvasGroup canvasGroup;
     private bool empty = true;
     public bool Empty => empty;
+    private Vector2 showPosition;
+    private Vector2 hidePosition;
+    private RectTransform rectTransform;
     
     public delegate void OrderReject();
     public static event OrderReject OnOrderReject;
     public delegate void OrderComplete(bool success);
     public static event OrderComplete OnOrderComplete;
-    public delegate void OrderDestroy();
+    public delegate void OrderDestroy(OrderUI orderUI);
     public static event OrderDestroy OnOrderDestroy;
 
-    public void Initialize(RecipeSO recipeSo)
+
+    public void Initialize(Image clock)
+    {
+        this.clock = clock;
+        canvasGroup = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+        var width = rectTransform.rect.width;
+        showPosition = rectTransform.anchoredPosition;
+        hidePosition = new Vector2(showPosition.x + width, showPosition.y);
+        rectTransform.anchoredPosition = hidePosition;
+        gameObject.SetActive(false);
+    }
+    
+    public void SetOrder(RecipeSO recipeSo)
     {
         gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
+        clock.color = Color.white;
         empty = false;
         recipe = recipeSo;
-        //orderText.text = recipe.OrderName;
         clock.enabled = recipe.HasTimeLimit;
         LevelManager.OnLevelComplete += OnLevelComplete;
         RecipeManager.OnRecipeChanged += OnRecipeChange;
         RecipeManager.OnRecipeComplete += OnRecipeComplete;
-        //flag.color = Color.gray;
         scroll.sprite = scrollSprites[0];
         orderPageUI = Instantiate(orderPageUIPrefab, transform.root);
         orderPageUI.Initialize(recipe);
@@ -48,6 +66,8 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         orderPageUI.gameObject.SetActive(false);
         if (!recipe.HasTimeLimit) return;
         timer = recipe.TimeLimit;
+        rectTransform.DOAnchorPos(showPosition, 0.2f);
+        GlobalSoundManager.Instance.PlayUISFX("NewOrder");
         timerCoroutine = Moroutine.Run(gameObject, Timer());
         timerCoroutine.OnCompleted(_ => Reject(true));
     }
@@ -55,7 +75,23 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     public void SetEmpty()
     {
         empty = true;
-        gameObject.SetActive(false);
+    }
+
+    public void TweenOut(bool reject = false)
+    {
+        var sequence = DOTween.Sequence();
+        if (reject)
+            sequence.Append(rectTransform.DOAnchorPos(hidePosition, 0.2f));
+        else
+            sequence.Append(canvasGroup.DOFade(0f, 0.2f));
+        sequence.Join(clock.DOFade(0f, 0.5f));
+        sequence.Append(rectTransform.DOAnchorPos(hidePosition, 2f));
+        sequence.OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+            clock.enabled = false;
+            OnOrderDestroy?.Invoke(this);
+        });
     }
 
     private void OnLevelComplete()
@@ -114,12 +150,14 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         if (recipe != recipeSo) return;
         OnOrderComplete?.Invoke(success);
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
+        TweenOut();
         DestroyOrder();
     }
 
     private void Accept()
     {
         RecipeManager.Instance.SetActiveRecipe(recipe);
+        GlobalSoundManager.Instance.PlayUISFX("AcceptOrder");
     }
 
     private void Cancel()
@@ -135,7 +173,9 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
             //InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
             OnOrderComplete?.Invoke(false);
         }
+        GlobalSoundManager.Instance.PlayUISFX("DeclineOrder");
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
+        TweenOut(true);
         DestroyOrder();
     }
 
@@ -145,13 +185,13 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         RecipeManager.OnRecipeComplete -= OnRecipeComplete;
         SetEmpty();
         Destroy(orderPageUI.gameObject);
-        OnOrderDestroy?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (orderPageUI.gameObject.activeSelf) return;
-        orderPageUI.gameObject.SetActive(true);
+        GlobalSoundManager.Instance.PlayUISFX("OpenOrder");
+        orderPageUI.Open();
     }
 }

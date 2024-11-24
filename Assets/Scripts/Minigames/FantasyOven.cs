@@ -65,6 +65,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
         minigameCanvasGroup.gameObject.SetActive(true);
         minigameCoroutine = Moroutine.Run(gameObject, UpdateMinigame());
         minigameCoroutine.OnCompleted(_ => Fail());
+        GlobalSoundManager.Instance.PlayUISFX("Stove", true, "Stove");
     }
 
     private void OnKnobClick()
@@ -72,6 +73,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
         if (minigameCoroutine == null) return;
         if (!minigameCoroutine.IsRunning) return;
         if (!ready) return;
+        GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
         if (slider.value < hitZoneRange.x || slider.value > hitZoneRange.y)
         {
            Fail();
@@ -107,6 +109,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
             OnMinigameEnd?.Invoke(false);
             minigameCanvasGroup.gameObject.SetActive(false);
             minigameCoroutine.Destroy();
+            GlobalSoundManager.Instance.StopSound("Stove");
             return;
         }
         currentAttempt++;
@@ -115,6 +118,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
             OnMinigameEnd?.Invoke(true);
             minigameCanvasGroup.gameObject.SetActive(false);
             minigameCoroutine.Destroy();
+            GlobalSoundManager.Instance.StopSound("Stove");
             return;
         }
         minigameCoroutine.Rerun();
@@ -130,6 +134,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
             OnMinigameEnd?.Invoke(true);
             minigameCanvasGroup.gameObject.SetActive(false);
             minigameCoroutine.Destroy();
+            GlobalSoundManager.Instance.StopSound("Stove");
             return;
         }
         minigameCoroutine.Rerun();

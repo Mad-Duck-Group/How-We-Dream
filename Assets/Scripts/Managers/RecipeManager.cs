@@ -134,8 +134,20 @@ public class RecipeManager : MonoSingleton<RecipeManager>
             allCorrect = false;
         }
         int finalPrice = CalculatePrice(correctDict, allCorrect);
+        if (finalPrice > 0) GlobalSoundManager.Instance.PlayUISFX("Soul");
         InventoryManager.Instance.ChangeCurrency(finalPrice);
         OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
+        if (allCorrect)
+        {
+            GlobalSoundManager.Instance.PlayUISFX("SubmitSuccess");
+            return;
+        }
+        if (correctDict.Values.Any(x => x > 0))
+        {
+            GlobalSoundManager.Instance.PlayUISFX("SubmitPartial");
+            return;
+        }
+        GlobalSoundManager.Instance.PlayUISFX("SubmitFail");
     }
     
     private int CalculatePrice(Dictionary<IngredientTypes, int> correctDict, bool allCorrect)

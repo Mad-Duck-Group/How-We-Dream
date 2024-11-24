@@ -2,13 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
+using Redcode.Extensions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OrderRackUI : MonoBehaviour
 {
-    [SerializeField] private OrderUI[] orderUI;
+    [SerializedDictionary("OrderUI", "Clock")] 
+    public SerializedDictionary<OrderUI, Image> orderUIData;
     private int orderCount;
     
     public delegate void OutOfRecipe();
@@ -25,6 +28,12 @@ public class OrderRackUI : MonoBehaviour
         OrderUI.OnOrderDestroy -= OnOrderDestroy;
         LevelManager.OnLevelStart -= OnLevelStart;
     }
+
+    private void Start()
+    {
+        orderUIData.Keys.ToList().ForEach(x => x.Initialize(orderUIData[x]));
+        orderUIData.Values.ToList().ForEach(x => x.color = Color.clear);
+    }
     private void OnLevelStart()
     {
         PopulateRack();
@@ -32,7 +41,7 @@ public class OrderRackUI : MonoBehaviour
 
     private void PopulateRack()
     {
-        foreach (var order in orderUI.Where(x => x.Empty))
+        foreach (var order in orderUIData.Keys.Where(x => x.Empty))
         {
             var randomOrder = RecipeManager.Instance.GetRandomRecipe();
             if (!randomOrder)
@@ -40,19 +49,24 @@ public class OrderRackUI : MonoBehaviour
                 order.SetEmpty();
                 continue;
             }
-            order.Initialize(randomOrder);
-            orderCount++;
+            order.SetOrder(randomOrder);
         }
-        Debug.Log("Order Count: " + orderCount);
-        if (orderCount == 0)
+        if (orderUIData.Keys.All(x => x.Empty))
         {
             OnOutOfRecipe?.Invoke();
         }
     }
 
-    private void OnOrderDestroy()
+    private void OnOrderDestroy(OrderUI orderUI)
     {
-        orderCount--;
-        PopulateRack();
+        var randomOrder = RecipeManager.Instance.GetRandomRecipe();
+        if (randomOrder)
+        {
+            orderUI.SetOrder(randomOrder);
+        }
+        if (orderUIData.Keys.All(x => x.Empty))
+        {
+            OnOutOfRecipe?.Invoke();
+        }
     }
 }

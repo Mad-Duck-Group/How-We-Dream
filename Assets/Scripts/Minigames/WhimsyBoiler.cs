@@ -113,6 +113,8 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     {
         if (!isPotWaterPhase) return;
         mouseDown = true;
+        GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
+        GlobalSoundManager.Instance.PlayUISFX("Pour", true, "Pour");
         potWaterCoroutine = Moroutine.Run(gameObject, PourWater());
         potWaterCoroutine.OnCompleted(_ => CheckPotWaterCondition());
     }
@@ -120,6 +122,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     private void OnPourButtonUp()
     {
         if (!isPotWaterPhase) return;
+        GlobalSoundManager.Instance.StopSound("Pour");
         mouseDown = false;
     }
 
@@ -146,6 +149,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
 
     private void StartFireSliders()
     {
+        GlobalSoundManager.Instance.PlayUISFX("Stove", true, "Stove");
         isPotWaterPhase = false;
         potWaterCanvasGroup.gameObject.SetActive(false);
         fireSlidersCanvasGroup.gameObject.SetActive(true);
@@ -215,6 +219,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         minigameCanvasGroup.gameObject.SetActive(false);
         fireSliderCoroutine?.Destroy();
         potWaterCoroutine?.Destroy();
+        GlobalSoundManager.Instance.StopSound("Stove");
     }
     
     private void Succeed()
@@ -226,6 +231,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         minigameCanvasGroup.gameObject.SetActive(false);
         fireSliderCoroutine?.Destroy();
         potWaterCoroutine?.Destroy();
+        GlobalSoundManager.Instance.StopSound("Stove");
     }
     
     private void GenerateHitZone()

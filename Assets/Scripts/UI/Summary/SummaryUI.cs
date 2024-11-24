@@ -39,7 +39,15 @@ public class SummaryUI : MonoBehaviour, IUIPage
         float percentage = Level.Quota / sandManMax;
         quotaLine.rectTransform.SetAnchoredPositionX(sliderWidth * percentage);
         boogeyManSlider.value = Level.BoogeyManQuota;
-        quotaStamp.gameObject.SetActive(LevelManager.Instance.PassQuota);
+        if (LevelManager.Instance.PassQuota)
+        {
+            quotaStamp.gameObject.SetActive(true);
+            GlobalSoundManager.Instance.PlayUISFX("QuotaStamp");
+        }
+        else
+        {
+            quotaStamp.gameObject.SetActive(false);
+        }
     }
     
      private string Summary()

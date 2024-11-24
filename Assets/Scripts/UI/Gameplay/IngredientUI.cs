@@ -62,11 +62,16 @@ public class IngredientUI : MonoBehaviour
             transform.localScale = Divide(targetScale, transform.lossyScale);
         }
     }
+    
+    public void BeingDrag()
+    {
+        image.sortingOrder = 3;
+        GlobalSoundManager.Instance.PlayUISFX("Drag");
+    }
 
     public void Drag()
     {
         transform.position = MousePosition;
-        image.sortingOrder = 3;
     }
     
     public bool EndDragCheck(PointerEventData eventData)

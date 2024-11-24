@@ -46,6 +46,7 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
     {
         if (node != skillNode) return;
         image.color = Color.green;
+        GlobalSoundManager.Instance.PlayUISFX("SkillUnlocked");
     }
     
     private void Awake()
@@ -83,9 +84,14 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!skillNode.Unlocked) return;
-        if (ProgressionManager.Instance.SkillPoints < skillNode.Skill.SkillCost) return;
-        if (eventData.button != PointerEventData.InputButton.Left) return;
+        bool locked = !skillNode.Unlocked;
+        if (ProgressionManager.Instance.SkillPoints < skillNode.Skill.SkillCost) locked = true;
+        if (eventData.button != PointerEventData.InputButton.Left) locked = true;
+        if (locked)
+        {
+            GlobalSoundManager.Instance.PlayUISFX("Locked");
+            return;
+        }
         skillNode.Acquire();
         ProgressionManager.Instance.SkillPoints -= skillNode.Skill.SkillCost;
     }

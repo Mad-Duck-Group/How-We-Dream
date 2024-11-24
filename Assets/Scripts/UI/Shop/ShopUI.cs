@@ -38,6 +38,7 @@ public class ShopUI : MonoBehaviour, IUIPage
         if (InventoryManager.Instance.Currency < price) return;
         InventoryManager.Instance.ChangeCurrency(-price);
         InventoryManager.Instance.ChangeIngredientAmount(ingredient, 1);
+        GlobalSoundManager.Instance.PlayUISFX("Purchase");
     }
     public bool Open()
     {

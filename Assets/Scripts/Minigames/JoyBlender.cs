@@ -48,6 +48,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
     {
         if (minigameCoroutine == null) return;
         if (!minigameCoroutine.IsRunning) return;
+        GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
         slider.value += sliderBumpAmount;
     }
     
@@ -65,6 +66,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
         slider.value = slider.minValue;
         minigameCoroutine = Moroutine.Run(gameObject, UpdateMinigame());
         minigameCoroutine.OnCompleted(_ => CheckCondition());
+        GlobalSoundManager.Instance.PlayUISFX("Blend", true, "Blend");
     }
 
     private IEnumerable UpdateMinigame()
@@ -98,6 +100,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
         OnMinigameEnd?.Invoke(false);
         minigameCanvasGroup.gameObject.SetActive(false);
         minigameCoroutine.Destroy();
+        GlobalSoundManager.Instance.StopSound("Blend");
     }
 
     private void Succeed()
@@ -106,6 +109,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
         OnMinigameEnd?.Invoke(true);
         minigameCanvasGroup.gameObject.SetActive(false);
         minigameCoroutine.Destroy();
+        GlobalSoundManager.Instance.StopSound("Blend");
     }
     private void GenerateHitZone()
     {

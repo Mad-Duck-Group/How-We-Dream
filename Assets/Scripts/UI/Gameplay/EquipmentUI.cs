@@ -49,12 +49,14 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         {
             transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
+            GlobalSoundManager.Instance.PlayUISFX("CookSuccess");
         }
         else
         {
             transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             Destroy(ingredient);
             UnsetIngredient();
+            GlobalSoundManager.Instance.PlayUISFX("CookFail");
         }
     }
 
@@ -65,6 +67,21 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         this.ingredient = ingredient;
         transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
         spriteRenderer.sprite = equipmentSprites[1];
+        switch (minigame.Value)
+        {
+            case FantasyOven:
+                GlobalSoundManager.Instance.PlayUISFX("AddToOven");
+                break;
+            case AdventureSkillet:
+                GlobalSoundManager.Instance.PlayUISFX("AddToPan");
+                break;
+            case JoyBlender:
+                GlobalSoundManager.Instance.PlayUISFX("AddToBlender");
+                break;
+            case WhimsyBoiler:
+                GlobalSoundManager.Instance.PlayUISFX("AddToBoiler");
+                break;
+        }
         return true;
     }
 
@@ -74,6 +91,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (ingredient == null) return;
         ingredientUI = Instantiate(ingredientUIPrefab);
         ingredientUI.Initialize(ingredient, gameObject);
+        ingredientUI.BeingDrag();
     }
 
     public void OnDrag(PointerEventData eventData)

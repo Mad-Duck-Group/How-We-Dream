@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
+using DG.Tweening;
 using NaughtyAttributes;
 using Redcode.Moroutines;
 using TMPro;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -39,6 +41,9 @@ public class LevelManager : MonoSingleton<LevelManager>
 {
     [SerializeField, Expandable, ReadOnly] private LevelSO level;
     public LevelSO Level => level;
+    [SerializeField] private CanvasGroup startEndPanel;
+    [SerializeField] private TMP_Text nightText;
+    [SerializeField] private TMP_Text startEndText;
     [SerializeField] private Image clock;
     [SerializeField] private Transform clockHandRotator;
 
@@ -62,22 +67,40 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         InventoryManager.OnCurrencyChanged += OnCurrencyChange;
         OrderRackUI.OnOutOfRecipe += GameEnd;
-        OrderUI.OnOrderReject += () => summaryData.TotalRejectedOrder++;
-        OrderUI.OnOrderComplete += success =>
-        {
-            if (success) summaryData.TotalCompletedOrder++;
-            else summaryData.TotalFailedOrder++;
-        };
+        OrderUI.OnOrderReject += OnOrderReject;
+        OrderUI.OnOrderComplete += OnOrderComplete;
         IngredientSO.OnIngredientUsed += OnIngredientUsed;
         VNManager.OnVNFinished += OnVNFinished;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManagerPersistent.OnFinishFadeIn += InitializeVN;
     }
 
     private void OnDisable()
     {
         InventoryManager.OnCurrencyChanged -= OnCurrencyChange;
         OrderRackUI.OnOutOfRecipe -= GameEnd;
+        OrderUI.OnOrderReject -= OnOrderReject;
+        OrderUI.OnOrderComplete -= OnOrderComplete;
         IngredientSO.OnIngredientUsed -= OnIngredientUsed;
         VNManager.OnVNFinished -= OnVNFinished;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManagerPersistent.OnFinishFadeIn -= InitializeVN;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitializeStartEnd();
+    }
+    
+    private void OnOrderReject()
+    {
+        summaryData.TotalRejectedOrder++;
+    }
+    
+    private void OnOrderComplete(bool success)
+    {
+        if (success) summaryData.TotalCompletedOrder++;
+        else summaryData.TotalFailedOrder++;
     }
 
     private void OnCurrencyChange(int change, int currency)
@@ -105,7 +128,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         switch (gameStart)
         {
             case false when !canMoveNext:
-                StartTimer();
+                StartGame();
                 break;
             case false:
                 VNManager.Instance.ShowVN(currentVN.Current);
@@ -122,12 +145,25 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
-    private void StartTimer()
+    private void StartGame()
     {
         gameTimer = Moroutine.Run(gameObject, GameTimer());
         gameTimer.OnCompleted(_ => GameEnd());
         gameStart = true;
-        OnLevelStart?.Invoke();
+        startEndPanel.gameObject.SetActive(true);
+        nightText.text = $"Night {ProgressionManager.Instance.CurrentLevelIndex + 1}";
+        startEndText.text = "Start Work!";
+        GlobalSoundManager.Instance.PlayUISFX("StartWork");
+        GlobalSoundManager.Instance.PlayBGM("GameplayBGM");
+        var sequence = DOTween.Sequence();
+        sequence.Append(startEndPanel.DOFade(1f, 0.5f));
+        sequence.Append(startEndPanel.DOFade(1f, 2f));
+        sequence.Append(startEndPanel.DOFade(0f, 0.5f));
+        sequence.OnComplete(() =>
+        {
+            OnLevelStart?.Invoke();
+            startEndPanel.gameObject.SetActive(false);
+        });
     }
     
     private void CheckQuota()
@@ -144,15 +180,33 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         level = Instantiate(ProgressionManager.Instance.CurrentLevel);
         summaryData = new SummaryData();
+        startEndPanel.DOFade(1f, 0f);
+        if (SceneManagerPersistent.FirstSceneLoaded) return;
+        InitializeVN();
+    }
+
+    private void InitializeStartEnd()
+    {
+        currentVN = level.BeforeStartVN.GetEnumerator();
+        currentVN.MoveNext();
+        if (currentVN.Current && !currentVN.Current.Played) startEndPanel.gameObject.SetActive(false);
+        else startEndPanel.gameObject.SetActive(true);
+    }
+
+    private void InitializeVN()
+    {
         if (level.ShowVNAtStart)
         {
             currentVN = level.BeforeStartVN.GetEnumerator();
             currentVN.MoveNext();
-            VNManager.Instance.ShowVN(currentVN.Current);
+            if (VNManager.Instance.ShowVN(currentVN.Current))
+            {
+                startEndPanel.gameObject.SetActive(false);
+            }
         }
         else
         {
-            StartTimer();
+            StartGame();
         }
     }
 
@@ -170,6 +224,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void GameEnd()
     {
+        if (gameEnd) return;
         gameEnd = true;
         gameTimer.Stop();
         OnLevelComplete?.Invoke();
@@ -187,6 +242,18 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void ShowEndPanel()
     {
-        UIPageManager.Instance.ChangePage(PageTypes.Summary);
+        startEndPanel.gameObject.SetActive(true);
+        nightText.text = $"Night {ProgressionManager.Instance.CurrentLevelIndex + 1}";
+        startEndText.text = "End Work";
+        GlobalSoundManager.Instance.PlayUISFX("EndWork");
+        var sequence = DOTween.Sequence();
+        sequence.Append(startEndPanel.DOFade(1f, 0.5f).OnComplete(() => UIPageManager.Instance.ChangePage(PageTypes.Summary)));
+        sequence.Append(startEndPanel.DOFade(1f, 2f));
+        sequence.Append(startEndPanel.DOFade(0f, 0.5f));
+        sequence.OnComplete(() =>
+        {
+            startEndPanel.gameObject.SetActive(false);
+            GlobalSoundManager.Instance.PlayBGM("SummaryBGM", duration: 0.5f);
+        });
     }
 }

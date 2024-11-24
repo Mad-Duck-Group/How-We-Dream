@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f0352e31789494ca01271d5e0c469e, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  textAsset: {fileID: 4900000, guid: 7f218ba3cfb249b49a1441f5e9e1808f, type: 3}
+  textAsset: {fileID: 4900000, guid: d7add809937d9ad41999ae092d9c449e, type: 3}
   background: {fileID: 0}
   repeatable: 0
-  played: 0
+  played: 1

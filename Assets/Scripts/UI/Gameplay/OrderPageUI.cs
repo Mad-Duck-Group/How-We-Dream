@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -25,6 +26,13 @@ public class OrderPageUI : MonoBehaviour
 
     public delegate void Confirmation(ConfirmationStates state);
     public event Confirmation OnConfirmation;
+    private CanvasGroup canvasGroup;
+    
+    private void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+    
     public void Initialize(RecipeSO recipe)
     {
         orderNameText.text = $"{recipe.OrderName}";
@@ -42,6 +50,13 @@ public class OrderPageUI : MonoBehaviour
         acceptButton.onValueChanged.AddListener(_ => Confirm(acceptButton, true));
         rejectButton.onValueChanged.AddListener(_ => Confirm(rejectButton, false));
         closeButton.onClick.AddListener(Close);
+    }
+
+    public void Open()
+    {
+        gameObject.SetActive(true);
+        canvasGroup.alpha = 0f;
+        canvasGroup.DOFade(1f, 0.5f);
     }
 
     private void Confirm(Toggle toggle, bool accepted)
@@ -65,6 +80,6 @@ public class OrderPageUI : MonoBehaviour
 
     private void Close()
     {
-        gameObject.SetActive(false);
+        canvasGroup.DOFade(0f, 0.5f).OnComplete(() => gameObject.SetActive(false));
     }
 }

@@ -715,6 +715,7 @@ GameObject:
   - component: {fileID: 5415652751548059661}
   - component: {fileID: 9214845873082676872}
   - component: {fileID: 4912169120946324666}
+  - component: {fileID: 235471153988603286}
   m_Layer: 5
   m_Name: OrderPageUI
   m_TagString: Untagged
@@ -810,6 +811,18 @@ MonoBehaviour:
   rejectButton: {fileID: 7888062468279976766}
   ingredientRack: {fileID: 189228290859280210}
   ingredientOrderIconPrefab: {fileID: 8457284778210370426, guid: f6f10af5faaf5be4d925bd2be97b72e1, type: 3}
+--- !u!225 &235471153988603286
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443614914381836475}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3642381449840432731
 GameObject:
   m_ObjectHideFlags: 0

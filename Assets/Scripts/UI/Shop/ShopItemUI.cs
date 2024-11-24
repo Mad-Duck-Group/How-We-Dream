@@ -18,9 +18,16 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
     private ShopUI shopUI;
     private bool canBuy;
 
+    private void OnEnable()
+    {
+        InventoryManager.OnCurrencyChanged += OnCurrencyChanged;
+    }
+    private void OnDisable()
+    {
+        InventoryManager.OnCurrencyChanged -= OnCurrencyChanged;
+    }
     public void Initialize(IngredientTypes ingredient, ShopUI shopUI)
     {
-        InventoryManager.OnCurrencyChanged += (_, current) => UpdateAvailability(current);
         var ingredientSO = InventoryManager.Instance.GetIngredientData(ingredient).Ingredient;
         ingredientType = ingredient;
         this.ingredientSO = ingredientSO;
@@ -31,18 +38,27 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
         gameObject.SetActive(true);
         UpdateAvailability(InventoryManager.Instance.Currency);
     }
+
+    private void OnCurrencyChanged(int change, int currentCurrency)
+    {
+        UpdateAvailability(currentCurrency);
+    }
     
     private void UpdateAvailability(int currentCurrency)
-    { 
-        if (!gameObject.activeSelf) return;
+    {
         canBuy = currentCurrency >= ingredientSO.CurrentPrice;
+        Debug.Log($"currentCurrency: {currentCurrency}, ingredientSO.CurrentPrice: {ingredientSO.CurrentPrice}, canBuy: {canBuy}");
         priceText.color = canBuy ? Color.black : Color.red;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!canBuy) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
-        shopUI.BuyIngredient(ingredientType);
+        if (canBuy)
+        {
+            shopUI.BuyIngredient(ingredientType);
+            return;
+        }
+        GlobalSoundManager.Instance.PlayUISFX("Locked");
     }
 }

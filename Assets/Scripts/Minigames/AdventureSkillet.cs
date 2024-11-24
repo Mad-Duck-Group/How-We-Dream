@@ -68,6 +68,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     private void OnRotateDown()
     {
         if (!isRotatePhase) return;
+        GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
         mouseDown = true;
     }
 
@@ -98,6 +99,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         OnMinigameStart?.Invoke();
         minigameCanvasGroup.gameObject.SetActive(true);
         StartRotateMinigame();
+        GlobalSoundManager.Instance.PlayUISFX("Fry", true, "Fry");
     }
 
     private void StartRotateMinigame()
@@ -216,10 +218,12 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
                 var currentHitZone = flipPositionDict.ElementAt(currentHitZoneIndex);
                 if (Input.GetMouseButtonDown(0))
                 {
+                    GlobalSoundManager.Instance.PlayUISFX("LeftSpatula");
                     CheckMouseButton(true, currentHitZone, ref mistakes, ref currentHitZoneIndex);
                 }
                 else if (Input.GetMouseButtonDown(1))
                 {
+                    GlobalSoundManager.Instance.PlayUISFX("RightSpatula");
                     CheckMouseButton(false, currentHitZone, ref mistakes, ref currentHitZoneIndex);
                 }
                 if (flipSlider.value > currentHitZone.Value.HitZoneRange.y && currentHitZoneIndex <= flipPositionDict.Count - 1)
@@ -263,6 +267,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         minigameCanvasGroup.gameObject.SetActive(false);
         rotateMinigameCoroutine?.Destroy();
         flipMinigameCoroutine?.Destroy();
+        GlobalSoundManager.Instance.StopSound("Fry");
     }
 
     private void Succeed()
@@ -275,6 +280,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         minigameCanvasGroup.gameObject.SetActive(false);
         rotateMinigameCoroutine?.Destroy();
         flipMinigameCoroutine?.Destroy();
+        GlobalSoundManager.Instance.StopSound("Fry");
     }
 
     private (Vector2, Vector2) GenerateHitZone(int index)

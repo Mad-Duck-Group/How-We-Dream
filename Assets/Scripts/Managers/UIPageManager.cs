@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
@@ -33,6 +34,22 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
     public bool FromGameplay => fromGameplay;
     private bool PassQuota => LevelManager.Instance.PassQuota;
 
+
+    private void OnEnable()
+    {
+        SceneManagerPersistent.OnFinishFadeOut += OnFinishFadeOut;
+    }
+    
+    private void OnDisable()
+    {
+        SceneManagerPersistent.OnFinishFadeOut -= OnFinishFadeOut;
+    }
+    
+    private void OnFinishFadeOut()
+    {
+        ChangePage(PageTypes.Null, fromGameplay);
+    }
+
     private void Start()
     {
         foreach (var page in pageDictionary.Values)
@@ -56,11 +73,11 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
                 ChangePage(PageTypes.Shop, fromGameplay);
                 break;   
             case PageTypes.Shop when fromGameplay && !PassQuota:
-                ChangePage(PageTypes.Null, fromGameplay);
+                //ChangePage(PageTypes.Null, fromGameplay);
                 ProgressionManager.Instance.ReplayLevel();
                 break;
             case PageTypes.Shop when fromGameplay && PassQuota:
-                ChangePage(PageTypes.Null, fromGameplay);
+                //ChangePage(PageTypes.Null, fromGameplay);
                 ProgressionManager.Instance.NextLevel();
                 break;
             case PageTypes.Shop:
