@@ -164,18 +164,21 @@ public class Manual : MonoBehaviour
     {
         topicIndex = 1;
         UpdateTopicPage();
+        imagePage.UpdateImageManualPage();
     }
     
     private void Topic2()
     {
         topicIndex = 2;
         UpdateTopicPage();
+        imagePage2.UpdateImageManualPage();
     }
     
     private void Topic3()
     {
         topicIndex = 3;
         UpdateTopicPage();
+        textPage.UpdateManualPage();
     }
     
     private void UpdateTopicPage()
@@ -215,9 +218,6 @@ public class Manual : MonoBehaviour
                 manualTopicSet3.SetActive(true);
                 break;
         }
-        imagePage.UpdateImageManualPage();
-        imagePage2.UpdateImageManualPage();
-        textPage.UpdateManualPage();
     }
     
     void Update()
