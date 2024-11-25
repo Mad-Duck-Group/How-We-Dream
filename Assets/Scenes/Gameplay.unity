@@ -3966,17 +3966,20 @@ MonoBehaviour:
   topic2Button: {fileID: 275902149}
   topic3Button: {fileID: 42498857}
   manualPanel: {fileID: 60778064}
-  manualTopicSet1: {fileID: 2019919364}
-  manualTopicSet2: {fileID: 1064085668}
-  manualTopicSet3: {fileID: 536072965}
+  manualTopicSet:
+  - {fileID: 2019919364}
+  - {fileID: 1064085668}
+  - {fileID: 536072965}
   nextPageImage: {fileID: 241937044}
   previousPageImage: {fileID: 624668064}
-  topicImage1: {fileID: 534494634}
-  topicImage2: {fileID: 275902148}
-  topicImage3: {fileID: 42498856}
-  imagePage: {fileID: 2019919366}
-  imagePage2: {fileID: 1064085670}
-  imagePage3: {fileID: 536072966}
+  topicImage:
+  - {fileID: 534494634}
+  - {fileID: 275902148}
+  - {fileID: 42498856}
+  imagePage:
+  - {fileID: 2019919366}
+  - {fileID: 1064085670}
+  - {fileID: 536072966}
   textPage: {fileID: 0}
   topicShaderColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &585479565
