@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 public class Manual : MonoBehaviour
 {
@@ -98,9 +100,18 @@ public class Manual : MonoBehaviour
         
         //Update
         UpdateTopicPage();
-        imagePage.UpdateImageManualPage();
-        imagePage2.UpdateImageManualPage();
-        textPage.UpdateManualPage();
+        switch (topicIndex)
+        {
+            case 0 :
+                imagePage.UpdateImageManualPage();
+                break;
+            case 1 :
+                imagePage2.UpdateImageManualPage();
+                break;
+            case 2 :
+                textPage.UpdateManualPage();
+                break;
+        }
     }
     
     private void OnCloseManualButtonClick()
@@ -162,21 +173,21 @@ public class Manual : MonoBehaviour
     
     private void Topic1()
     {
-        topicIndex = 1;
+        topicIndex = 0;
         UpdateTopicPage();
         imagePage.UpdateImageManualPage();
     }
     
     private void Topic2()
     {
-        topicIndex = 2;
+        topicIndex = 1;
         UpdateTopicPage();
         imagePage2.UpdateImageManualPage();
     }
     
     private void Topic3()
     {
-        topicIndex = 3;
+        topicIndex = 2;
         UpdateTopicPage();
         textPage.UpdateManualPage();
     }
@@ -185,7 +196,7 @@ public class Manual : MonoBehaviour
     {
         switch (topicIndex)
         {
-            case 1 :
+            case 0 :
                 topicImage1.color = Color.white;
                 manualTopicSet1.SetActive(true);
                 
@@ -196,7 +207,7 @@ public class Manual : MonoBehaviour
                 manualTopicSet3.SetActive(false);
                 break;
             
-            case 2 :
+            case 1 :
                 topicImage1.color = topicShaderColor;
                 manualTopicSet1.SetActive(false);
                 
@@ -207,7 +218,7 @@ public class Manual : MonoBehaviour
                 manualTopicSet3.SetActive(false);
                 break;
             
-            case 3 :
+            case 2 :
                 topicImage1.color = topicShaderColor;
                 manualTopicSet1.SetActive(false);
                 
@@ -218,12 +229,5 @@ public class Manual : MonoBehaviour
                 manualTopicSet3.SetActive(true);
                 break;
         }
-    }
-    
-    void Update()
-    {
-        Debug.Log("Image Index: " + _imageIndex);
-        Debug.Log("Image Index 2: " + _imageIndex2);
-        Debug.Log("Text Index: " + _textIndex);
     }
 }
