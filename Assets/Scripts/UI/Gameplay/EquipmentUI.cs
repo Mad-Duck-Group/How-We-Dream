@@ -7,21 +7,25 @@ using TNRD;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHandler
+public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Sprite[] equipmentSprites;
     [SerializeField] private IngredientUI ingredientUIPrefab;
     [SerializeField] private CookStates equipmentType;
     [SerializeField] private SerializableInterface<IMinigame> minigame;
+    [SerializeField] private float bumpScale = 0.1f;
     //[SerializeField, ReadOnly, Expandable] 
     private IngredientSO ingredient;
     private IngredientUI ingredientUI;
     private SpriteRenderer spriteRenderer;
+    private float originalScale;
+    private Tween bumpTween;
     
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = equipmentSprites[0];
+        originalScale = transform.localScale.x;
     }
 
     private void OnEnable()
@@ -130,5 +134,17 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
             ingredient.CookState = equipmentType;
         }
         
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (bumpTween.IsActive()) bumpTween.Kill();
+        bumpTween = transform.DOScale(bumpScale, 0.2f).SetRelative();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (bumpTween.IsActive()) bumpTween.Kill();
+        bumpTween = transform.DOScale(originalScale, 0.2f);
     }
 }

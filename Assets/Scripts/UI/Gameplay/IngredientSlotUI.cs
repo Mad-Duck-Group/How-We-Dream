@@ -24,7 +24,6 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
     private void Awake()
     {
         image = GetComponent<Image>();
-        
     }
 
     private void OnEnable()
@@ -47,6 +46,7 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
         this.ingredient = ingredient;
         ingredientType = ingredient.IngredientType;
         nameText.text = ingredient.IngredientType.ToString();
+        image.sprite = ingredient.GetSprite(CookStates.Raw);
         UpdateAmountText(ingredientType);
     }
     

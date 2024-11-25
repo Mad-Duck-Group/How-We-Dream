@@ -7,11 +7,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShopItemUI : MonoBehaviour, IPointerClickHandler
+public class ShopItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text priceText;
     [SerializeField] private Image icon;
+    [SerializeField] private Image background;
+    [SerializeField] private Sprite pointSprite;
+    [SerializeField] private Sprite availableSprite;
+    [SerializeField] private Sprite unavailableSprite;
 
     private IngredientTypes ingredientType;
     private IngredientSO ingredientSO;
@@ -21,6 +25,7 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
     private void OnEnable()
     {
         InventoryManager.OnCurrencyChanged += OnCurrencyChanged;
+        UpdateAvailability(InventoryManager.Instance.Currency);
     }
     private void OnDisable()
     {
@@ -46,9 +51,9 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
     
     private void UpdateAvailability(int currentCurrency)
     {
+        if (!ingredientSO) return;
         canBuy = currentCurrency >= ingredientSO.CurrentPrice;
-        Debug.Log($"currentCurrency: {currentCurrency}, ingredientSO.CurrentPrice: {ingredientSO.CurrentPrice}, canBuy: {canBuy}");
-        priceText.color = canBuy ? Color.black : Color.red;
+        background.sprite = canBuy ? availableSprite : unavailableSprite;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -60,5 +65,16 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler
             return;
         }
         GlobalSoundManager.Instance.PlayUISFX("Locked");
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!canBuy) return;
+        background.sprite = pointSprite;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        background.sprite = canBuy ? availableSprite : unavailableSprite;
     }
 }

@@ -85,6 +85,8 @@ public class VNManager : PersistentMonoSingleton<VNManager>
     [FormerlySerializedAs("clickable")] [SerializeField] private ClickableArea clickableArea;
     [SerializedDictionary("Name", "Sprite")]
     public SerializedDictionary<CharacterNames, Sprite> characterSprites;
+    [SerializedDictionary("Name", "Sprite")]
+    public SerializedDictionary<CharacterNames, Sprite> chatBubbleSprites;
 
     public delegate void VNFinished(VNPathSO vnPathSO);
 
@@ -172,7 +174,7 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         contentLayoutGroup.childAlignment = dialogue.CharacterPosition == CharacterPosition.Left
             ? TextAnchor.UpperRight
             : TextAnchor.UpperLeft;
-        chatBubble.Setup(dialogue);
+        chatBubble.Setup(dialogue, chatBubbleSprites[dialogue.Name]);
         chatBubbles.Add(chatBubble);
         chatBubble.transform.localScale = Vector3.zero;
         LayoutRebuilder.ForceRebuildLayoutImmediate(chatBubble.transform as RectTransform);

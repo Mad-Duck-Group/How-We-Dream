@@ -12,7 +12,7 @@ public class IngredientOrderIconUI : MonoBehaviour
 
     public void Initialize(IngredientTypes ingredient, int amount)
     {
-        //icon.sprite = InventoryManager.Instance.GetIngredientData(ingredient).Ingredient.GetSprite(CookStates.Raw);
+        icon.sprite = InventoryManager.Instance.GetIngredientData(ingredient).Ingredient.GetSprite(CookStates.Raw);
         ingredientAmountText.text = amount.ToString();
         ingredientNameText.text = ingredient.ToString();
     }

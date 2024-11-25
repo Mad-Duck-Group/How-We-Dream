@@ -17,19 +17,19 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: 543cade0eaa054845becf73986992129, type: 3}
     - Key: 1
       Value:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: af626b33fa421ec4c81df175130c336f, type: 3}
     - Key: 2
       Value:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: a23ac086c1158864e95065f182c6aad9, type: 3}
     - Key: 3
       Value:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: 5e3ccba6911eb1349bb62b6700d927fb, type: 3}
     - Key: 4
       Value:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: 12c98c2699a15ac49af413f407a0a6e5, type: 3}
   ingredientType: 4
   basePrice: 10
   maxPrice: 50

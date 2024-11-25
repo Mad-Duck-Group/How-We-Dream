@@ -58,7 +58,7 @@ public class IngredientUI : MonoBehaviour
             transform.localScale = originalScale;
         else
         {
-            var targetScale = Vector3.one * size;
+            var targetScale = originalScale * size;
             transform.localScale = Divide(targetScale, transform.lossyScale);
         }
     }
@@ -76,9 +76,9 @@ public class IngredientUI : MonoBehaviour
     
     public bool EndDragCheck(PointerEventData eventData)
     {
+        image.sortingOrder = 2;
         if (eventData.hovered.Count == 0) return false;
         eventData.hovered.ForEach(x => Debug.Log(x.name));
-        //var top = eventData.hovered[^1];
         foreach (var hover in eventData.hovered)
         {
             if (hover == owner) continue;
@@ -89,7 +89,6 @@ public class IngredientUI : MonoBehaviour
                 return container.SetIngredient(ingredient);
             }
         }
-        //Debug.Log(eventData.hovered[0]);
         return false;
     }
     
