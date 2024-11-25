@@ -38,7 +38,8 @@ public class ShopItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         this.ingredientSO = ingredientSO;
         icon.sprite = ingredientSO.GetSprite(CookStates.Raw);
         nameText.text = ingredient.ToString();
-        priceText.text = ingredientSO.CurrentPrice.ToString(CultureInfo.InvariantCulture);
+        var price = ingredientSO.CurrentPrice.ToString(CultureInfo.InvariantCulture);
+        priceText.text = $"Souls: {price}";
         this.shopUI = shopUI;
         gameObject.SetActive(true);
         UpdateAvailability(InventoryManager.Instance.Currency);

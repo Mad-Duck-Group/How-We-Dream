@@ -13,17 +13,18 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     [SerializeField] private IngredientUI ingredientUIPrefab;
     [SerializeField] private CookStates equipmentType;
     [SerializeField] private SerializableInterface<IMinigame> minigame;
-    [SerializeField] private float bumpScale = 0.1f;
     //[SerializeField, ReadOnly, Expandable] 
     private IngredientSO ingredient;
     private IngredientUI ingredientUI;
     private SpriteRenderer spriteRenderer;
     private float originalScale;
     private Tween bumpTween;
+    private Bumpable bumpable;
     
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        bumpable = GetComponent<Bumpable>();
         spriteRenderer.sprite = equipmentSprites[0];
         originalScale = transform.localScale.x;
     }
@@ -117,6 +118,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     {
         spriteRenderer.sprite = equipmentSprites[0];
         ingredient = null;
+        bumpable.BumpDown();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -138,13 +140,15 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (bumpTween.IsActive()) bumpTween.Kill();
-        bumpTween = transform.DOScale(bumpScale, 0.2f).SetRelative();
+        if (ingredient && IngredientUI.Holding) return;
+        if (!ingredient && !IngredientUI.Holding) return;
+        bumpable.BumpUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (bumpTween.IsActive()) bumpTween.Kill();
-        bumpTween = transform.DOScale(originalScale, 0.2f);
+        if (ingredient && IngredientUI.Holding) return;
+        if (!ingredient && !IngredientUI.Holding) return;
+        bumpable.BumpDown();
     }
 }

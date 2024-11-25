@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class BottleUI : MonoBehaviour, IIngredientContainer
+public class BottleUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private IngredientUI ingredientUIPrefab;
     [SerializeField] private float beadSize = 0.5f;
@@ -20,6 +20,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
     
     private Stack<KeyValuePair<IngredientSO, IngredientUI>> ingredients = new();
     private IngredientUI ingredientUI;
+    private Bumpable bumpable;
 
     private void OnEnable()
     {
@@ -36,6 +37,11 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
         submitButton.interactable = active;
     }
 
+    private void Awake()
+    {
+        bumpable = GetComponent<Bumpable>();
+    }
+
     private void Start()
     {
         submitButton.onClick.AddListener(Submit);
@@ -49,6 +55,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
         ingredientUI.SetSizeAndPhysics(true, false, beadSize);
         ingredients.Push(new KeyValuePair<IngredientSO, IngredientUI>(ingredient, ingredientUI));
         GlobalSoundManager.Instance.PlayUISFX("Jar");
+        bumpable.BumpDown();
         return true;
     }
     
@@ -56,6 +63,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
     {
         ingredientUI.transform.position = RandomDropPoint();
         ingredientUI.SetSizeAndPhysics(true, false, beadSize);
+        bumpable.BumpDown();
     }
     
     private Vector3 RandomDropPoint()
@@ -104,5 +112,17 @@ public class BottleUI : MonoBehaviour, IIngredientContainer
             Destroy(pair.Value.gameObject);
         }
         ingredients.Clear();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!IngredientUI.Holding) return;
+        bumpable.BumpUp();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!IngredientUI.Holding) return;
+        bumpable.BumpDown();
     }
 }
