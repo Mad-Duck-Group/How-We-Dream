@@ -2,16 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DG.Tweening;
 using TMPro;
+using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
-public class Manual : MonoBehaviour
+public class Manual : MonoSingleton<Manual>
 {
-    public static Manual Instance;
-    
+
     [Header("ClickableArea Buttons")]
     [SerializeField] private ClickableArea manualButton;
     [SerializeField] private ClickableArea closeManualButton;
@@ -21,7 +22,7 @@ public class Manual : MonoBehaviour
     [SerializeField] private ClickableArea topic2Button;
     [SerializeField] private ClickableArea topic3Button;
     
-    [SerializeField] private Image manualPanel;
+    [SerializeField] private CanvasGroup manualPanel;
     
     // GameObjects for manual topic sets
     [Header("Manual Topic Sets")]
@@ -47,13 +48,7 @@ public class Manual : MonoBehaviour
     [SerializeField] private ImagePageSet imagePage;
     [SerializeField] private ImagePageSet imagePage2;
     [SerializeField] private ImagePageSet imagePage3;
-    private int _imageIndex;
-    private int _imageIndex2;
-    private int _imageIndex3;
-    private int maxImageIndex;
-    private int maxImageIndex2;
-    private int maxImageIndex3;
-    
+
     // Texts on manual
     [Header("Texts Manual")]
     [SerializeField] private TextPageSet textPage;
@@ -63,17 +58,8 @@ public class Manual : MonoBehaviour
     [Header("Colors")]
     [SerializeField] private Color topicShaderColor;
     public Color TopicShaderColor => topicShaderColor;
-
-    private void Awake()
-    {
-        Instance = this;
-        
-        maxImageIndex = imagePage.Images.Length;
-        maxImageIndex2 = imagePage2.Images.Length;
-        maxImageIndex3 = imagePage3.Images.Length;
-        
-        maxTextIndex = textPage.Dreams.Length;
-    }
+    
+    private Tween _fadeTween;
 
     private void OnEnable()
     {
@@ -84,6 +70,7 @@ public class Manual : MonoBehaviour
         topic1Button.OnClickEvent += Topic1;
         topic2Button.OnClickEvent += Topic2;
         topic3Button.OnClickEvent += Topic3;
+        LevelManager.OnLevelComplete += OnCloseManualButtonClick;
     }
     
     private void OnDisable()
@@ -95,12 +82,15 @@ public class Manual : MonoBehaviour
         topic1Button.OnClickEvent -= Topic1;
         topic2Button.OnClickEvent -= Topic2;
         topic3Button.OnClickEvent -= Topic3;
+        LevelManager.OnLevelComplete -= OnCloseManualButtonClick;
     }
-    
+
     private void OnManualButtonClick()
     {
-        Debug.Log("Manual button clicked!");
         manualPanel.gameObject.SetActive(true);
+        if (_fadeTween.IsActive()) _fadeTween.Kill();
+        manualPanel.alpha = 0;
+        _fadeTween = manualPanel.DOFade(1, 0.5f);
         
         //Update
         UpdateTopicPage();
@@ -123,7 +113,9 @@ public class Manual : MonoBehaviour
     private void OnCloseManualButtonClick()
     {
         Debug.Log("Close manual button clicked!");
-        manualPanel.gameObject.SetActive(false);
+        if (_fadeTween.IsActive()) _fadeTween.Kill();
+        manualPanel.alpha = 1;
+        _fadeTween = manualPanel.DOFade(0f, 0.5f).OnComplete(() => manualPanel.gameObject.SetActive(false));
     }
     
     // Set the next page button
@@ -133,14 +125,12 @@ public class Manual : MonoBehaviour
         {
             imagePage.NextImage();
             imagePage.UpdateImageManualPage();
-            _imageIndex = imagePage.ImageIndex;
         }
 
         if (manualTopicSet2.activeSelf)
         {
             imagePage2.NextImage();
             imagePage2.UpdateImageManualPage();
-            _imageIndex2 = imagePage2.ImageIndex;
         }
 
         if (manualTopicSet3.activeSelf)
@@ -153,7 +143,6 @@ public class Manual : MonoBehaviour
             */
             imagePage3.NextImage();
             imagePage3.UpdateImageManualPage();
-            _imageIndex3 = imagePage3.ImageIndex;
         }
     }
     
@@ -164,14 +153,12 @@ public class Manual : MonoBehaviour
         {
             imagePage.PreviousImage();
             imagePage.UpdateImageManualPage();
-            _imageIndex = imagePage.ImageIndex;
         }
 
         if (manualTopicSet2.activeSelf)
         {
             imagePage2.PreviousImage();
             imagePage2.UpdateImageManualPage();
-            _imageIndex2 = imagePage2.ImageIndex;
         }
 
         if (manualTopicSet3.activeSelf)
@@ -184,7 +171,6 @@ public class Manual : MonoBehaviour
             */
             imagePage3.PreviousImage();
             imagePage3.UpdateImageManualPage();
-            _imageIndex3 = imagePage3.ImageIndex;
         }
 
     }
@@ -214,37 +200,25 @@ public class Manual : MonoBehaviour
     
     private void UpdateTopicPage()
     {
+        topicImage1.color = topicShaderColor;
+        topicImage2.color = topicShaderColor;
+        topicImage3.color = topicShaderColor;
+        manualTopicSet1.SetActive(false);
+        manualTopicSet2.SetActive(false);
+        manualTopicSet3.SetActive(false);
         switch (topicIndex)
         {
             case 0 :
                 topicImage1.color = Color.white;
                 manualTopicSet1.SetActive(true);
-                
-                topicImage2.color = topicShaderColor;
-                manualTopicSet2.SetActive(false);
-                
-                topicImage3.color = topicShaderColor;
-                manualTopicSet3.SetActive(false);
                 break;
             
             case 1 :
-                topicImage1.color = topicShaderColor;
-                manualTopicSet1.SetActive(false);
-                
                 topicImage2.color = Color.white;
                 manualTopicSet2.SetActive(true);
-                
-                topicImage3.color = topicShaderColor;
-                manualTopicSet3.SetActive(false);
                 break;
             
             case 2 :
-                topicImage1.color = topicShaderColor;
-                manualTopicSet1.SetActive(false);
-                
-                topicImage2.color = topicShaderColor;
-                manualTopicSet2.SetActive(false);
-                
                 topicImage3.color = Color.white;
                 manualTopicSet3.SetActive(true);
                 break;
