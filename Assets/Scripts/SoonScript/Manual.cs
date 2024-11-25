@@ -46,10 +46,13 @@ public class Manual : MonoBehaviour
     [Header("Images Manual")]
     [SerializeField] private ImagePageSet imagePage;
     [SerializeField] private ImagePageSet imagePage2;
+    [SerializeField] private ImagePageSet imagePage3;
     private int _imageIndex;
     private int _imageIndex2;
+    private int _imageIndex3;
     private int maxImageIndex;
     private int maxImageIndex2;
+    private int maxImageIndex3;
     
     // Texts on manual
     [Header("Texts Manual")]
@@ -67,6 +70,7 @@ public class Manual : MonoBehaviour
         
         maxImageIndex = imagePage.Images.Length;
         maxImageIndex2 = imagePage2.Images.Length;
+        maxImageIndex3 = imagePage3.Images.Length;
         
         maxTextIndex = textPage.Dreams.Length;
     }
@@ -109,7 +113,9 @@ public class Manual : MonoBehaviour
                 imagePage2.UpdateImageManualPage();
                 break;
             case 2 :
-                textPage.UpdateManualPage();
+                //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
+                //textPage.UpdateManualPage();
+                imagePage3.UpdateImageManualPage();
                 break;
         }
     }
@@ -139,9 +145,15 @@ public class Manual : MonoBehaviour
 
         if (manualTopicSet3.activeSelf)
         {
+            //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
+            /*
             textPage.NextPage();
             textPage.UpdateManualPage();
             _textIndex = textPage.TextIndex;
+            */
+            imagePage3.NextImage();
+            imagePage3.UpdateImageManualPage();
+            _imageIndex3 = imagePage3.ImageIndex;
         }
     }
     
@@ -164,9 +176,15 @@ public class Manual : MonoBehaviour
 
         if (manualTopicSet3.activeSelf)
         {
+            //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
+            /*
             textPage.PreviousPage();
             textPage.UpdateManualPage();
             _textIndex = textPage.TextIndex;
+            */
+            imagePage3.PreviousImage();
+            imagePage3.UpdateImageManualPage();
+            _imageIndex3 = imagePage3.ImageIndex;
         }
 
     }
@@ -189,7 +207,9 @@ public class Manual : MonoBehaviour
     {
         topicIndex = 2;
         UpdateTopicPage();
-        textPage.UpdateManualPage();
+        //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
+        //textPage.UpdateManualPage();
+        imagePage3.UpdateImageManualPage();
     }
     
     private void UpdateTopicPage()
