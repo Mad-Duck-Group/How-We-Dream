@@ -26,9 +26,8 @@ public class Manual : MonoSingleton<Manual>
     
     // GameObjects for manual topic sets
     [Header("Manual Topic Sets")]
-    [SerializeField] private GameObject manualTopicSet1;
-    [SerializeField] private GameObject manualTopicSet2;
-    [SerializeField] private GameObject manualTopicSet3;
+    [SerializeField] private GameObject[] manualTopicSet;
+
     
     [Header("Next and Previous Buttons Images")]
     [SerializeField] private Image nextPageImage;
@@ -38,16 +37,12 @@ public class Manual : MonoSingleton<Manual>
     
     // Images for topics
     [Header("Topic Images")]
-    [SerializeField] private Image topicImage1;
-    [SerializeField] private Image topicImage2;
-    [SerializeField] private Image topicImage3;
-    private int topicIndex;
+    [SerializeField] private Image[] topicImage;
+    private int topicIndex = 0;
     
     // Images on manual
     [Header("Images Manual")]
-    [SerializeField] private ImagePageSet imagePage;
-    [SerializeField] private ImagePageSet imagePage2;
-    [SerializeField] private ImagePageSet imagePage3;
+    [SerializeField] private ImagePageSet[] imagePage;
 
     // Texts on manual
     [Header("Texts Manual")]
@@ -94,20 +89,7 @@ public class Manual : MonoSingleton<Manual>
         
         //Update
         UpdateTopicPage();
-        switch (topicIndex)
-        {
-            case 0 :
-                imagePage.UpdateImageManualPage();
-                break;
-            case 1 :
-                imagePage2.UpdateImageManualPage();
-                break;
-            case 2 :
-                //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
-                //textPage.UpdateManualPage();
-                imagePage3.UpdateImageManualPage();
-                break;
-        }
+        imagePage[topicIndex].UpdateImageManualPage();
     }
     
     private void OnCloseManualButtonClick()
@@ -121,19 +103,19 @@ public class Manual : MonoSingleton<Manual>
     // Set the next page button
     private void OnNextPageButtonClick()
     {
-        if (manualTopicSet1.activeSelf)
+        if (manualTopicSet[0].activeSelf)
         {
-            imagePage.NextImage();
-            imagePage.UpdateImageManualPage();
+            imagePage[0].NextImage();
+            imagePage[0].UpdateImageManualPage();
         }
 
-        if (manualTopicSet2.activeSelf)
+        if (manualTopicSet[1].activeSelf)
         {
-            imagePage2.NextImage();
-            imagePage2.UpdateImageManualPage();
+            imagePage[1].NextImage();
+            imagePage[1].UpdateImageManualPage();
         }
 
-        if (manualTopicSet3.activeSelf)
+        if (manualTopicSet[2].activeSelf)
         {
             //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
             /*
@@ -141,27 +123,27 @@ public class Manual : MonoSingleton<Manual>
             textPage.UpdateManualPage();
             _textIndex = textPage.TextIndex;
             */
-            imagePage3.NextImage();
-            imagePage3.UpdateImageManualPage();
+            imagePage[2].NextImage();
+            imagePage[2].UpdateImageManualPage();
         }
     }
     
     // Set the previous page button
     private void OnPreviousPageButtonClick()
     {
-        if (manualTopicSet1.activeSelf)
+        if (manualTopicSet[0].activeSelf)
         {
-            imagePage.PreviousImage();
-            imagePage.UpdateImageManualPage();
+            imagePage[0].PreviousImage();
+            imagePage[0].UpdateImageManualPage();
         }
 
-        if (manualTopicSet2.activeSelf)
+        if (manualTopicSet[1].activeSelf)
         {
-            imagePage2.PreviousImage();
-            imagePage2.UpdateImageManualPage();
+            imagePage[1].PreviousImage();
+            imagePage[1].UpdateImageManualPage();
         }
 
-        if (manualTopicSet3.activeSelf)
+        if (manualTopicSet[2].activeSelf)
         {
             //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
             /*
@@ -169,8 +151,8 @@ public class Manual : MonoSingleton<Manual>
             textPage.UpdateManualPage();
             _textIndex = textPage.TextIndex;
             */
-            imagePage3.PreviousImage();
-            imagePage3.UpdateImageManualPage();
+            imagePage[2].PreviousImage();
+            imagePage[2].UpdateImageManualPage();
         }
 
     }
@@ -179,14 +161,14 @@ public class Manual : MonoSingleton<Manual>
     {
         topicIndex = 0;
         UpdateTopicPage();
-        imagePage.UpdateImageManualPage();
+        imagePage[0].UpdateImageManualPage();
     }
     
     private void Topic2()
     {
         topicIndex = 1;
         UpdateTopicPage();
-        imagePage2.UpdateImageManualPage();
+        imagePage[1].UpdateImageManualPage();
     }
     
     private void Topic3()
@@ -195,32 +177,32 @@ public class Manual : MonoSingleton<Manual>
         UpdateTopicPage();
         //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
         //textPage.UpdateManualPage();
-        imagePage3.UpdateImageManualPage();
+        imagePage[2].UpdateImageManualPage();
     }
     
     private void UpdateTopicPage()
     {
-        topicImage1.color = topicShaderColor;
-        topicImage2.color = topicShaderColor;
-        topicImage3.color = topicShaderColor;
-        manualTopicSet1.SetActive(false);
-        manualTopicSet2.SetActive(false);
-        manualTopicSet3.SetActive(false);
+        topicImage[0].color = topicShaderColor;
+        topicImage[1].color = topicShaderColor;
+        topicImage[2].color = topicShaderColor;
+        manualTopicSet[0].SetActive(false);
+        manualTopicSet[1].SetActive(false);
+        manualTopicSet[2].SetActive(false);
         switch (topicIndex)
         {
             case 0 :
-                topicImage1.color = Color.white;
-                manualTopicSet1.SetActive(true);
+                topicImage[0].color = Color.white;
+                manualTopicSet[0].SetActive(true);
                 break;
             
             case 1 :
-                topicImage2.color = Color.white;
-                manualTopicSet2.SetActive(true);
+                topicImage[1].color = Color.white;
+                manualTopicSet[1].SetActive(true);
                 break;
             
             case 2 :
-                topicImage3.color = Color.white;
-                manualTopicSet3.SetActive(true);
+                topicImage[2].color = Color.white;
+                manualTopicSet[2].SetActive(true);
                 break;
         }
     }
