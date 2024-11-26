@@ -1267,6 +1267,7 @@ GameObject:
   - component: {fileID: 1588619237}
   - component: {fileID: 1588619236}
   - component: {fileID: 1588619235}
+  - component: {fileID: 1588619238}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1340,6 +1341,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1588619238
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588619234}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1625626225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,18 +1476,21 @@ MonoBehaviour:
   topic1Button: {fileID: 1930137277}
   topic2Button: {fileID: 1166231565}
   topic3Button: {fileID: 105200462}
-  manualPanel: {fileID: 1588619235}
-  manualTopicSet1: {fileID: 1546905315}
-  manualTopicSet2: {fileID: 53425551}
-  manualTopicSet3: {fileID: 316360786}
+  manualPanel: {fileID: 1588619238}
+  manualTopicSet:
+  - {fileID: 1546905315}
+  - {fileID: 53425551}
+  - {fileID: 316360786}
   nextPageImage: {fileID: 2017314496}
   previousPageImage: {fileID: 1679881764}
-  topicImage1: {fileID: 1930137276}
-  topicImage2: {fileID: 1166231564}
-  topicImage3: {fileID: 105200461}
-  imagePage: {fileID: 1546905317}
-  imagePage2: {fileID: 53425553}
-  imagePage3: {fileID: 316360788}
+  topicImage:
+  - {fileID: 1930137276}
+  - {fileID: 1166231564}
+  - {fileID: 105200461}
+  imagePage:
+  - {fileID: 1546905317}
+  - {fileID: 53425553}
+  - {fileID: 316360788}
   textPage: {fileID: 0}
   topicShaderColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1679881762

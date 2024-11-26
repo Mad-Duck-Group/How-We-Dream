@@ -61,6 +61,11 @@ public class TextPageSet : MonoBehaviour
             nextPageImage.color = Color.white;
             previousPageImage.color = topicShaderColor;
         }
+        else
+        {
+            nextPageImage.color = Color.white;
+            previousPageImage.color = Color.white;
+        }
     }
     
     public void NextPage()

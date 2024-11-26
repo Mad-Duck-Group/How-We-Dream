@@ -41,6 +41,11 @@ public class ImagePageSet : MonoBehaviour
             nextPageImage.color = Color.white;
             previousPageImage.color = topicShaderColor;
         }
+        else
+        {
+            nextPageImage.color = Color.white;
+            previousPageImage.color = Color.white;
+        }
     }
     
     public void NextImage()
