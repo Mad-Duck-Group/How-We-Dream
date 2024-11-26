@@ -21,6 +21,7 @@ public class BottleUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandle
     private Stack<KeyValuePair<IngredientSO, IngredientUI>> ingredients = new();
     private IngredientUI ingredientUI;
     private Bumpable bumpable;
+    public bool HasIngredient => ingredients.Count > 0;
 
     private void OnEnable()
     {
@@ -106,6 +107,11 @@ public class BottleUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandle
     public void Submit()
     {
         RecipeManager.Instance.CheckRecipe(ingredients.Select(pair => pair.Key).ToList());
+        ClearAll();
+    }
+    
+    public void ClearAll()
+    {
         foreach (var pair in ingredients)
         {
             pair.Key.Use();

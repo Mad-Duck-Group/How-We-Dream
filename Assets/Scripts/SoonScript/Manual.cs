@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AYellowpaper.SerializedCollections;
 using DG.Tweening;
+using Redcode.Extensions;
 using TMPro;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
@@ -12,33 +14,30 @@ using Debug = UnityEngine.Debug;
 
 public class Manual : MonoSingleton<Manual>
 {
-
     [Header("ClickableArea Buttons")]
     [SerializeField] private ClickableArea manualButton;
     [SerializeField] private ClickableArea closeManualButton;
     [SerializeField] private ClickableArea nextPageButton;
     [SerializeField] private ClickableArea previousPageButton;
-    [SerializeField] private ClickableArea topic1Button;
-    [SerializeField] private ClickableArea topic2Button;
-    [SerializeField] private ClickableArea topic3Button;
-    
+    [SerializeField] private ClickableArea[] topicButtons;
     [SerializeField] private CanvasGroup manualPanel;
+    [SerializedDictionary("Clickable Area", "Sprite")]
+    public SerializedDictionary<ClickableArea, Sprite[]> topicSpriteDictionary;
     
     // GameObjects for manual topic sets
     [Header("Manual Topic Sets")]
     [SerializeField] private GameObject[] manualTopicSet;
 
-    
     [Header("Next and Previous Buttons Images")]
     [SerializeField] private Image nextPageImage;
     [SerializeField] private Image previousPageImage;
-    public Image NextPageImage => nextPageImage;
-    public Image PreviousPageImage => previousPageImage;
-    
+    [SerializedDictionary("Image", "Sprite")]
+    public SerializedDictionary<Image, Sprite[]> changePageSpriteDictionary;
+
     // Images for topics
     [Header("Topic Images")]
     [SerializeField] private Image[] topicImage;
-    private int topicIndex = 0;
+    private int topicIndex;
     
     // Images on manual
     [Header("Images Manual")]
@@ -62,9 +61,12 @@ public class Manual : MonoSingleton<Manual>
         closeManualButton.OnClickEvent += OnCloseManualButtonClick;
         nextPageButton.OnClickEvent += OnNextPageButtonClick;
         previousPageButton.OnClickEvent += OnPreviousPageButtonClick;
-        topic1Button.OnClickEvent += Topic1;
-        topic2Button.OnClickEvent += Topic2;
-        topic3Button.OnClickEvent += Topic3;
+        for (var i = 0; i < topicButtons.Length; i++)
+        {
+            var topicButton = topicButtons[i];
+            var index = i;
+            topicButton.OnClickEvent += () => ChangeTopic(index);
+        }
         LevelManager.OnLevelComplete += OnCloseManualButtonClick;
     }
     
@@ -74,10 +76,16 @@ public class Manual : MonoSingleton<Manual>
         closeManualButton.OnClickEvent -= OnCloseManualButtonClick;
         nextPageButton.OnClickEvent -= OnNextPageButtonClick;
         previousPageButton.OnClickEvent -= OnPreviousPageButtonClick;
-        topic1Button.OnClickEvent -= Topic1;
-        topic2Button.OnClickEvent -= Topic2;
-        topic3Button.OnClickEvent -= Topic3;
         LevelManager.OnLevelComplete -= OnCloseManualButtonClick;
+        foreach (var topicButton in topicButtons)
+        {
+            topicButton.UnsubscribeAll();
+        }
+    }
+
+    private void Start()
+    {
+        manualPanel.gameObject.SetActive(false);
     }
 
     private void OnManualButtonClick()
@@ -89,7 +97,6 @@ public class Manual : MonoSingleton<Manual>
         
         //Update
         UpdateTopicPage();
-        imagePage[topicIndex].UpdateImageManualPage();
     }
     
     private void OnCloseManualButtonClick()
@@ -103,107 +110,53 @@ public class Manual : MonoSingleton<Manual>
     // Set the next page button
     private void OnNextPageButtonClick()
     {
-        if (manualTopicSet[0].activeSelf)
+        for (var i = 0; i < manualTopicSet.Length; i++)
         {
-            imagePage[0].NextImage();
-            imagePage[0].UpdateImageManualPage();
-        }
-
-        if (manualTopicSet[1].activeSelf)
-        {
-            imagePage[1].NextImage();
-            imagePage[1].UpdateImageManualPage();
-        }
-
-        if (manualTopicSet[2].activeSelf)
-        {
-            //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
-            /*
-            textPage.NextPage();
-            textPage.UpdateManualPage();
-            _textIndex = textPage.TextIndex;
-            */
-            imagePage[2].NextImage();
-            imagePage[2].UpdateImageManualPage();
+            var manualTopic = manualTopicSet[i];
+            if (!manualTopic.activeSelf) continue;
+            imagePage[i].NextImage();
+            //imagePage[i].UpdateImageManualPage();
         }
     }
     
     // Set the previous page button
     private void OnPreviousPageButtonClick()
     {
-        if (manualTopicSet[0].activeSelf)
+        for (var i = 0; i < manualTopicSet.Length; i++)
         {
-            imagePage[0].PreviousImage();
-            imagePage[0].UpdateImageManualPage();
+            var manualTopic = manualTopicSet[i];
+            if (!manualTopic.activeSelf) continue;
+            imagePage[i].PreviousImage();
+            //imagePage[i].UpdateImageManualPage();
         }
+    }
 
-        if (manualTopicSet[1].activeSelf)
-        {
-            imagePage[1].PreviousImage();
-            imagePage[1].UpdateImageManualPage();
-        }
+    public void UpdateChangePageButton(bool previousActive, bool nextActive)
+    {
+        var previousSprites = changePageSpriteDictionary[previousPageImage];
+        previousPageImage.sprite = previousSprites[previousActive ? 1 : 0];
+        previousPageButton.Interactable = previousActive;
+        var nextSprites = changePageSpriteDictionary[nextPageImage];
+        nextPageImage.sprite = nextSprites[nextActive ? 1 : 0];
+        nextPageButton.Interactable = nextActive;
+    }
 
-        if (manualTopicSet[2].activeSelf)
-        {
-            //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
-            /*
-            textPage.PreviousPage();
-            textPage.UpdateManualPage();
-            _textIndex = textPage.TextIndex;
-            */
-            imagePage[2].PreviousImage();
-            imagePage[2].UpdateImageManualPage();
-        }
+    private void ChangeTopic(int index)
+    {
+        topicIndex = index;
+        UpdateTopicPage();
+    }
 
-    }
-    
-    private void Topic1()
-    {
-        topicIndex = 0;
-        UpdateTopicPage();
-        imagePage[0].UpdateImageManualPage();
-    }
-    
-    private void Topic2()
-    {
-        topicIndex = 1;
-        UpdateTopicPage();
-        imagePage[1].UpdateImageManualPage();
-    }
-    
-    private void Topic3()
-    {
-        topicIndex = 2;
-        UpdateTopicPage();
-        //เปลี่ยนด้วย ว่าจะให้เป็น text หรือ image!!!
-        //textPage.UpdateManualPage();
-        imagePage[2].UpdateImageManualPage();
-    }
-    
     private void UpdateTopicPage()
     {
-        topicImage[0].color = topicShaderColor;
-        topicImage[1].color = topicShaderColor;
-        topicImage[2].color = topicShaderColor;
-        manualTopicSet[0].SetActive(false);
-        manualTopicSet[1].SetActive(false);
-        manualTopicSet[2].SetActive(false);
-        switch (topicIndex)
+        for (int i = 0; i < topicImage.Length; i++)
         {
-            case 0 :
-                topicImage[0].color = Color.white;
-                manualTopicSet[0].SetActive(true);
-                break;
-            
-            case 1 :
-                topicImage[1].color = Color.white;
-                manualTopicSet[1].SetActive(true);
-                break;
-            
-            case 2 :
-                topicImage[2].color = Color.white;
-                manualTopicSet[2].SetActive(true);
-                break;
+            var topic = topicImage[i];
+            var sprite = topicSpriteDictionary[topicButtons[i]];
+            topic.sprite = sprite[i == topicIndex ? 1 : 0];
         }
+        manualTopicSet.ForEach(x => x.SetActive(false));
+        manualTopicSet[topicIndex].SetActive(true);
+        imagePage[topicIndex].UpdateImageManualPage();
     }
 }

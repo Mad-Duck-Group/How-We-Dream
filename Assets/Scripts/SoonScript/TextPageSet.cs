@@ -29,18 +29,7 @@ public class TextPageSet : MonoBehaviour
     [Header("Ingredients")] 
     [SerializeField] private TMP_Text[] ingredientTextsPage1;
     [SerializeField] private TMP_Text[] ingredientTextsPage2;
-
-    private Image nextPageImage;
-    private Image previousPageImage;
     
-    private Color topicShaderColor;
-    
-    void Awake()
-    {
-        nextPageImage = Manual.Instance.NextPageImage;
-        previousPageImage = Manual.Instance.PreviousPageImage;
-        topicShaderColor = Manual.Instance.TopicShaderColor;
-    }
     
     public void UpdateManualPage()
     {
@@ -53,18 +42,15 @@ public class TextPageSet : MonoBehaviour
         
         if (_textIndex >= dreamManualIndex - 2)
         {
-            nextPageImage.color = topicShaderColor;
-            previousPageImage.color = Color.white;
+            Manual.Instance.UpdateChangePageButton(true, false);
         }
         else if (_textIndex <= 0)
         {
-            nextPageImage.color = Color.white;
-            previousPageImage.color = topicShaderColor;
+            Manual.Instance.UpdateChangePageButton(false, true);
         }
         else
         {
-            nextPageImage.color = Color.white;
-            previousPageImage.color = Color.white;
+            Manual.Instance.UpdateChangePageButton(false, false);
         }
     }
     

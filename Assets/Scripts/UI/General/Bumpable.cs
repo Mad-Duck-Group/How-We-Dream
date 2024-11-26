@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -17,11 +18,38 @@ public class Bumpable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     
     private float originalScale;
 
+
+    private void Subscribe()
+    {
+        if (!clickableArea) return;
+        clickableArea.OnInteractChangeEvent += OnInteractChange;
+    }
+    
+    private void Unsubscribe()
+    {
+        if (!clickableArea) return;
+        clickableArea.OnInteractChangeEvent -= OnInteractChange;
+    }
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    private void OnInteractChange(bool interactable)
+    {
+        if (!interactable)
+        {
+            BumpDown();
+        }
+    }
+
     private void Awake()
     {
         originalScale = transform.localScale.x;
         TryGetComponent(out selectable);
         TryGetComponent(out clickableArea);
+        Subscribe();
     }
     
     public void OnPointerEnter(PointerEventData eventData)

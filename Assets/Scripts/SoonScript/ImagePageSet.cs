@@ -13,39 +13,28 @@ public class ImagePageSet : MonoBehaviour
 
     private int _imageIndex;
     //public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
-    
-    private Image nextPageImage;
-    private Image previousPageImage;
-    
-    private Color topicShaderColor;
-
-    private void Awake()
-    {
-        nextPageImage = Manual.Instance.NextPageImage;
-        previousPageImage = Manual.Instance.PreviousPageImage;
-        topicShaderColor = Manual.Instance.TopicShaderColor;
-    }
 
     public void UpdateImageManualPage()
     {
         imagePage1.sprite = images[_imageIndex];
         imagePage2.sprite = images[_imageIndex + 1];
-        
+
+        if (images.Length <= 2)
+        {
+            Manual.Instance.UpdateChangePageButton(false, false);
+            return;
+        }
         if (_imageIndex >= images.Length - 2)
         {
-            nextPageImage.color = topicShaderColor;
-            previousPageImage.color = Color.white;
+            Manual.Instance.UpdateChangePageButton(true, false);
+            return;
         }
-        else if (_imageIndex <= 0)
+        if (_imageIndex <= 0)
         {
-            nextPageImage.color = Color.white;
-            previousPageImage.color = topicShaderColor;
+            Manual.Instance.UpdateChangePageButton(false, true);
+            return;
         }
-        else
-        {
-            nextPageImage.color = Color.white;
-            previousPageImage.color = Color.white;
-        }
+        Manual.Instance.UpdateChangePageButton(true, true);
     }
     
     public void NextImage()

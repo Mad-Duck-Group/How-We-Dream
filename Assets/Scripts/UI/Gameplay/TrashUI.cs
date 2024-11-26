@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TrashUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandler, IPointerExitHandler
+public class TrashUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    [SerializeField] private BottleUI bottleUI;
     private Bumpable bumpable;
 
     private void Awake()
@@ -37,13 +38,18 @@ public class TrashUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!IngredientUI.Holding) return;
+        if (!bottleUI.HasIngredient && !IngredientUI.Holding) return;
         bumpable.BumpUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!IngredientUI.Holding) return;
         bumpable.BumpDown();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+        bottleUI.ClearAll();
     }
 }
