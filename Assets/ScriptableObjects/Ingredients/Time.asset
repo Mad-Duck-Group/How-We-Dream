@@ -31,8 +31,8 @@ MonoBehaviour:
       Value:
         sprite: {fileID: 21300000, guid: 0109e6f2163aa8c40b60f9a245b7b088, type: 3}
   ingredientType: 6
-  basePrice: 20
-  maxPrice: 80
+  basePrice: 25
+  maxPrice: 75
   priceCurve:
     serializedVersion: 2
     m_Curve:

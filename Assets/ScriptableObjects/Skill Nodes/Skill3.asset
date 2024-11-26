@@ -14,20 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prerequisites:
   - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
-  nextNodes: []
-  unlocked: 1
+  nextNodes:
+  - {fileID: 11400000, guid: 0cbda0238c6beac4dba9391ff006b0bc, type: 2}
+  unlocked: 0
   skill:
-    rid: 692313544237514776
+    rid: 432299986330058860
   unlockByDefault: 0
-  acquired: 1
+  acquired: 0
   references:
     version: 2
     RefIds:
-    - rid: 692313544237514776
+    - rid: 432299986330058860
       type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
       data:
-        skillName: Money
-        description: Money
+        skillName: Souls
+        description: Receive 20 Souls
         skillType: 0
         skillCost: 1
-        currencyValue: 10
+        currencyValue: 20

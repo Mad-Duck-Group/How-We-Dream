@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b265cf1297d984e91147ac4f469407, type: 3}
+  m_Name: Yelena(Suppress) 1
+  m_EditorClassIdentifier: 
+  orderName: Yelena Wood
+  orderDescription: I was watch a movie name Evil Dead3. I love it. When I saw Ashley
+    fight with the demon army. I was so excited. I keep thingking myself fight the
+    army with Ashley over and over.
+  randomDreamType: 0
+  dreamType: 3
+  randomIngredient: 0
+  ingredientTypeRange: {x: 0, y: 0}
+  ingredientAmountRange: {x: 0, y: 0}
+  ingredientData:
+    _serializedList:
+    - Key: 0
+      Value: 0
+    - Key: 1
+      Value: 4
+    - Key: 2
+      Value: 1
+    - Key: 3
+      Value: 2
+    - Key: 4
+      Value: 1
+    - Key: 5
+      Value: 2
+    - Key: 6
+      Value: 2
+    - Key: 7
+      Value: 0
+    - Key: 8
+      Value: 1
+  hasTimeLimit: 1
+  timeLimit: 180
+  baseProfit: 0.2
+  maxProfit: 0.5
+  profitCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

@@ -14,7 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipePool: []
   finiteRecipes:
-  - {fileID: 11400000, guid: c5c2ecee859db5644a5294bb541db81f, type: 2}
+  - {fileID: 11400000, guid: 6e07d2c45910ec44b86a3d6f558a9528, type: 2}
+  - {fileID: 11400000, guid: 7c57bfbad52e60e40a6d9c34effd7492, type: 2}
+  - {fileID: 11400000, guid: a622e6deab4d5984dbd2e7295f326f0a, type: 2}
+  - {fileID: 11400000, guid: 7a30dcf4b2e920d4ab4cd76a3b86ebda, type: 2}
+  - {fileID: 11400000, guid: 4021596e69d667d48813999be1c143e5, type: 2}
+  - {fileID: 11400000, guid: fb61d86b926ce93439c27d00f6f73339, type: 2}
+  - {fileID: 11400000, guid: 7242cc5fbf9574045a7122c353e61194, type: 2}
+  - {fileID: 11400000, guid: c26d54c6faeb9a548b88f76551b2cc0a, type: 2}
+  - {fileID: 11400000, guid: 0a891dfafa2768b46863540b12df6a61, type: 2}
+  - {fileID: 11400000, guid: 3506464f13ff1814dbd77a3bbc113ea3, type: 2}
   randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   infinite: 0
@@ -23,6 +32,12 @@ MonoBehaviour:
   randomAmountRange: {x: 3, y: 6}
   timeLimit: 600
   hasQuota: 1
-  quota: 500
-  boogeyManQuota: 666
+  quota: 80
+  boogeyManQuota: 500
   endless: 0
+  showVNAtStart: 0
+  beforeStartVN: []
+  showVNWhenSuccess: 0
+  successVN: []
+  showVNWhenFail: 0
+  failVN: []

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c102540eecfb44c9b6f582ceab1662, type: 3}
+  m_Name: Skill5
+  m_EditorClassIdentifier: 
+  prerequisites:
+  - {fileID: 11400000, guid: 25bd4c0884fbaa54887ecdd7e24055cf, type: 2}
+  nextNodes:
+  - {fileID: 11400000, guid: 5a77521e0901a264c8e3f13f594e1c09, type: 2}
+  unlocked: 0
+  skill:
+    rid: 432299986330058862
+  unlockByDefault: 0
+  acquired: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 432299986330058862
+      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
+      data:
+        skillName: Souls
+        description: Receive 50 Souls
+        skillType: 0
+        skillCost: 1
+        currencyValue: 50
