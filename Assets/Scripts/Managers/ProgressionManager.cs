@@ -39,8 +39,9 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     public void NextLevel()
     {
         currentLevelIndex++;
-        currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
-        if (currentLevelIndex >= levels.Count) currentLevelIndex = 0;
+        //currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
+        if (currentLevelIndex >= levels.Count) 
+            currentLevelIndex = 0;
         SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Single, false);
     }
     

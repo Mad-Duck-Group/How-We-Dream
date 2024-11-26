@@ -177,10 +177,8 @@ public class VNManager : PersistentMonoSingleton<VNManager>
             : TextAnchor.UpperLeft;
         chatBubble.Setup(dialogue, chatBubbleSprites[dialogue.Name]);
         chatBubbles.Add(chatBubble);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(chatBubble.transform as RectTransform);
         chatBubble.transform.localScale = Vector3.zero;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(chatBubble.transform as RectTransform);
-        yield return new WaitForEndOfFrame();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(chatBubble.transform as RectTransform);
         chatBubbleTween = chatBubble.transform.DOScale(Vector3.one, 0.2f);
         HandleCharacterPortrait(dialogue);
         currentDialogueIndex++;
@@ -219,6 +217,10 @@ public class VNManager : PersistentMonoSingleton<VNManager>
             currentPortrait.CurrentImage.sprite = characterSprites[dialogue.Name];
             var rotation = dialogue.CharacterPosition == CharacterPosition.Left ? 0f : 180f;
             currentPortrait.CurrentImage.transform.SetRotationY(rotation);
+            if (lastDialogue[otherPos] != null && lastDialogue[otherPos].Name == dialogue.Name)
+            {
+                sequence.Append(characterPortraits[otherPos].RectTransform.DOAnchorPos(characterPortraits[otherPos].HidePosition, 0.25f));
+            }
             sequence.Join(currentPortrait.RectTransform.DOAnchorPos(currentPortrait.ShowPosition, 0.25f));
             sequence.Join(currentPortrait.CurrentImage.DOFade(1f, 0.25f));
         }
@@ -285,10 +287,11 @@ public class VNManager : PersistentMonoSingleton<VNManager>
 
     public bool ShowVN(VNPathSO vnPathSO)
     {
+        if (!vnPathSO) return false;
         if (vnPathSO.Played && !vnPathSO.Repeatable)
         {
             currentVNPath = vnPathSO;
-            CloseVN();
+            //CloseVN();
             return false;
         }
         if (panelFadeTween.IsActive()) panelFadeTween.Kill(true); 

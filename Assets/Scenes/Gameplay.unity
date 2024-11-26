@@ -5582,7 +5582,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9875,7 +9875,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Night 1
+  m_text: Night 555
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2455981b6772224296870a9b69693ff, type: 2}
   m_sharedMaterial: {fileID: -86325020508449954, guid: d2455981b6772224296870a9b69693ff, type: 2}
@@ -9885,7 +9885,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12590,9 +12590,9 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2086141224516672610, guid: af3d6b31662ac5b49b3f158e07f426b9, type: 3}
-      propertyPath: levels.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: dbc11b3561eb7b144abb96c4ee855eb6, type: 2}
+      propertyPath: currentLevelIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3334060675849137501, guid: af3d6b31662ac5b49b3f158e07f426b9, type: 3}
       propertyPath: m_Name
       value: ProgressionManager
@@ -12656,6 +12656,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 11400000, guid: a295b665c5775354791808751feaac18, type: 2}
   startEndPanel: {fileID: 334753946}
+  startEndImage: {fileID: 1558962446}
+  startSprite: {fileID: 21300000, guid: 3682e61f8be2e604a9a3f05c8cd97fd3, type: 3}
+  endSprite: {fileID: 21300000, guid: 64f4112a45c225d428b5a2ab161a51fc, type: 3}
   nightText: {fileID: 1697550231}
   startEndText: {fileID: 798200200}
   clock: {fileID: 190744836}

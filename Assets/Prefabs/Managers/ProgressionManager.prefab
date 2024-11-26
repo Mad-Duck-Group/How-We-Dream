@@ -47,6 +47,7 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: a295b665c5775354791808751feaac18, type: 2}
   - {fileID: 11400000, guid: dbc11b3561eb7b144abb96c4ee855eb6, type: 2}
+  - {fileID: 11400000, guid: ed5c0295e6e891643be45d426b727686, type: 2}
   currentLevelIndex: 0
   skillNodes:
   - {fileID: 11400000, guid: 31eb84ac56a94fc4facc16b86c53566e, type: 2}
@@ -56,3 +57,5 @@ MonoBehaviour:
   skillPoints: 0
   vnPaths:
   - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}
+  - {fileID: 11400000, guid: e949def47999b2941888fa41ef913aea, type: 2}
+  - {fileID: 11400000, guid: e47bdc0cf64faa740bf66c4166633677, type: 2}

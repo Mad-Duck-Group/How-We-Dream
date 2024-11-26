@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74f0352e31789494ca01271d5e0c469e, type: 3}
-  m_Name: Test
+  m_Name: Training
   m_EditorClassIdentifier: 
-  textAsset: {fileID: 4900000, guid: d7add809937d9ad41999ae092d9c449e, type: 3}
+  textAsset: {fileID: 4900000, guid: e334850688330394d9dc419b0c4d9166, type: 3}
   background: {fileID: 0}
   repeatable: 0
-  played: 1
+  played: 0

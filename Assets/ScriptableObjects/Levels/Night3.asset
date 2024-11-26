@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e17908c1d7b08b3498925bbcaf1bc56e, type: 3}
-  m_Name: Test1
+  m_Name: Night3
   m_EditorClassIdentifier: 
   recipePool: []
   finiteRecipes:
-  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
-  - {fileID: 11400000, guid: 0fd34f562855e304da1f931ffcd2fc44, type: 2}
+  - {fileID: 11400000, guid: c5c2ecee859db5644a5294bb541db81f, type: 2}
   randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   infinite: 0
@@ -24,13 +23,13 @@ MonoBehaviour:
   randomAmountRange: {x: 3, y: 6}
   timeLimit: 600
   hasQuota: 1
-  quota: 10
-  boogeyManQuota: 15
+  quota: 5
+  boogeyManQuota: 666
   endless: 0
-  showVNAtStart: 1
-  beforeStartVN:
-  - {fileID: 11400000, guid: 36620c6c836ebae45aab28572d03f5ce, type: 2}
-  showVNWhenSuccess: 0
-  successVN: []
+  showVNAtStart: 0
+  beforeStartVN: []
+  showVNWhenSuccess: 1
+  successVN:
+  - {fileID: 11400000, guid: e47bdc0cf64faa740bf66c4166633677, type: 2}
   showVNWhenFail: 0
   failVN: []
