@@ -40,24 +40,28 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     {
         currentLevelIndex++;
         //currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
-        if (currentLevelIndex >= levels.Count) 
+        if (currentLevelIndex >= levels.Count)
+        {
             currentLevelIndex = 0;
-        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Single, false);
+            SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.MainMenu, LoadSceneMode.Additive, false);
+            return;
+        }
+        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.Gameplay, LoadSceneMode.Single, false);
     }
     
     public void ReplayLevel()
     {
-        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Single, false);
+        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.Gameplay, LoadSceneMode.Single, false);
     }
 
     [Button("Reset Skill")]
-    private void ResetSkill()
+    public void ResetSkill()
     {
         skillNodes.ForEach(node => node.Reset());
     }
     
     [Button("Reset VN")]
-    private void ResetVN()
+    public void ResetVN()
     {
         vnPaths.ForEach(path => path.Reset());
     }

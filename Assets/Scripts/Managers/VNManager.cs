@@ -379,6 +379,7 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         if (panelFadeTween.IsActive()) return;
         if (delayTween.IsActive())
             delayTween.Kill();
+        ToggleHistory(false);
         foreach (var bubble in chatBubbles) 
             Destroy(bubble.gameObject);
         foreach (var last in lastDialogue.Keys.ToList())

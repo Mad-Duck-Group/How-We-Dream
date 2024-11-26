@@ -92,6 +92,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name != SceneTypes.Gameplay.ToString()) return;
+        level = Instantiate(ProgressionManager.Instance.CurrentLevel);
         InitializeStartEnd();
         if (!SceneManagerPersistent.FirstSceneLoaded) return;
         InitializeVN();
@@ -186,7 +188,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        level = Instantiate(ProgressionManager.Instance.CurrentLevel);
+        //level = Instantiate(ProgressionManager.Instance.CurrentLevel);
         summaryData = new SummaryData();
         startEndPanel.DOFade(1f, 0f);
         if (SceneManagerPersistent.FirstSceneLoaded) return;

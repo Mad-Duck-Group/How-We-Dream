@@ -17,7 +17,7 @@ using UnityEditor;
 public enum SceneTypes
 {
     MainMenu,
-    GamePlay
+    Gameplay
 }
 
 
@@ -98,7 +98,7 @@ public class SceneManagerPersistent : PersistentMonoSingleton<SceneManagerPersis
             case SceneTypes.MainMenu:
                 sceneName = mainMenu;
                 break;
-            case SceneTypes.GamePlay:
+            case SceneTypes.Gameplay:
                 sceneName = gamePlay;
                 break;
             default:

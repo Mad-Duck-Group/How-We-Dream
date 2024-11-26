@@ -19,6 +19,9 @@ public class MainMenuManager : MonoSingleton<MainMenuManager>
     private void StartGame()
     {
         GlobalSoundManager.Instance.PlayUISFX("StartGame");
-        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.GamePlay, LoadSceneMode.Additive, false);
+        InventoryManager.Instance.ResetInventory();
+        ProgressionManager.Instance.ResetSkill();
+        ProgressionManager.Instance.ResetVN();
+        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.Gameplay, LoadSceneMode.Additive, false);
     }
 }

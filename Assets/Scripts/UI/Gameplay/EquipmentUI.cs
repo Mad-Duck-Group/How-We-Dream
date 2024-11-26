@@ -52,13 +52,13 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     {
         if (success)
         {
-            transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
+            //transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
             GlobalSoundManager.Instance.PlayUISFX("CookSuccess");
         }
         else
         {
-            transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
+            //transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             Destroy(ingredient);
             UnsetIngredient();
             GlobalSoundManager.Instance.PlayUISFX("CookFail");
@@ -70,7 +70,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (this.ingredient) return false;
         if (ingredient.CookState != CookStates.Raw) return false;
         this.ingredient = ingredient;
-        transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
+        //transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
         spriteRenderer.sprite = equipmentSprites[1];
         switch (minigame.Value)
         {
@@ -132,7 +132,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         }
         else
         {
-            transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
+            //transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             ingredient.CookState = equipmentType;
         }
         

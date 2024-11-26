@@ -7,6 +7,7 @@ using TMPro;
 using TNRD;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public interface IUIPage
@@ -28,6 +29,7 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
     public SerializedDictionary<PageTypes, SerializableInterface<IUIPage>> pageDictionary;
     [SerializeField] private Button nextButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button mainMenuButton;
     [SerializeField, ReadOnly] private PageTypes currentPage = PageTypes.Null;
 
     private bool fromGameplay;
@@ -58,8 +60,10 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
         }
         nextButton.onClick.AddListener(Next);
         backButton.onClick.AddListener(Back);
+        mainMenuButton.onClick.AddListener(ToMainMenu);
         nextButton.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);
+        mainMenuButton.gameObject.SetActive(false);
     }
 
     private void Next()
@@ -109,12 +113,14 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
             currentPage = PageTypes.Null;
             nextButton.gameObject.SetActive(false);
             backButton.gameObject.SetActive(false);
+            mainMenuButton.gameObject.SetActive(false);
             return;
         }
         bool openSuccessful = pageDictionary[page].Value.Open();
         if (openSuccessful) currentPage = page;
         SetActiveButton(backButton, currentPage != PageTypes.Summary);
         nextButton.gameObject.SetActive(true);
+        mainMenuButton.gameObject.SetActive(true);
         // backButton.gameObject.SetActive(true);
     }
     
@@ -122,5 +128,10 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
     {
         button.interactable = active;
         button.gameObject.SetActive(active);
+    }
+    
+    private void ToMainMenu()
+    {
+        SceneManagerPersistent.Instance.LoadNextScene(SceneTypes.MainMenu, LoadSceneMode.Additive, false);
     }
 }

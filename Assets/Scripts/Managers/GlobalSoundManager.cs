@@ -63,6 +63,7 @@ public class GlobalSoundManager : MonoSingleton<GlobalSoundManager>
     {
         var audioSource = audioSourceData.Find(data => data.Id == id);
         if (audioSource == null) return;
+        if (audioSource.AudioSource == null) return;
         audioSource.AudioSource.Stop();
         audioSourceData.Remove(audioSource);
     }

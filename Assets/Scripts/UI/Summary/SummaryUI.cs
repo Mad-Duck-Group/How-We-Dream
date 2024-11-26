@@ -29,6 +29,7 @@ public class SummaryUI : MonoBehaviour, IUIPage
     {
         summaryCanvasGroup.gameObject.SetActive(true);
         summaryText.text = Summary();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(summaryText.transform.parent as RectTransform);
         totalText.text = $"{SummaryData.AccumulatedCurrency}";
         float sandManMax = (SummaryData.AccumulatedCurrency > Level.Quota ? SummaryData.AccumulatedCurrency : Level.Quota) * sliderMaxModifier;
         sandManSlider.maxValue = sandManMax;

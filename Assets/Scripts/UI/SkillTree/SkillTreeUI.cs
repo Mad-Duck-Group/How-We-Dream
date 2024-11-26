@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillTreeUI : MonoBehaviour, IUIPage
 {
     [SerializeField] private CanvasGroup skillTreeCanvasGroup;
     [SerializeField] private TMP_Text skillPointsText;
+    [SerializeField] private ScrollRect skillTreeScrollRect;
     // Start is called before the first frame update
     
     private void OnEnable()
@@ -28,6 +30,7 @@ public class SkillTreeUI : MonoBehaviour, IUIPage
     public void Initialize()
     {
         skillTreeCanvasGroup.gameObject.SetActive(true);
+        skillTreeScrollRect.normalizedPosition = new Vector2(0, 0);
         skillTreeCanvasGroup.gameObject.SetActive(false);
     }
     

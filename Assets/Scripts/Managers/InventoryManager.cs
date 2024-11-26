@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
@@ -14,6 +15,16 @@ public class IngredientData
     public int Amount {get => amount; set => amount = value;}
     [SerializeField] private int maxAmount = 30;
     public int MaxAmount => maxAmount;
+    
+    public IngredientData GetCopy()
+    {
+        return new IngredientData
+        {
+            ingredient = ingredient,
+            amount = amount,
+            maxAmount = maxAmount
+        };
+    }
 }
 public class InventoryManager : PersistentMonoSingleton<InventoryManager>
 {
@@ -27,6 +38,15 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
     public delegate void CurrencyChanged(int change, int current);
     public static event CurrencyChanged OnCurrencyChanged;
     
+    private Dictionary<IngredientTypes, IngredientData> startingData = new();
+    private int startingCurrency;
+
+    private void Start()
+    {
+        var dict = ingredientData.ToDictionary(pair => pair.Key, pair => pair.Value.GetCopy());
+        startingData = new Dictionary<IngredientTypes, IngredientData>(dict);
+        startingCurrency = currency;
+    }
     public IngredientData GetIngredientData(IngredientTypes ingredient)
     {
         if (!ingredientData.ContainsKey(ingredient)) return null;
@@ -48,5 +68,12 @@ public class InventoryManager : PersistentMonoSingleton<InventoryManager>
         currency += amount;
         currency = Mathf.Clamp(currency, 0, int.MaxValue);
         OnCurrencyChanged?.Invoke(amount, currency);
+    }
+    
+    public void ResetInventory()
+    {
+        var dict = startingData.ToDictionary(pair => pair.Key, pair => pair.Value.GetCopy());
+        ingredientData = new SerializedDictionary<IngredientTypes, IngredientData>(dict);
+        currency = startingCurrency;
     }
 }

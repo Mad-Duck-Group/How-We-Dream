@@ -64,10 +64,10 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         orderPageUI.Initialize(recipe);
         orderPageUI.OnConfirmation += OnOrderConfirmation;
         orderPageUI.gameObject.SetActive(false);
-        if (!recipe.HasTimeLimit) return;
-        timer = recipe.TimeLimit;
         rectTransform.DOAnchorPos(showPosition, 0.2f);
         GlobalSoundManager.Instance.PlayUISFX("NewOrder");
+        if (!recipe.HasTimeLimit) return;
+        timer = recipe.TimeLimit;
         timerCoroutine = Moroutine.Run(gameObject, Timer());
         timerCoroutine.OnCompleted(_ => Reject(true));
     }
@@ -184,7 +184,8 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         RecipeManager.OnRecipeChanged -= OnRecipeChange;
         RecipeManager.OnRecipeComplete -= OnRecipeComplete;
         SetEmpty();
-        Destroy(orderPageUI.gameObject);
+        if (orderPageUI)
+            Destroy(orderPageUI.gameObject);
     }
 
     public void OnPointerClick(PointerEventData eventData)

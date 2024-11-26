@@ -40,7 +40,7 @@ MonoBehaviour:
       Value: 1
     - Key: 8
       Value: 1
-  hasTimeLimit: 1
+  hasTimeLimit: 0
   timeLimit: 180
   baseProfit: 0.2
   maxProfit: 0.5
