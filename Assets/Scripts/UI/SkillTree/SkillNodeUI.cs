@@ -9,9 +9,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
+public class SkillNodeUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private SkillNodeSO skillNode;
+    [SerializeField] private Image selectionImage;
+    [SerializeField] private Sprite unavailableSprite;
+    [SerializeField] private Sprite availableSprite;
+    [SerializeField] private Sprite acquiredSprite;
     private Image image;
     private UILineConnector lineConnector;
     private PositionConstraint positionConstraint;
@@ -39,13 +43,13 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
     private void OnSkillUnlock(SkillNodeSO skillnode)
     {
         if (skillnode != skillNode) return;
-        image.color = Color.white;
+        image.sprite = availableSprite;
     }
     
     private void OnSkillAcquire(SkillNodeSO node)
     {
         if (node != skillNode) return;
-        image.color = Color.green;
+        image.sprite = acquiredSprite;
         GlobalSoundManager.Instance.PlayUISFX("SkillUnlocked");
     }
     
@@ -67,10 +71,10 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
 
     private void Initialize()
     {
-        image.color = skillNode.Unlocked ? Color.white : Color.gray;
-        image.color = skillNode.Acquired ? Color.green : image.color;
+        image.sprite = skillNode.Unlocked ? availableSprite : unavailableSprite;
+        image.sprite = skillNode.Acquired ? acquiredSprite : image.sprite;
         Transform scrollRect = GetComponentInParent<ScrollRect>().transform;
-        positionConstraint.AddSource(new ConstraintSource {sourceTransform = scrollRect, weight = 1});
+        positionConstraint.AddSource(new ConstraintSource {sourceTransform = scrollRect.parent, weight = 1});
         positionConstraint.translationOffset = Vector3.zero;
         positionConstraint.locked = true;
         positionConstraint.constraintActive = true;
@@ -84,9 +88,10 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
         bool locked = !skillNode.Unlocked;
+        if (skillNode.Acquired) locked = true;
         if (ProgressionManager.Instance.SkillPoints < skillNode.Skill.SkillCost) locked = true;
-        if (eventData.button != PointerEventData.InputButton.Left) locked = true;
         if (locked)
         {
             GlobalSoundManager.Instance.PlayUISFX("Locked");
@@ -94,5 +99,15 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
         }
         skillNode.Acquire();
         ProgressionManager.Instance.SkillPoints -= skillNode.Skill.SkillCost;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        selectionImage.enabled = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        selectionImage.enabled = false;
     }
 }

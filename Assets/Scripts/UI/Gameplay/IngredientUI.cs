@@ -24,6 +24,8 @@ public class IngredientUI : MonoBehaviour
     //Mouse position in world space
     private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition).WithZ(0);
     private Vector3 originalScale;
+    private static bool _holding;
+    public static bool Holding => _holding;
 
     private void Awake()
     {
@@ -65,8 +67,9 @@ public class IngredientUI : MonoBehaviour
     
     public void BeingDrag()
     {
-        image.sortingOrder = 3;
+        image.sortingOrder = 5;
         GlobalSoundManager.Instance.PlayUISFX("Drag");
+        _holding = true;
     }
 
     public void Drag()
@@ -77,6 +80,7 @@ public class IngredientUI : MonoBehaviour
     public bool EndDragCheck(PointerEventData eventData)
     {
         image.sortingOrder = 2;
+        _holding = false;
         if (eventData.hovered.Count == 0) return false;
         eventData.hovered.ForEach(x => Debug.Log(x.name));
         foreach (var hover in eventData.hovered)

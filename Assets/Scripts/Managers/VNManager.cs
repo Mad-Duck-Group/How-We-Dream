@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using AYellowpaper.SerializedCollections;
 using DG.Tweening;
+using Gamelogic.Extensions;
 using Redcode.Extensions;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
@@ -203,6 +204,8 @@ public class VNManager : PersistentMonoSingleton<VNManager>
         if (lastDialogue[dialogue.CharacterPosition] == null)
         {
             currentPortrait.CurrentImage.sprite = characterSprites[dialogue.Name];
+            var rotation = dialogue.CharacterPosition == CharacterPosition.Left ? 0f : 180f;
+            currentPortrait.CurrentImage.transform.SetRotationY(rotation);
             sequence.Append(currentPortrait.RectTransform.DOAnchorPos(currentPortrait.ShowPosition, 0.25f));
             sequence.Join(currentPortrait.CurrentImage.DOFade(1f, 0.2f));
         }
@@ -214,6 +217,8 @@ public class VNManager : PersistentMonoSingleton<VNManager>
             sequence.Join(currentPortrait.CurrentImage.DOFade(0f, 0.25f));
             currentPortrait.Switch();
             currentPortrait.CurrentImage.sprite = characterSprites[dialogue.Name];
+            var rotation = dialogue.CharacterPosition == CharacterPosition.Left ? 0f : 180f;
+            currentPortrait.CurrentImage.transform.SetRotationY(rotation);
             sequence.Join(currentPortrait.RectTransform.DOAnchorPos(currentPortrait.ShowPosition, 0.25f));
             sequence.Join(currentPortrait.CurrentImage.DOFade(1f, 0.25f));
         }

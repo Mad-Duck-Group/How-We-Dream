@@ -14,7 +14,15 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     [SerializeField] private List<VNPathSO> vnPaths;
     public LevelSO CurrentLevel => levels[currentLevelIndex];
     public int CurrentLevelIndex => currentLevelIndex;
-    public int SkillPoints { get => skillPoints; set => skillPoints = value; }
+    public int SkillPoints
+    {
+        get => skillPoints;
+        set
+        {
+            skillPoints = value;
+            OnSkillPointChanged?.Invoke(skillPoints);
+        }
+    }
 
     public float Progress
     {
@@ -24,6 +32,9 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
             return (float)currentLevelIndex / levels.Count;
         }
     }
+
+    public delegate void SkillPointChanged(int points);
+    public static event SkillPointChanged OnSkillPointChanged;
 
     public void NextLevel()
     {
