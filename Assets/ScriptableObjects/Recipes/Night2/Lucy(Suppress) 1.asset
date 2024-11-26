@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44b265cf1297d984e91147ac4f469407, type: 3}
-  m_Name: Test2
+  m_Name: Lucy(Suppress) 1
   m_EditorClassIdentifier: 
-  orderName: Ajarn Fon
-  orderDescription: Somebody once told me the world gonna roll me, I ain't the sharpest
-    tool in the shed.
+  orderName: Lucy Johanson
+  orderDescription: When I sad. I will stay in my room and try to sleep. To forgot
+    what make me sad. The dreaming make me feel good. Because I can make any dream
+    I want before fall asleep. And then I will live in that world for a few hours.
   randomDreamType: 0
-  dreamType: 1
+  dreamType: 3
   randomIngredient: 0
   ingredientTypeRange: {x: 0, y: 0}
   ingredientAmountRange: {x: 0, y: 0}
@@ -25,15 +26,15 @@ MonoBehaviour:
     - Key: 0
       Value: 0
     - Key: 1
-      Value: 2
+      Value: 3
     - Key: 2
-      Value: 1
-    - Key: 3
       Value: 2
+    - Key: 3
+      Value: 1
     - Key: 4
-      Value: 1
+      Value: 2
     - Key: 5
-      Value: 1
+      Value: 3
     - Key: 6
       Value: 0
     - Key: 7

@@ -14,20 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prerequisites:
   - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
-  nextNodes: []
-  unlocked: 1
+  nextNodes:
+  - {fileID: 11400000, guid: 5a77521e0901a264c8e3f13f594e1c09, type: 2}
+  unlocked: 0
   skill:
-    rid: 692313544237514775
+    rid: 432299986330058861
   unlockByDefault: 0
-  acquired: 1
+  acquired: 0
   references:
     version: 2
     RefIds:
-    - rid: 692313544237514775
-      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
+    - rid: 432299986330058861
+      type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
       data:
-        skillName: Money
-        description: Money
-        skillType: 0
+        skillName: Ingredient
+        description: Receive Truth:2, Imagination:2, Emotion2
+        skillType: 1
         skillCost: 1
-        currencyValue: 10
+        ingredientData:
+          _serializedList:
+          - Key: 0
+            Value: 2
+          - Key: 1
+            Value: 2
+          - Key: 2
+            Value: 1

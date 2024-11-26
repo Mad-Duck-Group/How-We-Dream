@@ -14,7 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipePool: []
   finiteRecipes:
-  - {fileID: 11400000, guid: c5c2ecee859db5644a5294bb541db81f, type: 2}
+  - {fileID: 11400000, guid: d2ac994cec2feae4d99fce653dfa8659, type: 2}
+  - {fileID: 11400000, guid: a820dce92736ae644912df88b7d8dc4e, type: 2}
+  - {fileID: 11400000, guid: 6d28f148cfd95404a9f5339dd34f15c1, type: 2}
+  - {fileID: 11400000, guid: 6b717c8fd4b64dc4785956c70914111b, type: 2}
+  - {fileID: 11400000, guid: 33636766771ccc243aa294a475224cc4, type: 2}
+  - {fileID: 11400000, guid: fee92ae86ad67584a9ebcc94b2e32633, type: 2}
+  - {fileID: 11400000, guid: 0cd02dccecb9f82409d3ced7c1bc926b, type: 2}
+  - {fileID: 11400000, guid: 6f8056b787f67174b8f82cc29ea693e0, type: 2}
+  - {fileID: 11400000, guid: 69c1504ca77f89f4dbbfbed29a7ced89, type: 2}
+  - {fileID: 11400000, guid: 30fe486d64d542b4d8d556c72bf9e96f, type: 2}
+  - {fileID: 11400000, guid: 7351dd7d7e92f474d8f92fca3050a9f5, type: 2}
+  - {fileID: 11400000, guid: 78e1f6d1f75b6c249ac7fd1ac5ca2e3b, type: 2}
+  - {fileID: 11400000, guid: 5aea61cbbff82bb4f96be648cf7490a7, type: 2}
+  - {fileID: 11400000, guid: 19a580e8920f2f044ad45a5ef6983e41, type: 2}
   randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   infinite: 0
@@ -23,8 +36,8 @@ MonoBehaviour:
   randomAmountRange: {x: 3, y: 6}
   timeLimit: 600
   hasQuota: 1
-  quota: 5
-  boogeyManQuota: 666
+  quota: 120
+  boogeyManQuota: 500
   endless: 0
   showVNAtStart: 0
   beforeStartVN: []
