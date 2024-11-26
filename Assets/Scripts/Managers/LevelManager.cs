@@ -42,6 +42,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField, Expandable, ReadOnly] private LevelSO level;
     public LevelSO Level => level;
     [SerializeField] private CanvasGroup startEndPanel;
+    [SerializeField] private Image startEndImage;
+    [SerializeField] private Sprite startSprite;
+    [SerializeField] private Sprite endSprite;
     [SerializeField] private TMP_Text nightText;
     [SerializeField] private TMP_Text startEndText;
     [SerializeField] private Image clock;
@@ -72,7 +75,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         IngredientSO.OnIngredientUsed += OnIngredientUsed;
         VNManager.OnVNFinished += OnVNFinished;
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManagerPersistent.OnFinishFadeIn += InitializeVN;
+        //SceneManagerPersistent.OnFinishFadeIn += InitializeVN;
     }
 
     private void OnDisable()
@@ -84,12 +87,14 @@ public class LevelManager : MonoSingleton<LevelManager>
         IngredientSO.OnIngredientUsed -= OnIngredientUsed;
         VNManager.OnVNFinished -= OnVNFinished;
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManagerPersistent.OnFinishFadeIn -= InitializeVN;
+        //SceneManagerPersistent.OnFinishFadeIn -= InitializeVN;
     }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         InitializeStartEnd();
+        if (!SceneManagerPersistent.FirstSceneLoaded) return;
+        InitializeVN();
     }
     
     private void OnOrderReject()
@@ -147,15 +152,18 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void StartGame()
     {
+        Debug.Log("Start Game");
         gameTimer = Moroutine.Run(gameObject, GameTimer());
         gameTimer.OnCompleted(_ => GameEnd());
         gameStart = true;
         startEndPanel.gameObject.SetActive(true);
+        startEndImage.sprite = startSprite;
         nightText.text = $"Night {ProgressionManager.Instance.CurrentLevelIndex + 1}";
         startEndText.text = "Start Work!";
         GlobalSoundManager.Instance.PlayUISFX("StartWork");
         GlobalSoundManager.Instance.PlayBGM("GameplayBGM");
         var sequence = DOTween.Sequence();
+        startEndPanel.alpha = 0;
         sequence.Append(startEndPanel.DOFade(1f, 0.5f));
         sequence.Append(startEndPanel.DOFade(1f, 2f));
         sequence.Append(startEndPanel.DOFade(0f, 0.5f));
@@ -202,7 +210,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             if (VNManager.Instance.ShowVN(currentVN.Current))
             {
                 startEndPanel.gameObject.SetActive(false);
+                return;
             }
+            StartGame();
         }
         else
         {
@@ -232,7 +242,10 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             currentVN = passQuota ? level.SuccessVN.GetEnumerator() : level.FailVN.GetEnumerator();
             currentVN.MoveNext();
-            VNManager.Instance.ShowVN(currentVN.Current);
+            Debug.Log("aaaaaaaaaaaaaaa");
+            if (VNManager.Instance.ShowVN(currentVN.Current)) return;
+            Debug.Log("bbbbbbbbbbbbbbb");
+            ShowEndPanel();
         }
         else
         {
@@ -243,6 +256,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void ShowEndPanel()
     {
         startEndPanel.gameObject.SetActive(true);
+        startEndImage.sprite = endSprite;
         nightText.text = $"Night {ProgressionManager.Instance.CurrentLevelIndex + 1}";
         startEndText.text = "End Work";
         GlobalSoundManager.Instance.PlayUISFX("EndWork");

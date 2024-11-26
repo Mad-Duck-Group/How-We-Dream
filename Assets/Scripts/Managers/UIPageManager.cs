@@ -115,11 +115,12 @@ public class UIPageManager : PersistentMonoSingleton<UIPageManager>
         if (openSuccessful) currentPage = page;
         SetActiveButton(backButton, currentPage != PageTypes.Summary);
         nextButton.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(true);
+        // backButton.gameObject.SetActive(true);
     }
     
     private void SetActiveButton(Button button, bool active)
     {
         button.interactable = active;
+        button.gameObject.SetActive(active);
     }
 }
