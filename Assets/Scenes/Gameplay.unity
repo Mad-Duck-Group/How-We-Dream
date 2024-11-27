@@ -215,6 +215,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2521191918819536439, guid: b7a80c7cc674b894693a87a324673716, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4009349818274852466, guid: b7a80c7cc674b894693a87a324673716, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -299,6 +303,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 7742909677859781839, guid: b7a80c7cc674b894693a87a324673716, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 48.04492
+      objectReference: {fileID: 0}
     - target: {fileID: 8871689221924456745, guid: b7a80c7cc674b894693a87a324673716, type: 3}
       propertyPath: m_Name
       value: UIPageManager
@@ -3012,14 +3020,14 @@ MonoBehaviour:
   hitZone: {fileID: 276406777}
   blenderButton: {fileID: 2122160742}
   timerText: {fileID: 1766433402}
-  randomHitZoneSize: 1
-  hitZoneSize: 0
+  randomHitZoneSize: 0
+  hitZoneSize: 20
   hitZoneSizeRandomRange: {x: 15, y: 30}
   randomHitZonePosition: 1
   hitZonePosition: 0
-  timeLimit: 10
-  sliderDropSpeed: 60
-  sliderBumpAmount: 10
+  timeLimit: 5
+  sliderDropSpeed: 50
+  sliderBumpAmount: 12
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4164,7 +4172,7 @@ MonoBehaviour:
   hitZone: {fileID: 1102372488}
   pourButton: {fileID: 184365902}
   randomHitZoneSize: 0
-  hitZoneSize: 6
+  hitZoneSize: 10
   hitZoneSizeRandomRange: {x: 10, y: 3}
   randomHitZonePosition: 1
   hitZonePosition: 0
@@ -9034,7 +9042,7 @@ MonoBehaviour:
   sliderHandle: {fileID: 475273697}
   hitZone: {fileID: 1376149654}
   knob: {fileID: 256951912}
-  randomHitZoneSize: 1
+  randomHitZoneSize: 0
   hitZoneSize: 10
   hitZoneSizeRandomRange: {x: 7, y: 15}
   randomHitZonePosition: 1
@@ -9680,7 +9688,7 @@ MonoBehaviour:
   center: {fileID: 732567458}
   rotate: {fileID: 732567459}
   rotateSlider: {fileID: 1351064046}
-  sliderGainRate: 5
+  sliderGainRate: 6
   changeDirectionThreshold: 180
   timeLimit: 10
   timerText: {fileID: 913548396}
@@ -12618,6 +12626,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: currency
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: ingredientData._serializedList.Array.data[0].Value.amount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: ingredientData._serializedList.Array.data[1].Value.amount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: ingredientData._serializedList.Array.data[5].Value.amount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: ingredientData._serializedList.Array.data[6].Value.amount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: ingredientData._serializedList.Array.data[7].Value.amount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105068744106220310, guid: 55ce555cbc6a3124aab0390ccf21378f, type: 3}
+      propertyPath: ingredientData._serializedList.Array.data[8].Value.amount
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12788,6 +12824,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2086141224516672610, guid: af3d6b31662ac5b49b3f158e07f426b9, type: 3}
+      propertyPath: skillPoints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3334060675849137501, guid: af3d6b31662ac5b49b3f158e07f426b9, type: 3}
       propertyPath: m_Name
       value: ProgressionManager

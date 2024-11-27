@@ -17,17 +17,24 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ed557b0e8e073546ac688e93356a19b, type: 2}
   unlocked: 1
   skill:
-    rid: 432299986330058859
+    rid: 432300004846862388
   unlockByDefault: 1
   acquired: 0
   references:
     version: 2
     RefIds:
-    - rid: 432299986330058859
-      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
+    - rid: 432300004846862388
+      type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
       data:
-        skillName: Souls
-        description: Receive 10 Souls
-        skillType: 0
+        skillName: Ingredient
+        description: Receive 10 of Memorie, Realization and Subconscious
+        skillType: 1
         skillCost: 1
-        currencyValue: 10
+        ingredientData:
+          _serializedList:
+          - Key: 3
+            Value: 10
+          - Key: 4
+            Value: 10
+          - Key: 5
+            Value: 10

@@ -28,7 +28,7 @@ MonoBehaviour:
       type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
       data:
         skillName: Souls
-        description: Receive 20 Souls
+        description: Receive 50 Souls
         skillType: 0
         skillCost: 1
-        currencyValue: 20
+        currencyValue: 50

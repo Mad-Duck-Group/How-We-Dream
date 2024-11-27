@@ -17,26 +17,17 @@ MonoBehaviour:
   nextNodes: []
   unlocked: 0
   skill:
-    rid: 432299986330058863
+    rid: 432300004846862391
   unlockByDefault: 0
   acquired: 0
   references:
     version: 2
     RefIds:
-    - rid: 432299986330058863
-      type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
+    - rid: 432300004846862391
+      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
       data:
-        skillName: Ingredient
-        description: Receive Truth:5, Imagination:5, Emotion:5, Memorie:5
-        skillType: 1
+        skillName: Souls
+        description: Receive 500 Souls
+        skillType: 0
         skillCost: 1
-        ingredientData:
-          _serializedList:
-          - Key: 0
-            Value: 5
-          - Key: 1
-            Value: 5
-          - Key: 2
-            Value: 5
-          - Key: 3
-            Value: 5
+        currencyValue: 500

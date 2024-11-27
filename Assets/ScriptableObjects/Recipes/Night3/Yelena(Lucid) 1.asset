@@ -26,21 +26,21 @@ MonoBehaviour:
     - Key: 0
       Value: 0
     - Key: 1
-      Value: 1
+      Value: 0
     - Key: 2
       Value: 2
     - Key: 3
-      Value: 0
+      Value: 2
     - Key: 4
-      Value: 0
+      Value: 2
     - Key: 5
       Value: 0
     - Key: 6
-      Value: 2
+      Value: 0
     - Key: 7
-      Value: 1
+      Value: 0
     - Key: 8
-      Value: 3
+      Value: 0
   hasTimeLimit: 0
   timeLimit: 180
   baseProfit: 0.2

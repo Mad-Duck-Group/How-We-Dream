@@ -18,17 +18,37 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5a77521e0901a264c8e3f13f594e1c09, type: 2}
   unlocked: 0
   skill:
-    rid: 432299986330058862
+    rid: 432300004846862390
   unlockByDefault: 0
   acquired: 0
   references:
     version: 2
     RefIds:
-    - rid: 432299986330058862
-      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
+    - rid: 432300004846862390
+      type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
       data:
-        skillName: Souls
-        description: Receive 50 Souls
-        skillType: 0
+        skillName: Ingredient
+        description: Receive 2 of Truth, Imagination and Emotion | Receive 4 of Memorie,
+          Realization and Subconscious | Receive 6 of Time, Symbol and Mystery
+        skillType: 1
         skillCost: 1
-        currencyValue: 50
+        ingredientData:
+          _serializedList:
+          - Key: 0
+            Value: 2
+          - Key: 1
+            Value: 2
+          - Key: 2
+            Value: 2
+          - Key: 3
+            Value: 4
+          - Key: 4
+            Value: 4
+          - Key: 5
+            Value: 4
+          - Key: 6
+            Value: 6
+          - Key: 7
+            Value: 6
+          - Key: 8
+            Value: 6

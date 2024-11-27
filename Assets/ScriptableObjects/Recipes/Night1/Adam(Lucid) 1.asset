@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orderName: Adam Stapler
   orderDescription: My boss very anoying. I want to smash him with everything I catch
-    around me to satisfy mysalf. But I can't.
+    around me to satisfy myself. But I can't.
   randomDreamType: 0
   dreamType: 0
   randomIngredient: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
   ingredientData:
     _serializedList:
     - Key: 0
-      Value: 1
+      Value: 2
     - Key: 1
       Value: 2
     - Key: 2

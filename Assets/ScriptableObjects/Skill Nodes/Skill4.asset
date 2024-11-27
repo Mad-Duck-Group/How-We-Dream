@@ -28,14 +28,14 @@ MonoBehaviour:
       type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
       data:
         skillName: Ingredient
-        description: Receive Truth:2, Imagination:2, Emotion2
+        description: Receive 5 of Time, Symbol and Mystery
         skillType: 1
         skillCost: 1
         ingredientData:
           _serializedList:
-          - Key: 0
-            Value: 2
-          - Key: 1
-            Value: 2
-          - Key: 2
-            Value: 1
+          - Key: 6
+            Value: 5
+          - Key: 7
+            Value: 5
+          - Key: 8
+            Value: 5
