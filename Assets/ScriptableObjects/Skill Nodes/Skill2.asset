@@ -19,22 +19,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0340187add22ee1418d0270bf2f7b82c, type: 2}
   unlocked: 0
   skill:
-    rid: 692313475709140992
+    rid: 432300004846862389
   unlockByDefault: 0
   acquired: 0
   references:
     version: 2
     RefIds:
-    - rid: 692313475709140992
-      type: {class: IngredientSkill, ns: , asm: Assembly-CSharp}
+    - rid: 432300004846862389
+      type: {class: CurrencySkill, ns: , asm: Assembly-CSharp}
       data:
-        skillName: Ingredient
-        description: Receive Truth:3, Imagination:3
-        skillType: 1
+        skillName: Souls
+        description: Receive 20 Souls
+        skillType: 0
         skillCost: 1
-        ingredientData:
-          _serializedList:
-          - Key: 0
-            Value: 3
-          - Key: 1
-            Value: 3
+        currencyValue: 20

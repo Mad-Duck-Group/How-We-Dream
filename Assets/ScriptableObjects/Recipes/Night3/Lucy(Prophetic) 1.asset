@@ -23,7 +23,7 @@ MonoBehaviour:
   ingredientData:
     _serializedList:
     - Key: 0
-      Value: 3
+      Value: 0
     - Key: 1
       Value: 0
     - Key: 2
@@ -35,9 +35,9 @@ MonoBehaviour:
     - Key: 5
       Value: 0
     - Key: 6
-      Value: 2
-    - Key: 7
       Value: 1
+    - Key: 7
+      Value: 2
     - Key: 8
       Value: 1
   hasTimeLimit: 0

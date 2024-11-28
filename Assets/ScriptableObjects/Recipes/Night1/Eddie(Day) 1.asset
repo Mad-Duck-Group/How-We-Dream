@@ -23,7 +23,7 @@ MonoBehaviour:
   ingredientData:
     _serializedList:
     - Key: 0
-      Value: 2
+      Value: 0
     - Key: 1
       Value: 2
     - Key: 2
