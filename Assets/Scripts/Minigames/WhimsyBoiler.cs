@@ -23,6 +23,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;
     [SerializeField] private bool randomHitZonePosition;
     [SerializeField, HideIf(nameof(randomHitZonePosition))] private float hitZonePosition;
+    [SerializeField] private Vector2 padding;
     [SerializeField] private float pourSpeed;
     
     [Header("Fire Sliders")]
@@ -237,12 +238,12 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     private void GenerateHitZone()
     {
         if (randomHitZoneSize) hitZoneSize = Random.Range(hitZoneSizeRandomRange.x, hitZoneSizeRandomRange.y);
-        if (randomHitZonePosition) hitZonePosition = Random.Range(potWaterSlider.minValue + hitZoneSize / 2, potWaterSlider.maxValue - hitZoneSize / 2);
+        if (randomHitZonePosition) hitZonePosition = Random.Range(potWaterSlider.minValue + hitZoneSize / 2 + padding.x, potWaterSlider.maxValue - hitZoneSize / 2 - padding.y);
         hitZoneRange = new Vector2(hitZonePosition - hitZoneSize / 2, hitZonePosition + hitZoneSize / 2);
         var sliderRectHeight = ((RectTransform)potWaterSlider.transform).rect.height;
-        float buttom = sliderRectHeight * (hitZoneRange.x / potWaterSlider.maxValue);
-        float top = sliderRectHeight - (buttom + sliderRectHeight * (hitZoneSize / potWaterSlider.maxValue));
-        hitZone.SetBottom(buttom);
+        float bottom = sliderRectHeight * (hitZoneRange.x / potWaterSlider.maxValue);
+        float top = sliderRectHeight - (bottom + sliderRectHeight * (hitZoneSize / potWaterSlider.maxValue));
+        hitZone.SetBottom(bottom);
         hitZone.SetTop(-top);
     }
 

@@ -64,10 +64,7 @@ public class IngredientSlotUI : MonoBehaviour, IIngredientContainer
         if (!InventoryManager.Instance.IngredientData.ContainsKey(ingredientType)) return;
         data = InventoryManager.Instance.IngredientData[ingredientType];
         amountText.text = data.Amount.ToString();
-        // if (data.Amount == 0)
-        // {
-        //     Destroy(gameObject);
-        // }
+        gameObject.SetActive(data.Amount != 0);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

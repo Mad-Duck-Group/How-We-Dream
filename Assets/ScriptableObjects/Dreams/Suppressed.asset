@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Suppressed
   m_EditorClassIdentifier: 
   dreamType: 3
+  dreamTypeName: Suppressed Dream
   ingredientData:
     _serializedList:
     - Key: 0

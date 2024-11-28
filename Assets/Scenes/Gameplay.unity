@@ -2925,8 +2925,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
-  m_SizeDelta: {x: 20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &475273697
 MonoBehaviour:
@@ -2941,7 +2941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2783019, g: 0.8455234, b: 1, a: 1}
+  m_Color: {r: 0.2783019, g: 0.8455234, b: 1, a: 0.50980395}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4176,6 +4176,7 @@ MonoBehaviour:
   hitZoneSizeRandomRange: {x: 10, y: 3}
   randomHitZonePosition: 1
   hitZonePosition: 0
+  padding: {x: 50, y: 0}
   pourSpeed: 60
   fireSlidersCanvasGroup: {fileID: 1855484322}
   fireSliderDict:
@@ -9047,6 +9048,7 @@ MonoBehaviour:
   hitZoneSizeRandomRange: {x: 7, y: 15}
   randomHitZonePosition: 1
   hitZonePosition: 0
+  padding: {x: 50, y: 0}
   barSpeed: 80
   preparationTime: 2
 --- !u!1 &1501967739
@@ -9697,7 +9699,7 @@ MonoBehaviour:
   sliderHandle: {fileID: 1745061248}
   mousePrefab: {fileID: 3550766202890857800, guid: 281434c5935d4e44296b8d716716faeb, type: 3}
   parent: {fileID: 1359411587}
-  padding: {x: 10, y: 10}
+  padding: {x: 20, y: 20}
   sliderSpeed: 50
   hitZoneCount: 5
   hitZoneSize: 6

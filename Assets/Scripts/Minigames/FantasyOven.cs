@@ -22,12 +22,14 @@ public class FantasyOven : MonoBehaviour, IMinigame
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;
     [SerializeField] private bool randomHitZonePosition;
     [SerializeField, HideIf(nameof(randomHitZonePosition))] private float hitZonePosition;
+    [SerializeField] private Vector2 padding;
     [SerializeField] private float barSpeed;
     [SerializeField] private float preparationTime = 2f;
 
     private int currentAttempt;
-    private int maxMistakes;
+    private int gameEndThreshold;
     private int mistakes;
+    private int success;
     private bool ready;
     private Moroutine minigameCoroutine;
     private Vector2 hitZoneRange;
@@ -57,7 +59,8 @@ public class FantasyOven : MonoBehaviour, IMinigame
     
     public void StartMinigame()
     {
-        maxMistakes = Mathf.CeilToInt(lights.Length / 2f);
+        gameEndThreshold = Mathf.CeilToInt(lights.Length / 2f);
+        success = 0;
         mistakes = 0;
         currentAttempt = 0;
         lights.ForEach(x => x.color = Color.white);
@@ -104,7 +107,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
         mistakes++;
         minigameCoroutine.Stop();
         lights[currentAttempt].DOColor(Color.red, 0.2f);
-        if (mistakes >= maxMistakes)
+        if (mistakes >= gameEndThreshold)
         {
             OnMinigameEnd?.Invoke(false);
             minigameCanvasGroup.gameObject.SetActive(false);
@@ -126,10 +129,11 @@ public class FantasyOven : MonoBehaviour, IMinigame
 
     private void Succeed()
     {
+        success++;
         minigameCoroutine.Stop();
         lights[currentAttempt].DOColor(Color.green, 0.2f);
         currentAttempt++;
-        if (currentAttempt > lights.Length - 1)
+        if (currentAttempt > lights.Length - 1 || success >= gameEndThreshold)
         {
             OnMinigameEnd?.Invoke(true);
             minigameCanvasGroup.gameObject.SetActive(false);
@@ -142,7 +146,7 @@ public class FantasyOven : MonoBehaviour, IMinigame
     private void GenerateHitZone()
     {
         if (randomHitZoneSize) hitZoneSize = Random.Range(hitZoneSizeRandomRange.x, hitZoneSizeRandomRange.y);
-        if (randomHitZonePosition) hitZonePosition = Random.Range(slider.minValue + hitZoneSize / 2, slider.maxValue - hitZoneSize / 2);
+        if (randomHitZonePosition) hitZonePosition = Random.Range(slider.minValue + hitZoneSize / 2 + padding.x, slider.maxValue - hitZoneSize / 2 - padding.y);
         hitZoneRange = new Vector2(hitZonePosition - hitZoneSize / 2, hitZonePosition + hitZoneSize / 2);
         var sliderRectWidth = ((RectTransform)slider.transform).rect.width;
         float left = sliderRectWidth * (hitZoneRange.x / slider.maxValue);

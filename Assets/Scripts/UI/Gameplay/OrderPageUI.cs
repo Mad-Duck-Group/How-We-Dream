@@ -37,7 +37,8 @@ public class OrderPageUI : MonoBehaviour
     {
         orderNameText.text = $"{recipe.OrderName}";
         orderDescriptionText.text = recipe.OrderDescription;
-        orderDreamTypeText.text = $"{recipe.DreamType}";
+        var dreamName = RecipeManager.Instance.DreamData[recipe.DreamType].DreamTypeName;
+        orderDreamTypeText.text = $"{dreamName}";
         timeLimitIcon.enabled = recipe.HasTimeLimit;
         foreach (var ingredient in recipe.IngredientData)
         {

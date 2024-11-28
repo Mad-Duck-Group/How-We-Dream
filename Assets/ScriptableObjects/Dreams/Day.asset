@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day
   m_EditorClassIdentifier: 
   dreamType: 1
+  dreamTypeName: Daydream
   ingredientData:
     _serializedList:
     - Key: 0

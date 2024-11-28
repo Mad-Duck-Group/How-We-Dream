@@ -21,6 +21,7 @@ public class IngredientUI : MonoBehaviour
     private SpriteRenderer image;
     private GameObject owner;
     private Rigidbody2D rb;
+    private CircleCollider2D col2d;
     //Mouse position in world space
     private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition).WithZ(0);
     private Vector3 originalScale;
@@ -30,6 +31,7 @@ public class IngredientUI : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        col2d = GetComponent<CircleCollider2D>();
         rb.simulated = false;
         originalScale = transform.localScale;
     }
@@ -63,6 +65,8 @@ public class IngredientUI : MonoBehaviour
             var targetScale = originalScale * size;
             transform.localScale = Divide(targetScale, transform.lossyScale);
         }
+        var spriteSize = image.sprite.bounds.size;
+        col2d.radius = spriteSize.x / 2;
     }
     
     public void BeingDrag()
@@ -89,7 +93,9 @@ public class IngredientUI : MonoBehaviour
             if (hover.TryGetComponent(out IIngredientContainer container))
             {
                 if (container is IngredientRackUI or IngredientSlotUI && ingredient.CookState is not CookStates.Raw)
+                {
                     return false;
+                }
                 return container.SetIngredient(ingredient);
             }
         }

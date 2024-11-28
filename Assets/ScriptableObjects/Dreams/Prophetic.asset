@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Prophetic
   m_EditorClassIdentifier: 
   dreamType: 2
+  dreamTypeName: Prophetic Dream
   ingredientData:
     _serializedList:
     - Key: 0

@@ -63,7 +63,7 @@ public class Bumpable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void BumpUp()
     {
         if (bumpTween.IsActive()) bumpTween.Kill();
-        bumpTween = transform.DOScale(bumpScale, 0.2f).SetRelative();
+        bumpTween = transform.DOScale(originalScale + bumpScale, 0.2f);
         if (playPointSound) 
             GlobalSoundManager.Instance.PlayUISFX("MousePoint");
     }

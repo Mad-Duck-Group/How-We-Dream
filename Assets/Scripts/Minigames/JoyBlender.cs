@@ -117,9 +117,9 @@ public class JoyBlender : MonoBehaviour, IMinigame
         if (randomHitZonePosition) hitZonePosition = Random.Range(slider.minValue + hitZoneSize / 2, slider.maxValue - hitZoneSize / 2);
         hitZoneRange = new Vector2(hitZonePosition - hitZoneSize / 2, hitZonePosition + hitZoneSize / 2);
         var sliderRectHeight = ((RectTransform)slider.transform).rect.height;
-        float buttom = sliderRectHeight * (hitZoneRange.x / slider.maxValue);
-        float top = sliderRectHeight - (buttom + sliderRectHeight * (hitZoneSize / slider.maxValue));
-        hitZone.SetBottom(buttom);
+        float bottom = sliderRectHeight * (hitZoneRange.x / slider.maxValue);
+        float top = sliderRectHeight - (bottom + sliderRectHeight * (hitZoneSize / slider.maxValue));
+        hitZone.SetBottom(bottom);
         hitZone.SetTop(-top);
     }
 }

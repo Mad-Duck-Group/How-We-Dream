@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Lucid
   m_EditorClassIdentifier: 
   dreamType: 0
+  dreamTypeName: Lucid Dream
   ingredientData:
     _serializedList:
     - Key: 0
