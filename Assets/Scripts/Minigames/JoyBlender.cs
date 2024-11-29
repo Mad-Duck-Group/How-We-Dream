@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using NaughtyAttributes;
 using Redcode.Extensions;
 using Redcode.Moroutines;
@@ -15,11 +16,13 @@ public class JoyBlender : MonoBehaviour, IMinigame
     [SerializeField] private RectTransform hitZone;
     [SerializeField] private ClickableArea blenderButton;
     [SerializeField] private TMP_Text timerText;
+    [SerializeField] private Transform blender;
     [SerializeField] private bool randomHitZoneSize;
     [SerializeField, HideIf(nameof(randomHitZoneSize))] private float hitZoneSize;
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;
     [SerializeField] private bool randomHitZonePosition;
     [SerializeField, HideIf(nameof(randomHitZonePosition))] private float hitZonePosition;
+    [SerializeField] private Vector2 padding;
     [SerializeField] private float timeLimit;
     [SerializeField] private float sliderDropSpeed;
     [SerializeField] private float sliderBumpAmount;
@@ -49,6 +52,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
         if (minigameCoroutine == null) return;
         if (!minigameCoroutine.IsRunning) return;
         GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
+        blender.DOShakePosition(0.1f, 5, 25);
         slider.value += sliderBumpAmount;
     }
     
@@ -114,7 +118,7 @@ public class JoyBlender : MonoBehaviour, IMinigame
     private void GenerateHitZone()
     {
         if (randomHitZoneSize) hitZoneSize = Random.Range(hitZoneSizeRandomRange.x, hitZoneSizeRandomRange.y);
-        if (randomHitZonePosition) hitZonePosition = Random.Range(slider.minValue + hitZoneSize / 2, slider.maxValue - hitZoneSize / 2);
+        if (randomHitZonePosition) hitZonePosition = Random.Range(slider.minValue + hitZoneSize / 2 + padding.x, slider.maxValue - hitZoneSize / 2 - padding.y);
         hitZoneRange = new Vector2(hitZonePosition - hitZoneSize / 2, hitZonePosition + hitZoneSize / 2);
         var sliderRectHeight = ((RectTransform)slider.transform).rect.height;
         float bottom = sliderRectHeight * (hitZoneRange.x / slider.maxValue);

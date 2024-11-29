@@ -441,7 +441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7039959d4147e4440a8e2a8a647cb59e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dcaa8c7e6fda45d47a5620346192f63b, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.7
 --- !u!114 &8774176186295815391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +470,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -480,10 +480,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: dcaa8c7e6fda45d47a5620346192f63b, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 813b18a100521954c849e794ddd44a00, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: dcaa8c7e6fda45d47a5620346192f63b, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 813b18a100521954c849e794ddd44a00, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -706,8 +706,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3465506694557770770}
   m_HandleRect: {fileID: 1261509091514577809}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: -0.07869742
+  m_Size: 0.9962495
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -938,8 +938,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 29.2
+  m_fontSizeBase: 29.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7039959d4147e4440a8e2a8a647cb59e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dcaa8c7e6fda45d47a5620346192f63b, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1491,7 +1491,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.7
 --- !u!114 &5799019266225675179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1511,7 +1511,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1521,10 +1521,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: dcaa8c7e6fda45d47a5620346192f63b, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 813b18a100521954c849e794ddd44a00, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: dcaa8c7e6fda45d47a5620346192f63b, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 813b18a100521954c849e794ddd44a00, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -1873,8 +1873,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30.18
+  m_fontSizeBase: 30.18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2280,7 +2280,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2737650312551173539}
   m_HandleRect: {fileID: 965526132273548091}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

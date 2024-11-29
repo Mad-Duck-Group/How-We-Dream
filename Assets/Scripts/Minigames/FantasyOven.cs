@@ -11,12 +11,25 @@ using Random = UnityEngine.Random;
 
 public class FantasyOven : MonoBehaviour, IMinigame
 {
+    [Serializable]
+    private struct LightSpriteData
+    {
+        [SerializeField] private Sprite normal;
+        [SerializeField] private Sprite success;
+        [SerializeField] private Sprite fail;
+        public Sprite Normal => normal;
+        public Sprite Success => success;
+        public Sprite Fail => fail;
+    }
+    
     [SerializeField] private CanvasGroup minigameCanvasGroup; 
     [SerializeField] private Image[] lights;
     [SerializeField] private Slider slider;
     [SerializeField] private Image sliderHandle;
+    [SerializeField] private Image oven;
     [SerializeField] private RectTransform hitZone;
     [SerializeField] private ClickableArea knob;
+    [SerializeField] private LightSpriteData lightSpriteData;
     [SerializeField] private bool randomHitZoneSize;
     [SerializeField, HideIf(nameof(randomHitZoneSize))] private float hitZoneSize;
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;
@@ -63,11 +76,11 @@ public class FantasyOven : MonoBehaviour, IMinigame
         success = 0;
         mistakes = 0;
         currentAttempt = 0;
-        lights.ForEach(x => x.color = Color.white);
+        lights.ForEach(x => x.sprite = lightSpriteData.Normal);
         OnMinigameStart?.Invoke();
         minigameCanvasGroup.gameObject.SetActive(true);
         minigameCoroutine = Moroutine.Run(gameObject, UpdateMinigame());
-        minigameCoroutine.OnCompleted(_ => Fail());
+        minigameCoroutine.OnCompleted(_ => HitFail());
         GlobalSoundManager.Instance.PlayUISFX("Stove", true, "Stove");
     }
 
@@ -79,11 +92,11 @@ public class FantasyOven : MonoBehaviour, IMinigame
         GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
         if (slider.value < hitZoneRange.x || slider.value > hitZoneRange.y)
         {
-           Fail();
+           HitFail();
         }
         else
         {
-            Succeed();
+            HitSuccess();
         }
     }
 
@@ -93,56 +106,69 @@ public class FantasyOven : MonoBehaviour, IMinigame
         slider.value = slider.minValue;
         ready = false;
         sliderHandle.DOColor(Color.yellow, preparationTime / 6).SetLoops(6, LoopType.Yoyo);
+        knob.transform.rotation = Quaternion.Euler(0, 0, 90);
         yield return new WaitForSeconds(preparationTime);
         ready = true;
         while (slider.value < slider.maxValue)
         {
+            float targetAngle = Mathf.Lerp(90f, -90f, slider.value / slider.maxValue);
+            knob.transform.rotation = Quaternion.Euler(0, 0, targetAngle);
             slider.value += barSpeed * Time.deltaTime;
             yield return null;
         }
     }
 
-    private void Fail()
+    private void HitFail()
     {
         mistakes++;
         minigameCoroutine.Stop();
-        lights[currentAttempt].DOColor(Color.red, 0.2f);
+        //lights[currentAttempt].DOColor(Color.red, 0.2f);
+        lights[currentAttempt].sprite = lightSpriteData.Fail;
         if (mistakes >= gameEndThreshold)
         {
-            OnMinigameEnd?.Invoke(false);
-            minigameCanvasGroup.gameObject.SetActive(false);
-            minigameCoroutine.Destroy();
-            GlobalSoundManager.Instance.StopSound("Stove");
+            DOVirtual.DelayedCall(1f, Fail);
             return;
         }
         currentAttempt++;
         if (currentAttempt > lights.Length - 1)
         {
-            OnMinigameEnd?.Invoke(true);
-            minigameCanvasGroup.gameObject.SetActive(false);
-            minigameCoroutine.Destroy();
-            GlobalSoundManager.Instance.StopSound("Stove");
+            DOVirtual.DelayedCall(1f, Success);
             return;
         }
         minigameCoroutine.Rerun();
     }
 
-    private void Succeed()
+    private void HitSuccess()
     {
         success++;
         minigameCoroutine.Stop();
-        lights[currentAttempt].DOColor(Color.green, 0.2f);
+        oven.transform.DOScale(1.1f, 0.1f).SetLoops(2, LoopType.Yoyo);
+        lights[currentAttempt].sprite = lightSpriteData.Success;
         currentAttempt++;
         if (currentAttempt > lights.Length - 1 || success >= gameEndThreshold)
         {
-            OnMinigameEnd?.Invoke(true);
-            minigameCanvasGroup.gameObject.SetActive(false);
-            minigameCoroutine.Destroy();
-            GlobalSoundManager.Instance.StopSound("Stove");
+            DOVirtual.DelayedCall(1f, Success);
             return;
         }
         minigameCoroutine.Rerun();
     }
+
+    private void Fail()
+    {
+        OnMinigameEnd?.Invoke(false);
+        minigameCanvasGroup.gameObject.SetActive(false);
+        minigameCoroutine.Destroy();
+        GlobalSoundManager.Instance.StopSound("Stove");
+    }
+    
+    private void Success()
+    {
+        OnMinigameEnd?.Invoke(true);
+        minigameCanvasGroup.gameObject.SetActive(false);
+        minigameCoroutine.Destroy();
+        GlobalSoundManager.Instance.StopSound("Stove");
+    }
+
     private void GenerateHitZone()
     {
         if (randomHitZoneSize) hitZoneSize = Random.Range(hitZoneSizeRandomRange.x, hitZoneSizeRandomRange.y);

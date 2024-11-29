@@ -1,16 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using DG.Tweening;
 using NaughtyAttributes;
 using Redcode.Extensions;
 using Redcode.Moroutines;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
+
 
 public class WhimsyBoiler : MonoBehaviour, IMinigame
 {
+
+    [Serializable]
+    public struct FireSpriteData
+    {
+        [SerializeField, ShowAssetPreview(32, 32)] private Sprite low;
+        [SerializeField, ShowAssetPreview(32, 32)] private Sprite medium;
+        [SerializeField, ShowAssetPreview(32, 32)] private Sprite high;
+        public Sprite Low => low;
+        public Sprite Medium => medium;
+        public Sprite High => high;
+    }
+    
     [SerializeField] private CanvasGroup minigameCanvasGroup;
     
     [Header("Pot Water")]
@@ -30,6 +46,8 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     [SerializeField] private CanvasGroup fireSlidersCanvasGroup;
     [SerializedDictionary("Slider", "Fire Image")]
     public SerializedDictionary<Slider, Image> fireSliderDict = new();
+    [SerializedDictionary("Image", "Fire Sprites")]
+    public SerializedDictionary<Image, FireSpriteData> fireSpriteDict = new();
     [SerializeField] private bool randomSweetSpotSize;
     [SerializeField, ShowIf(nameof(randomSweetSpotSize))] private Vector2 sweetSpotSizeRange;
     [SerializeField, HideIf(nameof(randomSweetSpotSize))] private float sweetSpotSize;
@@ -103,7 +121,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         foreach (var pair in fireSliderDict)
         {
             pair.Key.value = pair.Key.minValue;
-            pair.Value.color = Color.red;
+            pair.Value.sprite = fireSpriteDict[pair.Value].Low;
         }
         potWaterSlider.value = potWaterSlider.minValue;
         mouseDown = false;
@@ -151,6 +169,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     private void StartFireSliders()
     {
         GlobalSoundManager.Instance.PlayUISFX("Stove", true, "Stove");
+        fireSliderDict.Keys.ForEach(x => x.interactable = true);
         isPotWaterPhase = false;
         potWaterCanvasGroup.gameObject.SetActive(false);
         fireSlidersCanvasGroup.gameObject.SetActive(true);
@@ -186,17 +205,17 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         var mediumHeat = sweetSpotDict[slider].MediumHeat;
         if (slider.value >= sweetSpot.x && slider.value <= sweetSpot.y)
         {
-            fireSliderDict[slider].color = Color.green;
+            fireSliderDict[slider].sprite = fireSpriteDict[fireSliderDict[slider]].High;
             sweetSpotDict[slider].IsHit = true;
         }
         else if (slider.value >= mediumHeat.x && slider.value <= mediumHeat.y)
         {
-            fireSliderDict[slider].color = Color.yellow;
+            fireSliderDict[slider].sprite = fireSpriteDict[fireSliderDict[slider]].Medium;
             sweetSpotDict[slider].IsHit = false;
         }
         else
         {
-            fireSliderDict[slider].color = Color.red;
+            fireSliderDict[slider].sprite = fireSpriteDict[fireSliderDict[slider]].Low;
             sweetSpotDict[slider].IsHit = false;
         }
         CheckFireSlidersCondition();
@@ -207,7 +226,9 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         var allHit = sweetSpotDict.All(x => x.Value.IsHit);
         if (allHit)
         {
-            Succeed();
+            fireSliderDict.Keys.ForEach(x => x.interactable = false);
+            fireSliderCoroutine?.Stop();
+            DOVirtual.DelayedCall(1f, Succeed);
         }
     }
 
@@ -225,7 +246,6 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     
     private void Succeed()
     {
-        fireSliderCoroutine?.Stop();
         OnMinigameEnd?.Invoke(true);
         potWaterCanvasGroup.gameObject.SetActive(false);
         fireSlidersCanvasGroup.gameObject.SetActive(false);

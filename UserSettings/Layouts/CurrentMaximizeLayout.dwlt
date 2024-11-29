@@ -93,7 +93,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -168,8 +168,8 @@ MonoBehaviour:
     y: 0
     width: 957
     height: 482
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 5}
   m_Panes:
   - {fileID: 5}
@@ -239,7 +239,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-scene-view-toolbar
@@ -265,7 +265,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-transform-toolbar
@@ -596,9 +596,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.8134333, y: 0.38254434, z: -1.7178797}
+    m_Target: {x: -0.72995436, y: -0.63567585, z: 1.9108882}
     speed: 2
-    m_Value: {x: -1.8134333, y: 0.38254434, z: -1.7178797}
+    m_Value: {x: -0.72995436, y: -0.63567585, z: 1.9108882}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -648,9 +648,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 0.62956667
+    m_Target: 5.7817173
     speed: 2
-    m_Value: 0.62956667
+    m_Value: 5.7817173
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 1234
+  controlID: 122612
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -788,10 +788,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 08830000
-      m_LastClickedID: 0
-      m_ExpandedIDs: aed6ffffcafaffffb27a0000ce7a0000f27a0000007b00000c7b0000fe7b0000087c00000c7c0000347d0000447d0000
+      scrollPos: {x: 0, y: 72}
+      m_SelectedIDs: 16990000
+      m_LastClickedID: 39190
+      m_ExpandedIDs: ec79faff12a0fdffeec5ffffaed6ffffcafaffffb27a0000ce7a0000f27a0000007b00000c7b0000fe7b0000087c00000c7c0000347d0000447d00007a970000a0970000e0970000029800005e980000aa980000d6980000e2980000049900001e9900004899000062990000b4990000c8990000d6990000fa990000489a00004e9a0000809a0000869a0000c69a0000da9a0000f69a00000c9b0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -807,7 +807,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 8}
+        m_ClientGUIView: {fileID: 4}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -887,7 +887,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Arts/UI_Minigame/Fry
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -895,16 +895,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Arts/UI_Minigame/Fry
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\thesi\OneDrive\Desktop\How We Dream
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: c2800000
-    m_LastClickedID: 32962
-    m_ExpandedIDs: 00000000c2800000c4800000c6800000c8800000cc800000ce800000d0800000d280000000ca9a3b
+    scrollPos: {x: 0, y: 240}
+    m_SelectedIDs: 128d0000
+    m_LastClickedID: 36114
+    m_ExpandedIDs: 00000000708c0000728c0000748c0000768c0000788c00007a8c00007c8c0000a08c0000028d0000128d0000268d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -932,7 +932,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c2800000c4800000c6800000c8800000cc800000ce800000d0800000d280000000ca9a3b
+    m_ExpandedIDs: 00000000708c0000728c0000748c0000768c0000788c00007a8c00007c8c0000a08c0000028d0000128d0000268d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -957,8 +957,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 08830000
-    m_LastClickedInstanceID: 33544
+    m_SelectedInstanceIDs: 16990000
+    m_LastClickedInstanceID: 39190
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
@@ -1041,8 +1041,8 @@ MonoBehaviour:
     y: 0
     width: 567
     height: 939
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -1085,7 +1085,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: -160
+    m_CachedPref: 230
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1

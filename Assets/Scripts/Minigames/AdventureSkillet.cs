@@ -13,6 +13,17 @@ using Random = UnityEngine.Random;
 
 public class AdventureSkillet : MonoBehaviour, IMinigame
 {
+    [Serializable]
+    private struct MouseSpriteData
+    {
+        [SerializeField] private Sprite normal;
+        [SerializeField] private Sprite success;
+        [SerializeField] private Sprite fail;
+        public Sprite Normal => normal;
+        public Sprite Success => success;
+        public Sprite Fail => fail;
+    }
+    
     [SerializeField] private CanvasGroup minigameCanvasGroup;
 
     [Header("Rotate")] 
@@ -20,6 +31,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     [SerializeField] private Transform center;
     [FormerlySerializedAs("rotateArea")] [SerializeField] private ClickableArea rotate;
     [SerializeField] private Slider rotateSlider;
+    [SerializeField] private Transform skillet;
+    [SerializeField] private float skilletMoveModifier;
     [SerializeField] private float sliderGainRate;
     [SerializeField] private float changeDirectionThreshold;
     [SerializeField] private float timeLimit;
@@ -30,6 +43,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     [SerializeField] private Slider flipSlider;
     [SerializeField] private Image sliderHandle;
     [SerializeField] private Image mousePrefab;
+    [SerializeField] private MouseSpriteData leftMouseSpriteData;
+    [SerializeField] private MouseSpriteData rightMouseSpriteData;
     [SerializeField] private Transform parent;
     [SerializeField] private Vector2 padding;
     [SerializeField] private float sliderSpeed;
@@ -41,6 +56,9 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     public event IMinigame.MinigameStart OnMinigameStart;
     public event IMinigame.MinigameEnd OnMinigameEnd;
     private Vector2 MousePosition => Input.mousePosition.WithZ(0);
+    private Vector2 MouseWorldPosition => Camera.main.ScreenToWorldPoint(MousePosition) * skilletMoveModifier;
+    private Vector2 mousePosDifference;
+    private Vector2 skilletOriginalPosition;
     private bool mouseDown;
     private bool isRotatePhase;
     private Moroutine rotateMinigameCoroutine;
@@ -69,6 +87,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     {
         if (!isRotatePhase) return;
         GlobalSoundManager.Instance.PlayUISFX("MinigameButton");
+        mousePosDifference = MouseWorldPosition - (Vector2)skillet.position;
         mouseDown = true;
     }
 
@@ -80,6 +99,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
 
     void Start()
     {
+        skilletOriginalPosition = skillet.position;
         minigameCanvasGroup.gameObject.SetActive(false);
         rotateCanvasGroup.gameObject.SetActive(false);
         flipCanvasGroup.gameObject.SetActive(false);
@@ -107,6 +127,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         mouseDown = false;
         rotateSlider.value = 0f;
         rotateCanvasGroup.gameObject.SetActive(true);
+        skillet.position = skilletOriginalPosition;
         rotateMinigameCoroutine = Moroutine.Run(gameObject, UpdateRotateMinigame());
         rotateMinigameCoroutine.OnCompleted(_ => Fail());
         isRotatePhase = true;
@@ -127,6 +148,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
             timerText.text = Mathf.CeilToInt(timer).ToString();
             if (mouseDown)
             {
+                skillet.position = (MouseWorldPosition - mousePosDifference);
+                // convert mouse position to world space
                 Vector2 centerScreenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, center.position);
                 Vector2 direction = (MousePosition - centerScreenPoint).normalized;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -193,7 +216,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         {
             var hitZone = Instantiate(mousePrefab, parent);
             var isLeft = Random.Range(0, 2) == 0;
-            hitZone.GetComponentInChildren<TMP_Text>().SetText(isLeft ? "Left" : "Right");
+            var sprite = isLeft ? leftMouseSpriteData.Normal : rightMouseSpriteData.Normal;
+            hitZone.sprite = sprite;
             var hitZonePositions = GenerateHitZone(i);
             ((RectTransform)hitZone.transform).SetAnchoredPositionX(hitZonePositions.Item2.x);
             flipPositionDict.Add(hitZone, new FlipData(hitZonePositions.Item1, isLeft));
@@ -230,7 +254,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
                 {
                     bool canStillFail = flipPositionDict.Count - currentHitZoneIndex >= maxMistakes - mistakes;
                     if (canStillFail) mistakes++;
-                    currentHitZone.Key.color = Color.red;
+                    var sprite = currentHitZone.Value.IsLeft ? leftMouseSpriteData.Fail : rightMouseSpriteData.Fail;
+                    currentHitZone.Key.sprite = sprite;
                     currentHitZoneIndex++;
                 }
             }
@@ -248,17 +273,20 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
             flipSlider.value > currentHitZone.Value.HitZoneRange.y)
         {
             mistakes++;
-            currentHitZone.Key.color = Color.red;
+            var sprite = currentHitZone.Value.IsLeft ? leftMouseSpriteData.Fail : rightMouseSpriteData.Fail;
+            currentHitZone.Key.sprite = sprite;
         }
         else
         {
-            currentHitZone.Key.color = Color.green;
+            var sprite = currentHitZone.Value.IsLeft ? leftMouseSpriteData.Success : rightMouseSpriteData.Success;
+            currentHitZone.Key.sprite = sprite;
         }
         currentHitZoneIndex++;
     }
 
     private void Fail()
     {
+        flipPositionDict.Keys.ForEach(Destroy);
         rotateMinigameCoroutine?.Stop();
         flipMinigameCoroutine?.Stop();
         OnMinigameEnd?.Invoke(false);
@@ -272,6 +300,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
 
     private void Succeed()
     {
+        flipPositionDict.Keys.ForEach(Destroy);
         rotateMinigameCoroutine?.Stop();
         flipMinigameCoroutine?.Stop();
         OnMinigameEnd?.Invoke(true);
