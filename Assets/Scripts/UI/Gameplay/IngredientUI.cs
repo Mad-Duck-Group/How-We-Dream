@@ -26,7 +26,9 @@ public class IngredientUI : MonoBehaviour
     private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition).WithZ(0);
     private Vector3 originalScale;
     private static bool _holding;
+    private static IngredientSO _ingredient;
     public static bool Holding => _holding;
+    public static CookStates HoldingCookState => _ingredient.CookState;
 
     private void Awake()
     {
@@ -74,6 +76,7 @@ public class IngredientUI : MonoBehaviour
         image.sortingOrder = 5;
         GlobalSoundManager.Instance.PlayUISFX("Drag");
         _holding = true;
+        _ingredient = ingredient;
     }
 
     public void Drag()
@@ -85,6 +88,7 @@ public class IngredientUI : MonoBehaviour
     {
         image.sortingOrder = 2;
         _holding = false;
+        _ingredient = null;
         if (eventData.hovered.Count == 0) return false;
         eventData.hovered.ForEach(x => Debug.Log(x.name));
         foreach (var hover in eventData.hovered)

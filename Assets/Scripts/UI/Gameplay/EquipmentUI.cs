@@ -157,6 +157,8 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (ingredients.Count >= maxIngredients && IngredientUI.Holding) return;
+        if (ingredients.Any(x => x.CookState != CookStates.Raw) && IngredientUI.Holding) return;
+        if (IngredientUI.Holding && IngredientUI.HoldingCookState != CookStates.Raw) return;
         if (ingredients.Count == 0 && !IngredientUI.Holding) return;
         bumpable.BumpUp();
     }

@@ -49,12 +49,12 @@ MonoBehaviour:
     - Key: 4
       Value:
         ingredient: {fileID: 11400000, guid: 2bb958d00a0226643aff4059b1828ae7, type: 2}
-        amount: 5
+        amount: 0
         maxAmount: 30
     - Key: 3
       Value:
         ingredient: {fileID: 11400000, guid: 77efae421126287419930cdb63d4ceb7, type: 2}
-        amount: 5
+        amount: 0
         maxAmount: 30
     - Key: 2
       Value:
@@ -74,21 +74,21 @@ MonoBehaviour:
     - Key: 8
       Value:
         ingredient: {fileID: 11400000, guid: 8c918fbfb04d1ad4eb514c66139931a8, type: 2}
-        amount: 5
+        amount: 0
         maxAmount: 30
     - Key: 7
       Value:
         ingredient: {fileID: 11400000, guid: b9278040b24bf034db5b74ef73152e30, type: 2}
-        amount: 5
+        amount: 0
         maxAmount: 30
     - Key: 6
       Value:
         ingredient: {fileID: 11400000, guid: 4663195269f202940abd70bec148e8f7, type: 2}
-        amount: 5
+        amount: 0
         maxAmount: 30
     - Key: 5
       Value:
         ingredient: {fileID: 11400000, guid: f72346d7f4ce82b4cb4679f6c11f4863, type: 2}
-        amount: 5
+        amount: 0
         maxAmount: 30
-  currency: 1000
+  currency: 200

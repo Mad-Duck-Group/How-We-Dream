@@ -93,7 +93,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -596,9 +596,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.72995436, y: -0.63567585, z: 1.9108882}
+    m_Target: {x: 3.2255757, y: 1.4728703, z: 1.8958553}
     speed: 2
-    m_Value: {x: -0.72995436, y: -0.63567585, z: 1.9108882}
+    m_Value: {x: 3.2255757, y: 1.4728703, z: 1.8958553}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -648,9 +648,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 5.7817173
+    m_Target: 9.363987
     speed: 2
-    m_Value: 5.7817173
+    m_Value: 9.363987
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 122612
+  controlID: 137035
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -788,10 +788,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 72}
-      m_SelectedIDs: 16990000
-      m_LastClickedID: 39190
-      m_ExpandedIDs: ec79faff12a0fdffeec5ffffaed6ffffcafaffffb27a0000ce7a0000f27a0000007b00000c7b0000fe7b0000087c00000c7c0000347d0000447d00007a970000a0970000e0970000029800005e980000aa980000d6980000e2980000049900001e9900004899000062990000b4990000c8990000d6990000fa990000489a00004e9a0000809a0000869a0000c69a0000da9a0000f69a00000c9b0000
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 5e28f9ff
+      m_LastClickedID: 0
+      m_ExpandedIDs: 9028f9ff563ff9ffe68cf9ffec79faff12a0fdffeec5ffffaed6ffffcafaffffb27a0000ce7a0000f27a0000007b00000c7b0000fe7b0000087c00000c7c0000347d0000447d00007a970000a0970000e0970000029800005e980000aa980000d6980000e2980000049900001e9900004899000062990000b4990000c8990000d6990000fa990000489a00004e9a0000809a0000869a0000c69a0000da9a0000f69a00000c9b00004ec3050072c70500aac7050002c80500ecc905009aca0500
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -807,7 +807,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 4}
+        m_ClientGUIView: {fileID: 8}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -887,7 +887,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Arts/UI_Minigame/Fry
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -895,15 +895,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Arts/UI_Minigame/Fry
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\thesi\OneDrive\Desktop\How We Dream
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 240}
-    m_SelectedIDs: 128d0000
-    m_LastClickedID: 36114
+    scrollPos: {x: 0, y: 600}
+    m_SelectedIDs: c28c0000
+    m_LastClickedID: 36034
     m_ExpandedIDs: 00000000708c0000728c0000748c0000768c0000788c00007a8c00007c8c0000a08c0000028d0000128d0000268d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -957,8 +957,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 16990000
-    m_LastClickedInstanceID: 39190
+    m_SelectedInstanceIDs: 5e28f9ff
+    m_LastClickedInstanceID: -448418
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
