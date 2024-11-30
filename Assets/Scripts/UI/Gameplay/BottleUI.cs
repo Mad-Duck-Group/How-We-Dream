@@ -53,7 +53,8 @@ public class BottleUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandle
     {
         var ingredientUI = Instantiate(ingredientUIPrefab, RandomDropPoint(), Quaternion.identity);
         ingredientUI.Initialize(ingredient, gameObject);
-        ingredientUI.SetSizeAndPhysics(true, false, beadSize);
+        ingredientUI.SetPhysics(true);
+        ingredientUI.SetSize(size: beadSize);
         ingredients.Push(new KeyValuePair<IngredientSO, IngredientUI>(ingredient, ingredientUI));
         GlobalSoundManager.Instance.PlayUISFX("Jar");
         bumpable.BumpDown();
@@ -63,7 +64,8 @@ public class BottleUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandle
     private void ReturnToDropPoint()
     {
         ingredientUI.transform.position = RandomDropPoint();
-        ingredientUI.SetSizeAndPhysics(true, false, beadSize);
+        ingredientUI.SetPhysics(true);
+        ingredientUI.SetSize(size: beadSize);
         bumpable.BumpDown();
     }
     
@@ -79,7 +81,8 @@ public class BottleUI : MonoBehaviour, IIngredientContainer, IPointerEnterHandle
         if (ingredients.Count == 0) return;
         ingredient = ingredients.Peek().Key;
         ingredientUI = ingredients.Peek().Value;
-        ingredientUI.SetSizeAndPhysics(false, true);
+        ingredientUI.SetPhysics(false);
+        ingredientUI.SetSize(true);
         ingredientUI.BeingDrag();
     }
 

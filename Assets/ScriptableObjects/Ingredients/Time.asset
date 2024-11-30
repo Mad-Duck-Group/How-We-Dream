@@ -30,6 +30,7 @@ MonoBehaviour:
     - Key: 4
       Value:
         sprite: {fileID: 21300000, guid: 0109e6f2163aa8c40b60f9a245b7b088, type: 3}
+  flippedSprite: {fileID: 21300000, guid: ad4f2dc81a42102499e70bbe35413ae8, type: 3}
   ingredientType: 6
   basePrice: 25
   maxPrice: 75

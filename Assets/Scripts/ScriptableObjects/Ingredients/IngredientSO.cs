@@ -41,6 +41,7 @@ public class IngredientSO : ScriptableObject
     [SerializedDictionary("Cook State", "Sprite Data")] 
     public SerializedDictionary<CookStates, SpriteData> spriteData;
     public SerializedDictionary<CookStates, SpriteData> SpriteData => spriteData;
+    [SerializeField, ShowAssetPreview] private Sprite flippedSprite;
     [SerializeField] private IngredientTypes ingredientType;
     public IngredientTypes IngredientType => ingredientType;
     [SerializeField] private int basePrice;
@@ -82,5 +83,10 @@ public class IngredientSO : ScriptableObject
         if (!spriteData.ContainsKey(cookState)) return null;
         var sprite = spriteData[cookState];
         return sprite.Sprite;
+    }
+    
+    public Sprite GetFlippedSprite()
+    {
+        return flippedSprite;
     }
 }

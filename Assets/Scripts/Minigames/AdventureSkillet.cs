@@ -31,7 +31,6 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     [SerializeField] private Transform center;
     [FormerlySerializedAs("rotateArea")] [SerializeField] private ClickableArea rotate;
     [SerializeField] private Slider rotateSlider;
-    [SerializeField] private Transform skillet;
     [SerializeField] private float skilletMoveModifier;
     [SerializeField] private float sliderGainRate;
     [SerializeField] private float changeDirectionThreshold;
@@ -53,6 +52,14 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     [SerializeField] private float preparationTime = 2f;
     [SerializeField] private int maxMistakes = 3;
 
+    [Header("Visuals")] 
+    [SerializeField] private Transform skillet;
+    [SerializeField] private IngredientUI ingredientUIPrefab;
+    [SerializeField] private float size = 0.35f;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Vector2 spawnPointRandomRange;
+    [SerializeField] private float ingredientForce;
+
     public event IMinigame.MinigameStart OnMinigameStart;
     public event IMinigame.MinigameEnd OnMinigameEnd;
     private Vector2 MousePosition => Input.mousePosition.WithZ(0);
@@ -63,6 +70,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     private bool isRotatePhase;
     private Moroutine rotateMinigameCoroutine;
     private Moroutine flipMinigameCoroutine;
+    private List<IngredientSO> ingredients = new List<IngredientSO>();
+    private List<IngredientUI> ingredientUIs = new List<IngredientUI>();
 
     private record FlipData(Vector2 HitZoneRange, bool IsLeft)
     {
@@ -114,12 +123,32 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         flipMinigameCoroutine?.Destroy();
     }
     
-    public void StartMinigame()
+    public void StartMinigame(List<IngredientSO> ingredients)
     {
+        this.ingredients = ingredients;
+        SpawnIngredients();
         OnMinigameStart?.Invoke();
         minigameCanvasGroup.gameObject.SetActive(true);
         StartRotateMinigame();
         GlobalSoundManager.Instance.PlayUISFX("Fry", true, "Fry");
+    }
+    
+    private void SpawnIngredients()
+    {
+        foreach (var ingredient in ingredients)
+        {
+            var sp = new Vector3(
+                spawnPoint.position.x + Random.Range(-spawnPointRandomRange.x, spawnPointRandomRange.x),
+                spawnPoint.position.y + Random.Range(-spawnPointRandomRange.y, spawnPointRandomRange.y),
+                spawnPoint.position.z);
+            var ingredientUI = Instantiate(ingredientUIPrefab, sp, Quaternion.identity);
+            ingredientUI.Initialize(ingredient, gameObject);
+            ingredientUI.SetSortingOrder(11);
+            ingredientUI.SetPhysics(true, false);
+            ingredientUI.SetSize(size: size);
+            //ingredientUI.transform.SetParent(skillet);
+            ingredientUIs.Add(ingredientUI);
+        }
     }
 
     private void StartRotateMinigame()
@@ -127,6 +156,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         mouseDown = false;
         rotateSlider.value = 0f;
         rotateCanvasGroup.gameObject.SetActive(true);
+        timerText.gameObject.SetActive(true);
         skillet.position = skilletOriginalPosition;
         rotateMinigameCoroutine = Moroutine.Run(gameObject, UpdateRotateMinigame());
         rotateMinigameCoroutine.OnCompleted(_ => Fail());
@@ -152,6 +182,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
                 // convert mouse position to world space
                 Vector2 centerScreenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, center.position);
                 Vector2 direction = (MousePosition - centerScreenPoint).normalized;
+                Vector2 forceVector = direction * ingredientForce;
+                ingredientUIs.ForEach(x => x.AddForce(forceVector));
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 if (firstClick)
                 {
@@ -203,13 +235,14 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         if (rotateSlider.value < rotateSlider.maxValue) return;
         isRotatePhase = false;
         rotateMinigameCoroutine.Stop();
-        StartFlipMinigame();
+        rotateCanvasGroup.gameObject.SetActive(false);
+        skillet.DOMove(skilletOriginalPosition, 0.5f).OnComplete(() => StartFlipMinigame());
     }
 
     private void StartFlipMinigame()
     {
         flipSlider.value = 0f;
-        rotateCanvasGroup.gameObject.SetActive(false);
+        timerText.gameObject.SetActive(false);
         flipCanvasGroup.gameObject.SetActive(true);
         flipPositionDict.Clear();
         for (int i = 0; i < hitZoneCount; i++)
@@ -280,6 +313,7 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
         {
             var sprite = currentHitZone.Value.IsLeft ? leftMouseSpriteData.Success : rightMouseSpriteData.Success;
             currentHitZone.Key.sprite = sprite;
+            ingredientUIs.ForEach(x => x.FlipSprite());
         }
         currentHitZoneIndex++;
     }
@@ -287,6 +321,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     private void Fail()
     {
         flipPositionDict.Keys.ForEach(Destroy);
+        ingredientUIs.ForEach(x => Destroy(x.gameObject));
+        ingredientUIs.Clear();
         rotateMinigameCoroutine?.Stop();
         flipMinigameCoroutine?.Stop();
         OnMinigameEnd?.Invoke(false);
@@ -301,6 +337,8 @@ public class AdventureSkillet : MonoBehaviour, IMinigame
     private void Succeed()
     {
         flipPositionDict.Keys.ForEach(Destroy);
+        ingredientUIs.ForEach(x => Destroy(x.gameObject));
+        ingredientUIs.Clear();
         rotateMinigameCoroutine?.Stop();
         flipMinigameCoroutine?.Stop();
         OnMinigameEnd?.Invoke(true);

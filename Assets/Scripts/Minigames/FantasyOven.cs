@@ -22,14 +22,16 @@ public class FantasyOven : MonoBehaviour, IMinigame
         public Sprite Fail => fail;
     }
     
+    [Header("UI")]
     [SerializeField] private CanvasGroup minigameCanvasGroup; 
     [SerializeField] private Image[] lights;
     [SerializeField] private Slider slider;
     [SerializeField] private Image sliderHandle;
-    [SerializeField] private Image oven;
     [SerializeField] private RectTransform hitZone;
     [SerializeField] private ClickableArea knob;
     [SerializeField] private LightSpriteData lightSpriteData;
+    
+    [Header("Settings")]
     [SerializeField] private bool randomHitZoneSize;
     [SerializeField, HideIf(nameof(randomHitZoneSize))] private float hitZoneSize;
     [SerializeField, ShowIf(nameof(randomHitZoneSize))] private Vector2 hitZoneSizeRandomRange;
@@ -38,6 +40,13 @@ public class FantasyOven : MonoBehaviour, IMinigame
     [SerializeField] private Vector2 padding;
     [SerializeField] private float barSpeed;
     [SerializeField] private float preparationTime = 2f;
+    
+    [Header("Visuals")]
+    [SerializeField] private Image oven;
+    [SerializeField] private Image ingredientImagePrefab;
+    [SerializeField] private float bopSize = 0.1f;
+    [SerializeField] private float bopTime = 0.1f;
+    [SerializeField] private Transform parent;
 
     private int currentAttempt;
     private int gameEndThreshold;
@@ -46,6 +55,8 @@ public class FantasyOven : MonoBehaviour, IMinigame
     private bool ready;
     private Moroutine minigameCoroutine;
     private Vector2 hitZoneRange;
+    private List<IngredientSO> ingredients = new List<IngredientSO>();
+    private List<Image> ingredientImages = new List<Image>();
     public event IMinigame.MinigameStart OnMinigameStart;
     public event IMinigame.MinigameEnd OnMinigameEnd;
     private void OnEnable()
@@ -70,8 +81,10 @@ public class FantasyOven : MonoBehaviour, IMinigame
         minigameCoroutine?.Destroy();
     }
     
-    public void StartMinigame()
+    public void StartMinigame(List<IngredientSO> ingredients)
     {
+        this.ingredients = ingredients;
+        SpawnIngredient();
         gameEndThreshold = Mathf.CeilToInt(lights.Length / 2f);
         success = 0;
         mistakes = 0;
@@ -82,6 +95,17 @@ public class FantasyOven : MonoBehaviour, IMinigame
         minigameCoroutine = Moroutine.Run(gameObject, UpdateMinigame());
         minigameCoroutine.OnCompleted(_ => HitFail());
         GlobalSoundManager.Instance.PlayUISFX("Stove", true, "Stove");
+    }
+    
+    private void SpawnIngredient()
+    {
+        foreach (var ingredient in ingredients)
+        {
+            var ingredientImage = Instantiate(ingredientImagePrefab, parent);
+            ingredientImage.sprite = ingredient.GetSprite(ingredient.CookState);
+            ingredientImage.transform.DOScale(bopSize, bopTime).SetRelative().SetLoops(-1, LoopType.Yoyo);
+            ingredientImages.Add(ingredientImage);
+        }
     }
 
     private void OnKnobClick()
@@ -155,6 +179,8 @@ public class FantasyOven : MonoBehaviour, IMinigame
 
     private void Fail()
     {
+        ingredientImages.ForEach(x => Destroy(x.gameObject));
+        ingredientImages.Clear();
         OnMinigameEnd?.Invoke(false);
         minigameCanvasGroup.gameObject.SetActive(false);
         minigameCoroutine.Destroy();
@@ -163,6 +189,8 @@ public class FantasyOven : MonoBehaviour, IMinigame
     
     private void Success()
     {
+        ingredientImages.ForEach(x => Destroy(x.gameObject));
+        ingredientImages.Clear();
         OnMinigameEnd?.Invoke(true);
         minigameCanvasGroup.gameObject.SetActive(false);
         minigameCoroutine.Destroy();

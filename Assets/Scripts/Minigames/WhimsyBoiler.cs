@@ -57,6 +57,30 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     [SerializeField] private float timeLimit;
     [SerializeField] private TMP_Text timerText;
 
+    [Header("Visuals")] 
+    [SerializeField] private Transform boiler;
+    [SerializeField] private Vector3 potWaterPosition;
+    [SerializeField] private Vector3 fireSliderPosition;
+    [SerializeField] private GameObject fireImageRack;
+    [SerializeField] private IngredientUI ingredientUIPrefab;
+    [SerializeField] private float size = 0.3f;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Vector2 spawnPointRandomRange;
+    [SerializeField] private float forceInterval;
+    [SerializeField] private Vector2 ingredientForce;
+    
+    [Button("Set Pot Water Position")]
+    private void SetPotWaterPosition()
+    {
+        potWaterPosition = boiler.position;
+    }
+    
+    [Button("Set Fire Sliders Position")]
+    private void SetFireSlidersPosition()
+    {
+        fireSliderPosition = boiler.position;
+    }
+
     public event IMinigame.MinigameStart OnMinigameStart;
     public event IMinigame.MinigameEnd OnMinigameEnd;
 
@@ -79,7 +103,11 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     private bool isPotWaterPhase;
     private Moroutine potWaterCoroutine;
     private Moroutine fireSliderCoroutine;
+    private Moroutine ingredientBopCoroutine;
     private Vector2 hitZoneRange;
+    private int correctCount;
+    private List<IngredientSO> ingredients = new List<IngredientSO>();
+    private List<IngredientUI> ingredientUIs = new List<IngredientUI>();
     private void OnEnable()
     {
         pourButton.OnDownEvent += OnPourButtonDown;
@@ -107,16 +135,39 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         fireSliderCoroutine?.Destroy();
     }
     
-    public void StartMinigame()
+    public void StartMinigame(List<IngredientSO> ingredients)
     {
+        this.ingredients = ingredients;
+        SpawnIngredient();
         OnMinigameStart?.Invoke();
         minigameCanvasGroup.gameObject.SetActive(true);
         StartPotWater();
     }
     
+    private void SpawnIngredient()
+    {
+        foreach (var ingredient in ingredients)
+        {
+            var ingredientUI = Instantiate(ingredientUIPrefab,
+                spawnPoint.position + new Vector3(Random.Range(-spawnPointRandomRange.x, spawnPointRandomRange.x),
+                    Random.Range(-spawnPointRandomRange.y, spawnPointRandomRange.y)), Quaternion.identity, spawnPoint);
+            ingredientUI.Initialize(ingredient, gameObject);
+            ingredientUI.SetPhysics(true);
+            ingredientUI.SetSize(size: size);
+            ingredientUI.SetSortingOrder(11);
+            ingredientUI.transform.SetParent(boiler);
+            ingredientUIs.Add(ingredientUI);
+        }
+    }
+
     private void StartPotWater()
     {
         potWaterCanvasGroup.gameObject.SetActive(true);
+        fireImageRack.SetActive(false);
+        timerText.gameObject.SetActive(false);
+        hitZone.gameObject.SetActive(true);
+        pourButton.gameObject.SetActive(true);
+        boiler.position = potWaterPosition;
         GenerateHitZone();
         foreach (var pair in fireSliderDict)
         {
@@ -162,13 +213,21 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         }
         else
         {
-            StartFireSliders();
+            pourButton.gameObject.SetActive(false);
+            boiler.DOMove(fireSliderPosition, 1f).OnComplete(() =>
+            {
+                StartFireSliders();
+            });
         }
     }
 
     private void StartFireSliders()
     {
         GlobalSoundManager.Instance.PlayUISFX("Stove", true, "Stove");
+        correctCount = 0;
+        fireImageRack.SetActive(true);
+        timerText.gameObject.SetActive(true);
+        hitZone.gameObject.SetActive(false);
         fireSliderDict.Keys.ForEach(x => x.interactable = true);
         isPotWaterPhase = false;
         potWaterCanvasGroup.gameObject.SetActive(false);
@@ -184,6 +243,7 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
         }
         fireSliderCoroutine = Moroutine.Run(gameObject, FireSliderTimer());
         fireSliderCoroutine.OnCompleted(_ => Fail());
+        ingredientBopCoroutine = Moroutine.Run(gameObject, IngredientBop());
         potWaterCoroutine?.Destroy();
     }
 
@@ -196,6 +256,26 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
             timerText.text = Mathf.CeilToInt(timer).ToString();
             yield return null;
         }
+    }
+
+    private IEnumerable IngredientBop()
+    {
+        float interval = 0;
+        while (!isPotWaterPhase)
+        {
+            interval += Time.deltaTime;
+            if (interval >= forceInterval)
+            {
+                foreach (var ingredientUI in ingredientUIs)
+                {
+                    var force = ingredientForce * (correctCount / (float)sweetSpotDict.Count);
+                    ingredientUI.AddForce(force, fullRange: false);
+                }
+                interval = 0;
+            }
+            yield return null;
+        }
+        yield return null;
     }
 
     private void OnValueChanged(Slider slider)
@@ -223,22 +303,26 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
 
     private void CheckFireSlidersCondition()
     {
-        var allHit = sweetSpotDict.All(x => x.Value.IsHit);
-        if (allHit)
+        correctCount = sweetSpotDict.Count(x => x.Value.IsHit);
+        if (correctCount == sweetSpotDict.Count)
         {
             fireSliderDict.Keys.ForEach(x => x.interactable = false);
             fireSliderCoroutine?.Stop();
-            DOVirtual.DelayedCall(1f, Succeed);
+            DOVirtual.DelayedCall(2f, Succeed);
         }
     }
 
     private void Fail()
     {
+        ingredientUIs.ForEach(x => Destroy(x.gameObject));
+        ingredientUIs.Clear();
         fireSliderCoroutine?.Stop();
         OnMinigameEnd?.Invoke(false);
         potWaterCanvasGroup.gameObject.SetActive(false);
         fireSlidersCanvasGroup.gameObject.SetActive(false);
         minigameCanvasGroup.gameObject.SetActive(false);
+        ingredientBopCoroutine?.Stop();
+        ingredientBopCoroutine?.Destroy();
         fireSliderCoroutine?.Destroy();
         potWaterCoroutine?.Destroy();
         GlobalSoundManager.Instance.StopSound("Stove");
@@ -246,10 +330,14 @@ public class WhimsyBoiler : MonoBehaviour, IMinigame
     
     private void Succeed()
     {
+        ingredientUIs.ForEach(x => Destroy(x.gameObject));
+        ingredientUIs.Clear();
         OnMinigameEnd?.Invoke(true);
         potWaterCanvasGroup.gameObject.SetActive(false);
         fireSlidersCanvasGroup.gameObject.SetActive(false);
         minigameCanvasGroup.gameObject.SetActive(false);
+        ingredientBopCoroutine?.Stop();
+        ingredientBopCoroutine?.Destroy();
         fireSliderCoroutine?.Destroy();
         potWaterCoroutine?.Destroy();
         GlobalSoundManager.Instance.StopSound("Stove");

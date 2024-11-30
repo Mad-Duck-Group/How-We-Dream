@@ -144,7 +144,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         if (ingredients.All(x => x.CookState == equipmentType)) return;
         if (minigame.Value != null)
         {
-            minigame.Value.StartMinigame();
+            minigame.Value.StartMinigame(ingredients.ToList());
         }
         else
         {
