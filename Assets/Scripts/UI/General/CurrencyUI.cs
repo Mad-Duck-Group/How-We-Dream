@@ -19,6 +19,7 @@ public class CurrencyUI : MonoBehaviour
     private void OnEnable()
     {
         InventoryManager.OnCurrencyChanged += OnCurrencyChanged;
+        UpdateCurrency(InventoryManager.Instance.Currency);
     }
     
     private void OnDisable()

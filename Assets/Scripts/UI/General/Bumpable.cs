@@ -63,7 +63,7 @@ public class Bumpable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void BumpUp()
     {
         if (bumpTween.IsActive()) bumpTween.Kill();
-        bumpTween = transform.DOScale(originalScale + bumpScale, 0.2f);
+        bumpTween = transform.DOScale(originalScale + bumpScale, 0.2f).SetUpdate(true);
         if (playPointSound) 
             GlobalSoundManager.Instance.PlayUISFX("MousePoint");
     }
@@ -77,7 +77,7 @@ public class Bumpable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void BumpDown()
     {
         if (bumpTween.IsActive()) bumpTween.Kill();
-        bumpTween = transform.DOScale(originalScale, 0.2f);
+        bumpTween = transform.DOScale(originalScale, 0.2f).SetUpdate(true);
     }
     public void OnPointerClick(PointerEventData eventData)
     {

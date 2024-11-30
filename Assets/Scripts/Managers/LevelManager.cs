@@ -62,6 +62,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     private IEnumerator<VNPathSO> currentVN;
     private bool gameStart;
     private bool gameEnd;
+    private bool fadingStartEnd;
+    public bool FadingStartEnd => fadingStartEnd;
     private Moroutine gameTimer;
     private bool passQuota;
     public bool PassQuota => passQuota;
@@ -165,6 +167,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         GlobalSoundManager.Instance.PlayUISFX("StartWork");
         GlobalSoundManager.Instance.PlayBGM("GameplayBGM");
         var sequence = DOTween.Sequence();
+        fadingStartEnd = true;
         startEndPanel.alpha = 0;
         sequence.Append(startEndPanel.DOFade(1f, 0.5f));
         sequence.Append(startEndPanel.DOFade(1f, 2f));
@@ -172,6 +175,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         sequence.OnComplete(() =>
         {
             OnLevelStart?.Invoke();
+            fadingStartEnd = false;
             startEndPanel.gameObject.SetActive(false);
         });
     }
@@ -244,9 +248,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             currentVN = passQuota ? level.SuccessVN.GetEnumerator() : level.FailVN.GetEnumerator();
             currentVN.MoveNext();
-            Debug.Log("aaaaaaaaaaaaaaa");
             if (VNManager.Instance.ShowVN(currentVN.Current)) return;
-            Debug.Log("bbbbbbbbbbbbbbb");
             ShowEndPanel();
         }
         else
@@ -262,12 +264,14 @@ public class LevelManager : MonoSingleton<LevelManager>
         nightText.text = $"Night {ProgressionManager.Instance.CurrentLevelIndex + 1}";
         startEndText.text = "End Work";
         GlobalSoundManager.Instance.PlayUISFX("EndWork");
+        fadingStartEnd = true;
         var sequence = DOTween.Sequence();
         sequence.Append(startEndPanel.DOFade(1f, 0.5f).OnComplete(() => UIPageManager.Instance.ChangePage(PageTypes.Summary)));
         sequence.Append(startEndPanel.DOFade(1f, 2f));
         sequence.Append(startEndPanel.DOFade(0f, 0.5f));
         sequence.OnComplete(() =>
         {
+            fadingStartEnd = false;
             startEndPanel.gameObject.SetActive(false);
             GlobalSoundManager.Instance.PlayBGM("SummaryBGM", duration: 0.5f);
         });

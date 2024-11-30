@@ -61,16 +61,27 @@ public class GlobalSoundManager : MonoSingleton<GlobalSoundManager>
     
     public void StopSound(string id)
     {
-        var audioSource = audioSourceData.Find(data => data.Id == id);
-        if (audioSource == null) return;
-        if (audioSource.AudioSource == null) return;
-        audioSource.AudioSource.Stop();
-        audioSourceData.Remove(audioSource);
+        var data = audioSourceData.Find(data => data.Id == id);
+        if (data == null) return;
+        if (data.AudioSource == null)
+        {
+            audioSourceData.Remove(data);
+            return;
+        }
+        data.AudioSource.Stop();
+        data.AudioSource.loop = false;
+        data.AudioSource.clip = null;
+        audioSourceData.Remove(data);
     }
 
     public void PlayEffectClip(string audioName)
     {
         var clip = audioSO.GetAudioClip(audioName);
         MicroAudio.PlayEffectSound(clip);
+    }
+    
+    public void ChangeVolume(float volume)
+    {
+        MicroAudio.MasterVolume = volume;
     }
 }

@@ -27,7 +27,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7351dd7d7e92f474d8f92fca3050a9f5, type: 2}
   - {fileID: 11400000, guid: 78e1f6d1f75b6c249ac7fd1ac5ca2e3b, type: 2}
   - {fileID: 11400000, guid: 5aea61cbbff82bb4f96be648cf7490a7, type: 2}
-  - {fileID: 11400000, guid: 19a580e8920f2f044ad45a5ef6983e41, type: 2}
+  - {fileID: 11400000, guid: 1bae03f5ac517ac48aff21cebcdc1517, type: 2}
   randomRecipe: 0
   randomPrototype: {fileID: 11400000, guid: 21342f06801d480499697ca94ffcb19d, type: 2}
   infinite: 0
