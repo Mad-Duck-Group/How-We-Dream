@@ -32,7 +32,7 @@ MonoBehaviour:
   randomAmountRange: {x: 3, y: 6}
   timeLimit: 600
   hasQuota: 1
-  quota: 200
+  quota: 300
   boogeyManQuota: 300
   endless: 0
   showVNAtStart: 0

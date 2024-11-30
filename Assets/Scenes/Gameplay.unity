@@ -3249,7 +3249,7 @@ MonoBehaviour:
   hitZonePosition: 0
   padding: {x: 30, y: 20}
   timeLimit: 5
-  sliderDropSpeed: 50
+  sliderDropSpeed: 40
   sliderBumpAmount: 12
   blender: {fileID: 1918018140}
   ingredientUIPrefab: {fileID: 1838655075082182919, guid: 3968724642b476f4ab359f7ac7effd6b, type: 3}
@@ -4754,7 +4754,7 @@ MonoBehaviour:
   hitZone: {fileID: 1102372488}
   pourButton: {fileID: 184365907}
   randomHitZoneSize: 0
-  hitZoneSize: 20
+  hitZoneSize: 15
   hitZoneSizeRandomRange: {x: 10, y: 3}
   randomHitZonePosition: 1
   hitZonePosition: 0
@@ -10351,7 +10351,7 @@ MonoBehaviour:
   hitZonePosition: 0
   padding: {x: 50, y: 0}
   barSpeed: 80
-  preparationTime: 2
+  preparationTime: 1
   oven: {fileID: 1122639742}
   ingredientImagePrefab: {fileID: 7161381319162955946, guid: 2722f101791eb384498c35d53c41c421, type: 3}
   bopSize: 0.1
@@ -11070,7 +11070,7 @@ MonoBehaviour:
   rotate: {fileID: 732567459}
   rotateSlider: {fileID: 1351064046}
   skilletMoveModifier: 0.2
-  sliderGainRate: 10
+  sliderGainRate: 6
   changeDirectionThreshold: 180
   timeLimit: 10
   timerText: {fileID: 913548396}
@@ -11088,10 +11088,10 @@ MonoBehaviour:
     fail: {fileID: 21300000, guid: 1b14024adba2d9b4584cf225218a4f97, type: 3}
   parent: {fileID: 1359411587}
   padding: {x: 20, y: 20}
-  sliderSpeed: 50
+  sliderSpeed: 45
   hitZoneCount: 5
   hitZoneSize: 10
-  preparationTime: 2
+  preparationTime: 1
   maxMistakes: 3
   skillet: {fileID: 1805450197}
   ingredientUIPrefab: {fileID: 1838655075082182919, guid: 3968724642b476f4ab359f7ac7effd6b, type: 3}
