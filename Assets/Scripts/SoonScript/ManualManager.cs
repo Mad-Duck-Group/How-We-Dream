@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
-public class Manual : MonoSingleton<Manual>
+public class ManualManager : MonoSingleton<ManualManager>
 {
     [Header("ClickableArea Buttons")]
     [SerializeField] private ClickableArea manualButton;
@@ -115,6 +115,7 @@ public class Manual : MonoSingleton<Manual>
             var manualTopic = manualTopicSet[i];
             if (!manualTopic.activeSelf) continue;
             imagePage[i].NextImage();
+            GlobalSoundManager.Instance.PlayUISFX("OpenOrder");
             //imagePage[i].UpdateImageManualPage();
         }
     }
@@ -127,6 +128,7 @@ public class Manual : MonoSingleton<Manual>
             var manualTopic = manualTopicSet[i];
             if (!manualTopic.activeSelf) continue;
             imagePage[i].PreviousImage();
+            GlobalSoundManager.Instance.PlayUISFX("OpenOrder");
             //imagePage[i].UpdateImageManualPage();
         }
     }

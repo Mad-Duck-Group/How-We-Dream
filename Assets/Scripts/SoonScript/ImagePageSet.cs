@@ -21,20 +21,20 @@ public class ImagePageSet : MonoBehaviour
 
         if (images.Length <= 2)
         {
-            Manual.Instance.UpdateChangePageButton(false, false);
+            ManualManager.Instance.UpdateChangePageButton(false, false);
             return;
         }
         if (_imageIndex >= images.Length - 2)
         {
-            Manual.Instance.UpdateChangePageButton(true, false);
+            ManualManager.Instance.UpdateChangePageButton(true, false);
             return;
         }
         if (_imageIndex <= 0)
         {
-            Manual.Instance.UpdateChangePageButton(false, true);
+            ManualManager.Instance.UpdateChangePageButton(false, true);
             return;
         }
-        Manual.Instance.UpdateChangePageButton(true, true);
+        ManualManager.Instance.UpdateChangePageButton(true, true);
     }
     
     public void NextImage()

@@ -42,15 +42,15 @@ public class TextPageSet : MonoBehaviour
         
         if (_textIndex >= dreamManualIndex - 2)
         {
-            Manual.Instance.UpdateChangePageButton(true, false);
+            ManualManager.Instance.UpdateChangePageButton(true, false);
         }
         else if (_textIndex <= 0)
         {
-            Manual.Instance.UpdateChangePageButton(false, true);
+            ManualManager.Instance.UpdateChangePageButton(false, true);
         }
         else
         {
-            Manual.Instance.UpdateChangePageButton(false, false);
+            ManualManager.Instance.UpdateChangePageButton(false, false);
         }
     }
     
