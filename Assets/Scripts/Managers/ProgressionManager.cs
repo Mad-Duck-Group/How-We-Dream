@@ -59,6 +59,7 @@ public class ProgressionManager : PersistentMonoSingleton<ProgressionManager>
     public void ResetSkill()
     {
         skillNodes.ForEach(node => node.Reset());
+        skillPoints = 0;
     }
     
     [Button("Reset VN")]

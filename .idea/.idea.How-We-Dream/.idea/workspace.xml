@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a4dfc5c-227a-4346-9f0d-a1ef41f4c83d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Manual.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Manual.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.How-We-Dream/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.How-We-Dream/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Gameplay.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Gameplay.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/ProgressionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/ProgressionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Shop/ShopCapacityUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Shop/ShopCapacityUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRP.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRP.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylishEsper/ESave/Examples/URP_Example.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,19 +32,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/Hotfix fuckkk\How We Dream.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Admin\Desktop\Hotfix fuckkk" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.14f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Yuirin\All Work\Semester3.1_GI351_RapidGameDevelopment\How-We-Dream&quot; -debugCodeOptimization" />
@@ -95,6 +112,7 @@
       <workItem from="1732340004852" duration="14699000" />
       <workItem from="1732431142899" duration="13414000" />
       <workItem from="1732513412704" duration="5518000" />
+      <workItem from="1733110980000" duration="2795000" />
     </task>
     <servers />
   </component>

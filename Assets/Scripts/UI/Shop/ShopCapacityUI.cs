@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,23 +12,41 @@ public class ShopCapacityUI : MonoBehaviour
 
     private IngredientData ingredientData;
 
-    private void OnIngredientAmountChanged(IngredientTypes ingredient)
+    private void OnEnable()
     {
-        if (ingredientData.Ingredient.IngredientType != ingredient) return;
+        InventoryManager.OnIngredientAmountChanged += OnIngredientAmountChanged;
+        if (ingredientData != null)
+            GetIngredientData();
         UpdateIngredientCapacity();
     }
 
-    public void Initialize(IngredientTypes ingredient)
+    private void OnDisable()
     {
-        InventoryManager.OnIngredientAmountChanged += (type, _) => OnIngredientAmountChanged(type);
-        var data = InventoryManager.Instance.GetIngredientData(ingredient);
-        ingredientData = data;
+        InventoryManager.OnIngredientAmountChanged -= OnIngredientAmountChanged;
+    }
+
+    private void OnIngredientAmountChanged(IngredientTypes ingredientType, int amount)
+    {
+        if (ingredientData.Ingredient.IngredientType != ingredientType) return;
+        GetIngredientData(ingredientType);
+        UpdateIngredientCapacity();
+    }
+
+    public void Initialize(IngredientTypes ingredientType)
+    {
+        GetIngredientData(ingredientType);
         icon.sprite = ingredientData.Ingredient.GetSprite(CookStates.Raw);
         UpdateIngredientCapacity();
     }
     
     private void UpdateIngredientCapacity()
     {
+        if (ingredientData == null) return;
         ingredientCapacityText.text = $"{ingredientData.Amount}/{ingredientData.MaxAmount}";
+    }
+
+    private void GetIngredientData(IngredientTypes type = default)
+    {
+        ingredientData = InventoryManager.Instance.GetIngredientData(ingredientData == null ? type : ingredientData.Ingredient.IngredientType);
     }
 }
