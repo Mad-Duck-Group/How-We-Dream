@@ -1,27 +1,26 @@
-using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Analytics;
+using UnityEngine;
+using System.Threading.Tasks;
 
-public class AnalyticsManager : MonoBehaviour
+public class AnalyticsInitializer : MonoBehaviour
 {
-    async void Awake()
+    private async void Awake()
+    {
+        await InitializeServicesAsync();
+    }
+
+    private async Task InitializeServicesAsync()
     {
         try
         {
             await UnityServices.InitializeAsync();
-            Debug.Log("Analytics Initialized");
-
-            GiveConsent(); // Start collecting data with consent
+            AnalyticsService.Instance.StartDataCollection();
+            Debug.Log("✅ Analytics initialized and data collection started.");
         }
-        catch (System.Exception e) // ✅ Changed here
+        catch (System.Exception e)
         {
-            Debug.LogError($"Analytics initialization failed: {e.Message}"); // ✅ Use e.Message for error details
+            Debug.LogError($"❌ Analytics initialization failed: {e.Message}");
         }
-    }
-
-    void GiveConsent()
-    {
-        AnalyticsService.Instance.StartDataCollection();
-        Debug.Log("User consent given. Analytics data collection started.");
     }
 }
