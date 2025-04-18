@@ -62,6 +62,11 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         else
         {
             //transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
+            //Objective 2: Fail Minigame
+            
+            
+            
+            //
             ingredients.ForEach(Destroy);
             UnsetIngredient();
             GlobalSoundManager.Instance.PlayUISFX("CookFail");

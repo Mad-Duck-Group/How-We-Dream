@@ -17,8 +17,11 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private OrderPageUI orderPageUIPrefab;
 
     private RecipeSO recipe;
+    private bool orderActive;
+    private float timeElapsed;
     private float timer;
     private Moroutine timerCoroutine;
+    private Moroutine timeElapsedCoroutine;
     private OrderPageUI orderPageUI;
     private Image clock;
     private CanvasGroup canvasGroup;
@@ -74,6 +77,8 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
 
     public void SetEmpty()
     {
+        timeElapsed = 0;
+        orderActive = false;
         empty = true;
     }
 
@@ -97,6 +102,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     private void OnLevelComplete()
     {
         timerCoroutine?.Stop();
+        timeElapsedCoroutine?.Stop();
     }
 
     private IEnumerator Timer()
@@ -109,6 +115,16 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    private IEnumerator TimeElapsed()
+    {
+        while (orderActive)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        timeElapsed = 0;
+    }
+
     private void OnRecipeChange(RecipeSO recipeSo, bool active)
     {
         switch (active)
@@ -119,11 +135,15 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
                 break;
             case true when recipe != recipeSo:
                 //flag.color = Color.gray;
+                orderActive = false;
+                timeElapsedCoroutine?.Stop();
                 scroll.sprite = scrollSprites[0];
                 orderPageUI.ResetToggle();
                 break;
             case false when recipe == recipeSo:
                 //flag.color = Color.gray;
+                orderActive = false;
+                timeElapsedCoroutine?.Stop();
                 scroll.sprite = scrollSprites[0];
                 break;
         }
@@ -149,6 +169,12 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
     {
         if (recipe != recipeSo) return;
         OnOrderComplete?.Invoke(success);
+        //Objective 3: Order Completed
+        //timeElapsed
+        
+        
+        
+        //
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
         TweenOut();
         DestroyOrder();
@@ -156,17 +182,23 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
 
     private void Accept()
     {
+        orderActive = true;
+        timeElapsedCoroutine = Moroutine.Run(gameObject, TimeElapsed());
         RecipeManager.Instance.SetActiveRecipe(recipe);
         GlobalSoundManager.Instance.PlayUISFX("AcceptOrder");
     }
 
     private void Cancel()
     {
+        orderActive = false;
+        timeElapsedCoroutine?.Stop();
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
     }
 
     private void Reject(bool outOfTime = false)
     {
+        orderActive = false;
+        timeElapsedCoroutine?.Stop();
         OnOrderReject?.Invoke();
         if (outOfTime)
         {

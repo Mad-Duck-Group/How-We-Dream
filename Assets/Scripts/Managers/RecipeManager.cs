@@ -137,6 +137,12 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         if (finalPrice > 0) GlobalSoundManager.Instance.PlayUISFX("Soul");
         InventoryManager.Instance.ChangeCurrency(finalPrice);
         OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
+        // Objective 1: Order Completed
+        
+        
+        
+        
+        //
         if (allCorrect)
         {
             GlobalSoundManager.Instance.PlayUISFX("SubmitSuccess");
