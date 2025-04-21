@@ -138,10 +138,7 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         InventoryManager.Instance.ChangeCurrency(finalPrice);
         OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
         // Objective 1: Order Completed
-        
-        
-        
-        
+        AnalyticManager.Instance.OnOrderCompleted();
         //
         if (allCorrect)
         {

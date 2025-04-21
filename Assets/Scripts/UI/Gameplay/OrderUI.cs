@@ -170,10 +170,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         if (recipe != recipeSo) return;
         OnOrderComplete?.Invoke(success);
         //Objective 3: Order Completed
-        //timeElapsed
-        
-        
-        
+        AnalyticManager.Instance.OnOrderCompletionTime(timeElapsed);
         //
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
         TweenOut();
