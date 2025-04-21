@@ -63,9 +63,7 @@ public class EquipmentUI : MonoBehaviour, IIngredientContainer, IPointerClickHan
         {
             //transform.DOScale(0.2f, 0.2f).SetRelative().SetLoops(2, LoopType.Yoyo);
             //Objective 2: Fail Minigame
-            
-            
-            
+            AnalyticManager.Instance.OnMinigameFailed();
             //
             ingredients.ForEach(Destroy);
             UnsetIngredient();
