@@ -138,24 +138,11 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         InventoryManager.Instance.ChangeCurrency(finalPrice);
         OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
         // Objective 1: Order Completed
-       // เก็บสถิติสำหรับ Objective 1
-        if (allCorrect)
-            {
-        // เก็บข้อมูลใน Unity Analytics
-        AnalyticsManager.Instance.RecordOrderSuccess();
-        }
-            else if (correctDict.Values.Any(x => x > 0))
-        {
-        // เก็บข้อมูลออร์เดอร์ที่ผิดบางส่วน
-        AnalyticsManager.Instance.RecordOrderPartialSuccess();
-        }
-        else
-        {
-        // เก็บข้อมูลออร์เดอร์ที่ผิดทั้งหมด
-        AnalyticsManager.Instance.RecordOrderFailure();
-        }
-        //
         
+        
+        
+        
+        //
         if (allCorrect)
         {
             GlobalSoundManager.Instance.PlayUISFX("SubmitSuccess");
