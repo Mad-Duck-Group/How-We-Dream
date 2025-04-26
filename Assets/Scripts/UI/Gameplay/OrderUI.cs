@@ -82,6 +82,13 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         empty = true;
     }
 
+    public enum OrderRejectReason
+    {
+        CancelMidway,
+        OutOfTime,
+        RejectOnOpen
+    }
+
     public void TweenOut(bool reject = false)
     {
         var sequence = DOTween.Sequence();
@@ -201,13 +208,17 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         {
             //InventoryManager.Instance.ChangeCurrency(recipe.HasTimeLimit ? -50 : -10);
             OnOrderComplete?.Invoke(false);
+        }else
+        {
+            //Objective 6: Order Canceled
         }
         GlobalSoundManager.Instance.PlayUISFX("DeclineOrder");
         RecipeManager.Instance.UnsetActiveRecipe(recipe);
         TweenOut(true);
         DestroyOrder();
     }
-
+    
+    
     private void DestroyOrder()
     {
         RecipeManager.OnRecipeChanged -= OnRecipeChange;

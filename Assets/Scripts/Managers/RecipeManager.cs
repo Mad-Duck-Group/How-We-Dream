@@ -139,6 +139,16 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
         // Objective 1: Order Completed
         AnalyticManager.Instance.OnOrderCompleted();
+        // Objective 4: If not correct at all
+        if (!allCorrect)
+        {
+            AnalyticManager.Instance.OnOrderFailed();
+        }
+        // Objective 5: Some parts are correct but not all
+        if (correctDict.Values.Any(x => x > 0))
+        {
+            AnalyticManager.Instance.OnOrderPartial(); // ใช้ชื่อ event นี้แทน
+        }
         //
         if (allCorrect)
         {
@@ -151,6 +161,7 @@ public class RecipeManager : MonoSingleton<RecipeManager>
             return;
         }
         GlobalSoundManager.Instance.PlayUISFX("SubmitFail");
+        
     }
     
     private int CalculatePrice(Dictionary<IngredientTypes, int> correctDict, bool allCorrect)

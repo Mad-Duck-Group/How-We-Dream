@@ -10,6 +10,7 @@ using UnityEngine;
 public class AnalyticManager : MonoSingleton<AnalyticManager>
 {
     #region Data Structures
+
     private struct EventData
     {
         public string eventName;
@@ -21,7 +22,7 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
         public string parameterName;
         public object parameterValue;
     }
-    
+
     [Serializable]
     private struct EventNameData
     {
@@ -33,13 +34,17 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
     {
         OrderCompleted,
         MinigameFailed,
-        OrderCompletionTime
+        OrderCompletionTime,
+        OnOrderFailed,
+        OnOrderPartial,
+        OrderCancled
     }
+
     #endregion
-    
+
     [SerializeField, SerializedDictionary("Event Type", "Event Name")]
     private SerializedDictionary<EventType, EventNameData> eventNameDictionary;
-    
+
     void Start()
     {
         Initialize();
@@ -50,7 +55,7 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
     }
-    
+
     public void OnOrderCompleted()
     {
         var eventData = CreateEventData(EventType.OrderCompleted, 1);
@@ -59,13 +64,31 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
 
     public void OnMinigameFailed()
     {
-        var eventData = CreateEventData(EventType.MinigameFailed,1);
+        var eventData = CreateEventData(EventType.MinigameFailed, 1);
         SendEvent(eventData);
     }
-    
+
     public void OnOrderCompletionTime(float time)
     {
         var eventData = CreateEventData(EventType.OrderCompletionTime, time);
+        SendEvent(eventData);
+    }
+
+    public void OnOrderFailed()
+    {
+        var eventData = CreateEventData(EventType.OnOrderFailed, 1);
+        SendEvent(eventData);
+    }
+
+    public void OnOrderPartial()
+    {
+        var eventData = CreateEventData(EventType.OnOrderPartial, 1);
+        SendEvent(eventData);
+    }
+
+    public void OrderCancled()
+    {
+        var eventData = CreateEventData(EventType.OrderCancled, 1);
         SendEvent(eventData);
     }
 
@@ -91,11 +114,16 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
     private void SendEvent(EventData eventData)
     {
         CustomEvent customEvent = new CustomEvent(eventData.eventName);
-        eventData.eventParameters.ForEach(parameter =>
+
+        void SendEvent(EventData eventData)
         {
-            customEvent.Add(parameter.parameterName, parameter.parameterValue);
-        });
-        AnalyticsService.Instance.RecordEvent(customEvent);
-        Debug.Log($"Event sent: {eventData.eventName}");
+            CustomEvent customEvent = new CustomEvent(eventData.eventName);
+            eventData.eventParameters.ForEach(parameter =>
+            {
+                customEvent.Add(parameter.parameterName, parameter.parameterValue);
+            });
+            AnalyticsService.Instance.RecordEvent(customEvent);
+            Debug.Log($"Event sent: {eventData.eventName}");
+        }
     }
 }
