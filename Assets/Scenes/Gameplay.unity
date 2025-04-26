@@ -14971,16 +14971,15 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value:
-        eventName: 
-        parameterName: 
+        eventName: OnLevelEndEvent
+        parameterNames:
+        - minigame_failed
+        - order_completed
     - Key: 1
       Value:
-        eventName: 
-        parameterName: 
-    - Key: 2
-      Value:
-        eventName: 
-        parameterName: 
+        eventName: OnOrderComplete
+        parameterNames:
+        - order_completion_time
 --- !u!4 &2093455183
 Transform:
   m_ObjectHideFlags: 0

@@ -67,6 +67,10 @@ public class LevelManager : MonoSingleton<LevelManager>
     private Moroutine gameTimer;
     private bool passQuota;
     public bool PassQuota => passQuota;
+    
+    //Analytics
+    public int MinigameFailedCount { get; set; }
+    public int OrderCompletionCount { get; set; }
 
     private void OnEnable()
     {
@@ -244,6 +248,9 @@ public class LevelManager : MonoSingleton<LevelManager>
         gameEnd = true;
         gameTimer.Stop();
         OnLevelComplete?.Invoke();
+        AnalyticManager.Instance.OnLevelCompleted(MinigameFailedCount, OrderCompletionCount);
+        MinigameFailedCount = 0;
+        OrderCompletionCount = 0;
         if (level.ShowVNWhenFail || level.ShowVNWhenSuccess)
         {
             currentVN = passQuota ? level.SuccessVN.GetEnumerator() : level.FailVN.GetEnumerator();
