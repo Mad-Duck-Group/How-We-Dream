@@ -6,6 +6,7 @@ using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AnalyticManager : MonoSingleton<AnalyticManager>
 {
@@ -27,17 +28,13 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
     private struct EventNameData
     {
         public string eventName;
-        public string parameterName;
+        public List<string> parameterNames;
     }
 
     private enum EventType
     {
-        OrderCompleted,
-        MinigameFailed,
-        OrderCompletionTime,
-        OnOrderFailed,
-        OnOrderPartial,
-        OrderCancled
+        OnLevelComplete,
+        OrderCompletionTime
     }
 
     #endregion
@@ -56,54 +53,39 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
         AnalyticsService.Instance.StartDataCollection();
     }
 
-    public void OnOrderCompleted()
+    public void OnLevelCompleted(int minigameFailedCount, int orderCompletionCount)
     {
-        var eventData = CreateEventData(EventType.OrderCompleted, 1);
-        SendEvent(eventData);
-    }
-
-    public void OnMinigameFailed()
-    {
-        var eventData = CreateEventData(EventType.MinigameFailed, 1);
+        var arrayList = new ArrayList
+        {
+            minigameFailedCount,
+            orderCompletionCount
+        };
+        var eventData = CreateEventData(EventType.OnLevelComplete, arrayList);
         SendEvent(eventData);
     }
 
     public void OnOrderCompletionTime(float time)
     {
-        var eventData = CreateEventData(EventType.OrderCompletionTime, time);
+        var arrayList = new ArrayList { time };
+        var eventData = CreateEventData(EventType.OrderCompletionTime, arrayList);
         SendEvent(eventData);
     }
 
-    public void OnOrderFailed()
-    {
-        var eventData = CreateEventData(EventType.OnOrderFailed, 1);
-        SendEvent(eventData);
-    }
-
-    public void OnOrderPartial()
-    {
-        var eventData = CreateEventData(EventType.OnOrderPartial, 1);
-        SendEvent(eventData);
-    }
-
-    public void OrderCancled()
-    {
-        var eventData = CreateEventData(EventType.OrderCancled, 1);
-        SendEvent(eventData);
-    }
-
-    private EventData CreateEventData(EventType eventType, object parameterValue)
+    private EventData CreateEventData(EventType eventType, ArrayList parameterValues)
     {
         string eventName = eventNameDictionary[eventType].eventName;
-        string parameterName = eventNameDictionary[eventType].parameterName;
-        List<EventParameterData> eventParameters = new List<EventParameterData>
+        List<string> parameterNames = eventNameDictionary[eventType].parameterNames;
+        List<EventParameterData> eventParameters = new List<EventParameterData>();
+        
+        for (int i = 0; i < parameterValues.Count; i++)
         {
-            new()
+            eventParameters.Add(new EventParameterData
             {
-                parameterName = parameterName,
-                parameterValue = parameterValue
-            }
-        };
+                parameterName = parameterNames[i],
+                parameterValue = parameterValues[i]
+            });
+        }
+        
         return new EventData
         {
             eventName = eventName,

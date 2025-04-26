@@ -138,17 +138,7 @@ public class RecipeManager : MonoSingleton<RecipeManager>
         InventoryManager.Instance.ChangeCurrency(finalPrice);
         OnRecipeComplete?.Invoke(currentRecipe, allCorrect);
         // Objective 1: Order Completed
-        AnalyticManager.Instance.OnOrderCompleted();
-        // Objective 4: If not correct at all
-        if (!allCorrect)
-        {
-            AnalyticManager.Instance.OnOrderFailed();
-        }
-        // Objective 5: Some parts are correct but not all
-        if (correctDict.Values.Any(x => x > 0))
-        {
-            AnalyticManager.Instance.OnOrderPartial(); // ใช้ชื่อ event นี้แทน
-        }
+        LevelManager.Instance.OrderCompletionCount++;
         //
         if (allCorrect)
         {

@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2a4dfc5c-227a-4346-9f0d-a1ef41f4c83d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.How-We-Dream/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.How-We-Dream/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Gameplay.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Gameplay.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenu.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/AnalyticManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/AnalyticManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/RecipeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/RecipeManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Gameplay/OrderUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Gameplay/OrderUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,13 +134,9 @@
       <workItem from="1744260081559" duration="596000" />
       <workItem from="1744344395166" duration="595000" />
       <workItem from="1744978202434" duration="5508000" />
-      <workItem from="1745208495664" duration="1287000" />
-      <workItem from="1745328890916" duration="115000" />
-      <workItem from="1745417859795" duration="1194000" />
-      <workItem from="1745457822301" duration="970000" />
-      <workItem from="1745576256112" duration="483000" />
-      <workItem from="1745591867400" duration="4114000" />
-      <workItem from="1745652848314" duration="2688000" />
+      <workItem from="1745208495664" duration="2365000" />
+      <workItem from="1745330960961" duration="595000" />
+      <workItem from="1745659181654" duration="382000" />
     </task>
     <servers />
   </component>
