@@ -96,16 +96,11 @@ public class AnalyticManager : MonoSingleton<AnalyticManager>
     private void SendEvent(EventData eventData)
     {
         CustomEvent customEvent = new CustomEvent(eventData.eventName);
-
-        void SendEvent(EventData eventData)
+        eventData.eventParameters.ForEach(parameter =>
         {
-            CustomEvent customEvent = new CustomEvent(eventData.eventName);
-            eventData.eventParameters.ForEach(parameter =>
-            {
-                customEvent.Add(parameter.parameterName, parameter.parameterValue);
-            });
-            AnalyticsService.Instance.RecordEvent(customEvent);
-            Debug.Log($"Event sent: {eventData.eventName}");
-        }
+            customEvent.Add(parameter.parameterName, parameter.parameterValue);
+        });
+        AnalyticsService.Instance.RecordEvent(customEvent);
+        Debug.Log($"Event sent: {eventData.eventName}");
     }
 }
